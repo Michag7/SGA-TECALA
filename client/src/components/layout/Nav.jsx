@@ -126,7 +126,7 @@ export const Nav = () => {
       <MobileNav open={openNav}>
         {navList}
         <Button variant="gradient" size="sm" fullWidth className="mb-2">
-          <span>Login</span>
+          <span>Log</span>
         </Button>
       </MobileNav>
     </Navbar>
