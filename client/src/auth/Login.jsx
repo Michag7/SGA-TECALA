@@ -99,7 +99,7 @@ export const Login = () => {
                   className="ml-2 font-medium text-base"
                   htmlFor="remember"
                 >
-                  Recordar contraseña
+                  Recordar 
                 </label>
               </div>
               <div className="mt-10 flex flex-col gap-y-4">
