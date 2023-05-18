@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   IconButton,
+  Collapse,
 } from "@material-tailwind/react";
 
 export const Nav = () => {
@@ -124,12 +125,12 @@ export const Nav = () => {
           </IconButton>
         </div>
       </div>
-      <MobileNav open={openNav}>
+      <Collapse open={openNav}>
         {navList}
         <Button variant="gradient" size="sm" fullWidth className="mb-2">
           <span>Login</span>
         </Button>
-      </MobileNav>
+      </Collapse>
     </Navbar>
   );
 };
