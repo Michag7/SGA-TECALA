@@ -82,7 +82,7 @@ export const Nav = () => {
             size="sm"
             className="hidden lg:inline-block"
           >
-            <span>Cambio</span>
+            <span>Login</span>
           </Button>
           <IconButton
             variant="text"
