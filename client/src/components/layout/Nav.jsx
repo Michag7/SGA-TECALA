@@ -81,9 +81,8 @@ export const Nav = () => {
             variant="gradient"
             size="sm"
             className="hidden lg:inline-block"
-            
           >
-            <span>Login</span>
+            <span>Cambio</span>
           </Button>
           <IconButton
             variant="text"
