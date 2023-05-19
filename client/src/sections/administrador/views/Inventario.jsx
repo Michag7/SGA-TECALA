@@ -1,7 +1,10 @@
 import React from "react";
+import { Navigate, useNavigate } from "react-router";
 import salaS from "../../../assets/salaS.jpg";
+import { Link } from "react-router-dom";
 
 export const Inventario = () => {
+  const navigate = useNavigate();
   return (
     <div className="h-screen bg-gray-100">
       <section className="md:h-full md:w-full lg:w-full flex items-center text-gray-600">
@@ -37,6 +40,7 @@ export const Inventario = () => {
             </div>
 
             {/* Sala 2*/}
+
             <div className="p-4 sm:w-1/2 lg:w-1/3">
               <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                 <img
@@ -44,16 +48,18 @@ export const Inventario = () => {
                   src={salaS}
                   alt="blog"
                 />
-                <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in">
-                  <h2 className="text-base font-medium text-blue-300 mb-1">
-                    October 29, 2021
-                  </h2>
-                  <h1 className="text-2xl font-semibold mb-3">
-                    Sala de sistemas
-                  </h1>
+                <Link to={"robotica"}>
+                  <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in cursor-pointer select-none">
+                    <h2 className="text-base font-medium text-blue-300 mb-1">
+                      October 29, 2021
+                    </h2>
+                    <h1 className="text-2xl font-semibold mb-3">
+                      Sala de sistemas
+                    </h1>
 
-                  <p className="leading-relaxed mb-3">Descripción</p>
-                </div>
+                    <p className="leading-relaxed mb-3">Descripción</p>
+                  </div>
+                </Link>
               </div>
             </div>
 

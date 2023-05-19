@@ -69,7 +69,7 @@ const SidebarAdmin = () => {
     <div>
       <div
         onClick={() => setOpen(false)}
-        className={`md:hidden fixed inset-0 max-h-screen z-[998] bg-black/50 ${
+        className={`lg:hidden fixed inset-0 max-h-screen z-[998] bg-black/50 ${
           open ? "block" : "hidden"
         } `}
       ></div>
@@ -79,16 +79,16 @@ const SidebarAdmin = () => {
         initial={{ x: isTabletMid ? -250 : 0 }}
         animate={open ? "open" : "closed"}
         className=" bg-white text-gray shadow-xl z-[999] max-w-[16rem]  w-[16rem] 
-            overflow-hidden md:relative fixed
+            overflow-hidden lg:relative fixed
          h-screen "
       >
-        <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300  mx-3">
+        <div className="flex items-center gap-2.5 font-medium border-b py-3 border-Flate-300  mx-3">
           <img src={logo} width={50} alt="logo" />
           <span className="text-xl font-bold whitespace-pre"> SGA TECALA</span>
         </div>
 
         <div className="flex flex-col  h-full">
-          <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   md:h-[68%] h-[70%]">
+          <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   lg:h-[68%] h-[70%]">
             <li>
               <NavLink to={"home"} className="link">
                 <AiOutlineHome size={23} className="min-w-max" />
@@ -141,12 +141,12 @@ const SidebarAdmin = () => {
                 }
           }
           transition={{ duration: 0 }}
-          className="absolute w-fit h-fit md:block z-50 hidden right-2 bottom-3 cursor-pointer"
+          className="absolute w-fit h-fit lg:block z-50 hidden right-2 bottom-3 cursor-pointer"
         >
           <IoIosArrowBack size={25} />
         </motion.div>
       </motion.div>
-      <div className="m-3 md:hidden  " onClick={() => setOpen(true)}>
+      <div className="m-3 lg:hidden sticky" onClick={() => setOpen(true)}>
         <MdMenu size={25} />
       </div>
     </div>
