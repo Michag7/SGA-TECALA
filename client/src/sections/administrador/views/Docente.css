@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+body {
+    background-color: #f1f2f2; 
+  
+}
+
+.data_table{
+    padding: 15px;
+    box-shadow: 1px 3px 5px;
+    border-radius: 5px;
+}
+
+@media (max-width: 767px) {
+  .table-responsive .data_table .btn{
+    position: relative;
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+  }
+
+.table-responsive .data_table .btn{
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+}
+.data_table .btn{
+    margin: 15px 7px 10px 10px;
+    margin-top: -5px;
+    margin-left: -20px;
+}
+
+.table thead th {
+    border-bottom: 1px solid #000;
+}
+
+.dropdown-menu {
+    min-width: auto !important;
+    transform: translate3d(-50%, 0, 0);
+    left: 50% !important;
+    top: calc(100% - 10px) !important;
+    padding: 0.5rem 0;
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 0.25rem 1rem;
+    font-size: 0.875rem;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: red; /* Cambia el color de fondo al pasar el mouse por encima */
+    color: #fff; /* Cambia el color del texto al pasar el mouse por encima */
+}
+
+.button-shadow {
+    position: absolute;
+    bottom: 8px;
+    right: 5px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.button-shadow:hover {
+  background-color: #1877f2;
+  color: white;
+}
+
+.button-shadow:hover i {
+    color: #ffffff;
+}
+
+.button-shadow i {
+    margin-right: 5px;
+    font-size: 20px;
+}

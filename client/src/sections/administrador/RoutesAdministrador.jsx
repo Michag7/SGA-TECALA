@@ -1,4 +1,3 @@
-import React from "react";
 
 import { Route, Routes } from "react-router-dom";
 import { HomeAdmin } from "./views/Home";
@@ -12,7 +11,7 @@ export function RoutesAdministrador() {
       <Routes>
         <Route path="home" element={<HomeAdmin />} />
         <Route path="grados" element={<h1>Grados</h1>} />
-        <Route path="docentes" element={<h1>hee</h1>} />
+        <Route path="docentes" element={<Docente />} />
         <Route path="bitacoras" element={<h1>Bitácoras</h1>} />
         <Route path="inventario" element={<Inventario />} />
       </Routes>

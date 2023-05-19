@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import SubMenu from "../SubMenu";
 import { motion } from "framer-motion";
 
 // * React icons
@@ -11,7 +10,7 @@ import { RiBillLine } from "react-icons/ri";
 import { FiFolder } from "react-icons/fi";
 import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
-import { NavLink, useLocation, useRoutes } from "react-router-dom";
+import { NavLink, useLocation} from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const SidebarAdmin = () => {
@@ -30,7 +29,7 @@ const SidebarAdmin = () => {
 
   useEffect(() => {
     isTabletMid && setOpen(false);
-  }, [pathname]);
+  }, [pathname, isTabletMid]);
 
   const Nav_animation = isTabletMid
     ? {

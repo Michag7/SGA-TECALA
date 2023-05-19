@@ -1,4 +1,3 @@
-import React from "react";
 
 export const Footer = () => {
   return (
@@ -147,12 +146,6 @@ export const Footer = () => {
           <div className="w-full md:w-4/12 px-4 mx-auto text-center">
             <div className="text-sm text-white font-semibold py-1">
               Copyright © <span id="get-current-year">2021</span>
-              <a
-                href="https://www.creative-tim.com/product/notus-js"
-                className="text-white hover:text-gray-800"
-                target="_blank"
-              />{" "}
-              Notus JS by
               <a
                 href="https://www.creative-tim.com?ref=njs-profile"
                 className="text-white hover:text-blueGray-800"

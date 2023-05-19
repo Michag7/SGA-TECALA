@@ -1,4 +1,3 @@
-import React from "react";
 import salaS from "../../../assets/salaS.jpg";
 
 export const Inventario = () => {

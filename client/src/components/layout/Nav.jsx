@@ -1,6 +1,5 @@
-import React from "react";
+
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Navbar,
   MobileNav,
@@ -10,7 +9,6 @@ import {
 } from "@material-tailwind/react";
 
 export const Nav = () => {
-  const navigate = useNavigate();
   const [openNav, setOpenNav] = useState(false);
 
   useEffect(() => {

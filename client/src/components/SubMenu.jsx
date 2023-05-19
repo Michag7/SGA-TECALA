@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
@@ -32,7 +33,6 @@ const SubMenu = ({ data }) => {
       >
         {data.menus?.map((menu) => (
           <li key={menu}>
-            {/* className="hover:text-blue-600 hover:font-medium" */}
             <NavLink
               to={`/${data.name}/${menu}`}
               className="link !bg-transparent capitalize"
@@ -44,6 +44,14 @@ const SubMenu = ({ data }) => {
       </motion.ul>
     </>
   );
+};
+
+SubMenu.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    icon: PropTypes.object.isRequired,
+    menus: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
 };
 
 export default SubMenu;
