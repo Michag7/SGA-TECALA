@@ -310,7 +310,7 @@ export const Docente = () => {
                   <th className="text-center">Credencial</th>
                   <th className="text-center">Asignaciones</th>
                   <th className="text-center">Contraseña</th>
-                  <th>Acción</th>
+                  <th className="text-center">Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -343,8 +343,8 @@ export const Docente = () => {
                     </div>
                   </td>
                   <td>
-                    <button className ="btn btn-sm btn-secondary"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger"><i className="fa-solid fa-trash-can"></i></button>
+                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
+                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
                   </td>
                 </tr>
                 <tr>
@@ -376,8 +376,8 @@ export const Docente = () => {
                     </div>
                   </td>
                   <td>
-                    <button className ="btn btn-sm btn-secondary"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger"><i className="fa-solid fa-trash-can"></i></button>
+                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
+                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
                   </td>
                 </tr>
                 <tr>
@@ -409,8 +409,8 @@ export const Docente = () => {
                     </div>
                   </td>
                   <td>
-                    <button className ="btn btn-sm btn-secondary"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger"><i className="fa-solid fa-trash-can"></i></button>
+                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
+                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
                   </td>
                 </tr>
                 <tr>
@@ -442,8 +442,8 @@ export const Docente = () => {
                     </div>
                   </td>
                   <td>
-                    <button className ="btn btn-sm btn-secondary"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger"><i className="fa-solid fa-trash-can"></i></button>
+                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
+                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
                   </td>
                 </tr>
               </tbody>
