@@ -12,30 +12,30 @@
 }
 
   
-  h1 {
+h1 {
     color: #999;
-  }
+}
   
-  h4 {
+h4 {
     margin: 0;
     font-size: 1rem;
     line-height: 1.5;
     padding-left: 5px;
-  }
+}
   
-  p.bx {
+p.bx {
     font-size: 1.5rem;
     padding-right: 5px;
     margin-left: 15px;
-  }
+}
   
-  .content {
+.content {
     position: relative;
     margin-top: 5vh;
     min-height: 90vh;
-  }
+}
   
-  .content .componentes {
+.content .componentes {
     padding: 20px;
     display: flex;
     align-items: center;
@@ -43,9 +43,9 @@
     flex-wrap: wrap;
     margin:0;
 
-  }
+}
   
-  .content .componentes .componente {
+.content .componentes .componente {
     width: 300px;
     height: 150px;
     background: white;
@@ -56,7 +56,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
       0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 20px;
-  }
+}
   
   .componente .icon-case img {
     width: 110px;
@@ -88,6 +88,7 @@
     margin: 0 25px 25px 25px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
       0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
   }
   
   .content .content-2 .permisos {
@@ -96,7 +97,9 @@
     min-height: 50vh;
     margin: 0 25px 25px 25px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-      0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
+
   }
   
   .titulo-tabla {

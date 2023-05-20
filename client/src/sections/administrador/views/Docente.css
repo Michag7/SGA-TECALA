@@ -7,7 +7,7 @@ body {
 .contenedor-titulo-docente {
     position: absolute;
     border-radius: 18px;
-    margin: 5px;
+    margin: 0;
     margin-top: -5px;
     background-color: #0c448b;
     color: white;
@@ -35,7 +35,7 @@ body {
     margin-left: 15px;
   }
 
-.data_table{
+  .data_table{
     padding: 15px;
     box-shadow: 1px 3px 5px;
     border-radius: 5px;
@@ -55,11 +55,28 @@ body {
     margin-top: 5px;
   }
 }
-.data_table .btn{
+
+.data_table .btnExcel{
     margin: 15px 7px 10px 10px;
-    margin-top: -5px;
+    margin-top: -1px;
     margin-left: -20px;
+    background-color: green;
 }
+
+.data_table .btnPdf{
+  margin: 15px 7px 10px 10px;
+  margin-top: -1px;
+  margin-left: -20px;
+  background-color: red;
+}
+
+.data_table .btnPrint{
+  margin: 15px 7px 10px 10px;
+  margin-top: -1px;
+  margin-left: -20px;
+  background-color: red;
+}
+
 
 .table thead th {
     border-bottom: 1px solid #000;
@@ -108,3 +125,6 @@ body {
     margin-right: 5px;
     font-size: 20px;
 }
+
+
+
