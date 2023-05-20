@@ -4,11 +4,42 @@ body {
     background-color: #f1f2f2; 
   
 }
+.contenedor-titulo-docente {
+    position: absolute;
+    border-radius: 18px;
+    margin: 5px;
+    margin-top: -5px;
+    background-color: #0c448b;
+    color: white;
+    opacity: 70%;
+    height: 45px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+  }
+  
+  h1 {
+    color: #999;
+  }
+  
+  h4 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding-left: 5px;
+  }
+  
+  p.bx {
+    font-size: 1.5rem;
+    padding-right: 5px;
+    margin-left: 15px;
+  }
 
 .data_table{
     padding: 15px;
     box-shadow: 1px 3px 5px;
     border-radius: 5px;
+    margin-top: 80px;
 }
 
 @media (max-width: 767px) {

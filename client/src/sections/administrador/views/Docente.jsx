@@ -298,6 +298,10 @@ export const Docente = () => {
 
   return (
     <div className="container my-5">
+       <div className="contenedor-titulo-docente">
+        <p className="bx bx-message-rounded-add"></p>
+        <h4>¡Información docentes!</h4>
+      </div>
       <div className="row">
         <div className="col-12">
          <div className="data_table">
