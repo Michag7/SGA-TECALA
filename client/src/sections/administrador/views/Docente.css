@@ -82,27 +82,9 @@ body {
     border-bottom: 1px solid #000;
 }
 
-.dropdown-menu {
-    min-width: auto !important;
-    transform: translate3d(-50%, 0, 0);
-    left: 50% !important;
-    top: calc(100% - 10px) !important;
-    padding: 0.5rem 0;
-}
-
-.dropdown-menu .dropdown-item {
-    padding: 0.25rem 1rem;
-    font-size: 0.875rem;
-}
-
-.dropdown-menu .dropdown-item:hover {
-    background-color: red; /* Cambia el color de fondo al pasar el mouse por encima */
-    color: #fff; /* Cambia el color del texto al pasar el mouse por encima */
-}
-
 .button-shadow {
     position: absolute;
-    bottom: 8px;
+    margin-top: 20px;
     right: 5px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);

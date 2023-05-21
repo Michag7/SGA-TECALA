@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import "./Docente.css";
+import { EliminarAlerta } from '../../../components/EliminarAlerta';
 
 export const Docente = () => {
+  const [mostrarAlerta, setMostrarAlerta] = useState(false);
+
   useEffect(() => {
     const dataTableOptions = {
       dom: "<'row'<'col-md-4'l><'col-md-5 text-end'B><'col-md-3'f>>rt<'row'<'col-md-6'i><'col-md-6'p>>",
@@ -290,6 +294,24 @@ export const Docente = () => {
     }
   }, []);
 
+  const handleEliminarClick = () => {
+    setMostrarAlerta(true);
+  };
+
+  const handleEliminarConfirmar = () => {
+    setMostrarAlerta(false);
+
+    Swal.fire(
+      'Eliminado',
+      'El archivo ha sido eliminado exitosamente.',
+      'success'
+    );
+};
+
+const handleEliminarCancelar = () => {
+  setMostrarAlerta(false);
+}
+
   return (
     <div className="container my-5">
        <div className="contenedor-titulo-docente">
@@ -344,7 +366,15 @@ export const Docente = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
+                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    {mostrarAlerta && (
+                    <EliminarAlerta
+                    onConfirmar={handleEliminarConfirmar}
+                    onCancelar={handleEliminarCancelar}
+                    />
+                    )}
                   </td>
                 </tr>
                 <tr>
@@ -377,8 +407,16 @@ export const Docente = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
-                  </td>
+                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    {mostrarAlerta && (
+                    <EliminarAlerta
+                    onConfirmar={handleEliminarConfirmar}
+                    onCancelar={handleEliminarCancelar}
+                    />
+                    )}
+                    </td>
                 </tr>
                 <tr>
                   <td className="text-center">111028253</td>
@@ -410,8 +448,16 @@ export const Docente = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
-                  </td>
+                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    {mostrarAlerta && (
+                    <EliminarAlerta
+                    onConfirmar={handleEliminarConfirmar}
+                    onCancelar={handleEliminarCancelar}
+                    />
+                    )}
+                    </td>
                 </tr>
                 <tr>
                   <td className="text-center">111028253</td>
@@ -443,8 +489,16 @@ export const Docente = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className ="btn btn-sm btn-danger btnAccion"><i className="fa-solid fa-trash-can"></i></button>
-                  </td>
+                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    {mostrarAlerta && (
+                    <EliminarAlerta
+                    onConfirmar={handleEliminarConfirmar}
+                    onCancelar={handleEliminarCancelar}
+                    />
+                    )}
+                    </td>
                 </tr>
               </tbody>
             </table>

@@ -21,7 +21,8 @@
     "jquery": "^3.7.0",
     "morgan": "^1.10.0",
     "pg": "^8.10.0",
-    "prop-types": "^15.8.1"
+    "prop-types": "^15.8.1",
+    "sweetalert2": "^11.7.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
