@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import "./Docente.css";
 import { EliminarAlerta } from '../../../components/EliminarAlerta';
+import { RegistroDocente } from './RegistroDocente';
 
 export const Docente = () => {
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false); //Estado para mostrar la interfaz (Registrar docente)
 
   useEffect(() => {
     const dataTableOptions = {
@@ -14,19 +16,19 @@ export const Docente = () => {
           extend: 'excelHtml5',
           text: "<i class= 'fa-solid fa-file-csv'></i> Excel",
           titleAttr: 'Exportar a Excel',
-          className: 'btn btn-success btnExcel',
+          className: 'btn btn-success botonExcel',
         },
         {
           extend: 'pdfHtml5',
           text: "<i class= 'fa-solid fa-file-pdf'></i> PDF",
           titleAttr: 'Exportar a PDF',
-          className: 'btn btn-danger btnPdf',
+          className: 'btn btn-danger botonPdf',
         },
         {
           extend: 'print',
           text: "<i class= 'fa-solid fa-print'></i> Print",
           titleAttr: 'Imprimir',
-          className: 'btn btn-danger btnPrint',
+          className: 'btn btn-danger botonPrint',
         },
       ],
       lengthMenu: [5, 10, 15, 20],
@@ -312,8 +314,18 @@ const handleEliminarCancelar = () => {
   setMostrarAlerta(false);
 }
 
+const handleMostrarComponente = () => {
+  setMostrarFormulario(true);
+};
+
+const handleOcultarComponente = () => {
+  setMostrarFormulario(false);
+};
+
   return (
     <div className="container my-5">
+       {!mostrarFormulario && (
+        <div>
        <div className="contenedor-titulo-docente">
         <p className="bx bx-message-rounded-add"></p>
         <h4>¡Información docentes!</h4>
@@ -506,9 +518,16 @@ const handleEliminarCancelar = () => {
           </div>
         </div>
       </div>
-      <button className="button-shadow">
-    Añadir <i className="fa fa-solid fa-plus" style={{ color: '#1877f2' }}></i>
-    </button>
+      <button className="button-shadow" onClick={handleMostrarComponente}>
+            Añadir <i className="fa fa-solid fa-plus" style={{ color: '#1877f2' }}></i>
+          </button>
+        </div>
+      )}
+      {mostrarFormulario && (
+        <div>
+          <RegistroDocente onCancelar={handleOcultarComponente} />
+        </div>
+      )}
     </div>
   );
 };

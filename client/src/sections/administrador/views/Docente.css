@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-body {
-    background-color: #f1f2f2; 
-  
-}
+
 .contenedor-titulo-docente {
     position: absolute;
     border-radius: 18px;
@@ -56,21 +53,21 @@ body {
   }
 }
 
-.data_table .btnExcel{
+.data_table .botonExcel{
     margin: 15px 7px 10px 10px;
     margin-top: -1px;
     margin-left: -20px;
     background-color: green;
 }
 
-.data_table .btnPdf{
+.data_table .botonPdf{
   margin: 15px 7px 10px 10px;
   margin-top: -1px;
   margin-left: -20px;
   background-color: red;
 }
 
-.data_table .btnPrint{
+.data_table .botonPrint{
   margin: 15px 7px 10px 10px;
   margin-top: -1px;
   margin-left: -20px;
