@@ -3,10 +3,12 @@ import Swal from 'sweetalert2';
 import "./Docente.css";
 import { EliminarAlerta } from '../../../components/EliminarAlerta';
 import { RegistroDocente } from './RegistroDocente';
+import { Carnet }  from './Carnet';
 
 export const Docente = () => {
   const [mostrarAlerta, setMostrarAlerta] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false); //Estado para mostrar la interfaz (Registrar docente)
+  const [showCarnetModal, setShowCarnetModal] = useState(false);//Estado para la ventana modal de carnet
 
   useEffect(() => {
     const dataTableOptions = {
@@ -322,6 +324,14 @@ const handleOcultarComponente = () => {
   setMostrarFormulario(false);
 };
 
+const openCarnetModal = () => {
+  setShowCarnetModal(true);
+};
+
+const closeModal = () => {
+  setShowCarnetModal(false);
+};
+
   return (
     <div className="container my-5">
        {!mostrarFormulario && (
@@ -355,13 +365,13 @@ const handleOcultarComponente = () => {
                     <i className="fa-regular fa-image fa-xl"></i>
                   </td>
                   <td>ferney11@gmail.com</td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-warning text-white">
-                        Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
+                 <td className="text-center align-middle">
+                   <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
+                      <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                       Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
                       </button>
-                    </div>
-                  </td>
+                   </div>
+                 </td>
                   <td className="text-center align-middle">
                     <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
                       <button className="btn btn-sm btn-primary text-white">
@@ -397,52 +407,11 @@ const handleOcultarComponente = () => {
                   </td>
                   <td>ferney11@gmail.com</td>
                   <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-warning text-white">
-                        Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-primary text-white">
-                        Informe <i className="fa-solid fa-folder ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-success text-white">
-                        Recuperar <i className="fa-solid fa-wrench ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
-                    <i className="fa-solid fa-trash-can"></i>
-                    </button>
-                    {mostrarAlerta && (
-                    <EliminarAlerta
-                    onConfirmar={handleEliminarConfirmar}
-                    onCancelar={handleEliminarCancelar}
-                    />
-                    )}
-                    </td>
-                </tr>
-                <tr>
-                  <td className="text-center">111028253</td>
-                  <td className="text-center">Ferney Banderas</td>
-                  <td className="text-center">
-                    <i className="fa-regular fa-image fa-xl"></i>
-                  </td>
-                  <td>ferney11@gmail.com</td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-warning text-white">
-                        Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
-                      </button>
-                    </div>
+                        <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
+                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                            Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
+                          </button>
+                        </div>
                   </td>
                   <td className="text-center align-middle">
                     <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
@@ -479,11 +448,52 @@ const handleOcultarComponente = () => {
                   </td>
                   <td>ferney11@gmail.com</td>
                   <td className="text-center align-middle">
+                        <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
+                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                            Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
+                          </button>
+                        </div>
+                  </td>
+                  <td className="text-center align-middle">
                     <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-warning text-white">
-                        Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
+                      <button className="btn btn-sm btn-primary text-white">
+                        Informe <i className="fa-solid fa-folder ms-1 text-white"></i>
                       </button>
                     </div>
+                  </td>
+                  <td className="text-center align-middle">
+                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
+                      <button className="btn btn-sm btn-success text-white">
+                        Recuperar <i className="fa-solid fa-wrench ms-1 text-white"></i>
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
+                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                    {mostrarAlerta && (
+                    <EliminarAlerta
+                    onConfirmar={handleEliminarConfirmar}
+                    onCancelar={handleEliminarCancelar}
+                    />
+                    )}
+                    </td>
+                </tr>
+                <tr>
+                  <td className="text-center">111028253</td>
+                  <td className="text-center">Ferney Banderas</td>
+                  <td className="text-center">
+                    <i className="fa-regular fa-image fa-xl"></i>
+                  </td>
+                  <td>ferney11@gmail.com</td>
+                  <td className="text-center align-middle">
+                        <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
+                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                            Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
+                          </button>
+                        </div>
                   </td>
                   <td className="text-center align-middle">
                     <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
@@ -528,6 +538,7 @@ const handleOcultarComponente = () => {
           <RegistroDocente onCancelar={handleOcultarComponente} />
         </div>
       )}
+      {showCarnetModal && <Carnet isOpen={showCarnetModal} closeModal={closeModal} />}
     </div>
   );
 };
