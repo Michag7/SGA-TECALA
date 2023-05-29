@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 import "./Docente.css";
-import { EliminarAlerta } from '../../../components/EliminarAlerta';
-import { RegistroDocente } from './RegistroDocente';
-import { Carnet }  from './Carnet';
 
 export const Docente = () => {
-  const [mostrarAlerta, setMostrarAlerta] = useState(false);
-  const [mostrarFormulario, setMostrarFormulario] = useState(false); //Estado para mostrar la interfaz (Registrar docente)
-  const [showCarnetModal, setShowCarnetModal] = useState(false);//Estado para la ventana modal de carnet
-
+ 
   useEffect(() => {
     const dataTableOptions = {
       dom: "<'row'<'col-md-4'l><'col-md-5 text-end'B><'col-md-3'f>>rt<'row'<'col-md-6'i><'col-md-6'p>>",
@@ -298,43 +291,8 @@ export const Docente = () => {
     }
   }, []);
 
-  const handleEliminarClick = () => {
-    setMostrarAlerta(true);
-  };
-
-  const handleEliminarConfirmar = () => {
-    setMostrarAlerta(false);
-
-    Swal.fire(
-      'Eliminado',
-      'El archivo ha sido eliminado exitosamente.',
-      'success'
-    );
-};
-
-const handleEliminarCancelar = () => {
-  setMostrarAlerta(false);
-}
-
-const handleMostrarComponente = () => {
-  setMostrarFormulario(true);
-};
-
-const handleOcultarComponente = () => {
-  setMostrarFormulario(false);
-};
-
-const openCarnetModal = () => {
-  setShowCarnetModal(true);
-};
-
-const closeModal = () => {
-  setShowCarnetModal(false);
-};
-
-  return (
+return (
     <div className="container my-5">
-       {!mostrarFormulario && (
         <div>
        <div className="contenedor-titulo-docente">
         <p className="bx bx-message-rounded-add"></p>
@@ -367,7 +325,7 @@ const closeModal = () => {
                   <td>ferney11@gmail.com</td>
                  <td className="text-center align-middle">
                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                      <button className="btn btn-sm btn-warning text-white">
                        Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
                       </button>
                    </div>
@@ -388,15 +346,9 @@ const closeModal = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <button className="btn btn-sm btn-danger btnAccion">
                     <i className="fa-solid fa-trash-can"></i>
                     </button>
-                    {mostrarAlerta && (
-                    <EliminarAlerta
-                    onConfirmar={handleEliminarConfirmar}
-                    onCancelar={handleEliminarCancelar}
-                    />
-                    )}
                   </td>
                 </tr>
                 <tr>
@@ -408,7 +360,7 @@ const closeModal = () => {
                   <td>ferney11@gmail.com</td>
                   <td className="text-center align-middle">
                         <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
+                          <button className="btn btn-sm btn-warning text-white">
                             Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
                           </button>
                         </div>
@@ -429,98 +381,10 @@ const closeModal = () => {
                   </td>
                   <td>
                     <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
+                    <button className="btn btn-sm btn-danger btnAccion">
                     <i className="fa-solid fa-trash-can"></i>
                     </button>
-                    {mostrarAlerta && (
-                    <EliminarAlerta
-                    onConfirmar={handleEliminarConfirmar}
-                    onCancelar={handleEliminarCancelar}
-                    />
-                    )}
-                    </td>
-                </tr>
-                <tr>
-                  <td className="text-center">111028253</td>
-                  <td className="text-center">Ferney Banderas</td>
-                  <td className="text-center">
-                    <i className="fa-regular fa-image fa-xl"></i>
-                  </td>
-                  <td>ferney11@gmail.com</td>
-                  <td className="text-center align-middle">
-                        <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
-                            Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
-                          </button>
-                        </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-primary text-white">
-                        Informe <i className="fa-solid fa-folder ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-success text-white">
-                        Recuperar <i className="fa-solid fa-wrench ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
-                    <i className="fa-solid fa-trash-can"></i>
-                    </button>
-                    {mostrarAlerta && (
-                    <EliminarAlerta
-                    onConfirmar={handleEliminarConfirmar}
-                    onCancelar={handleEliminarCancelar}
-                    />
-                    )}
-                    </td>
-                </tr>
-                <tr>
-                  <td className="text-center">111028253</td>
-                  <td className="text-center">Ferney Banderas</td>
-                  <td className="text-center">
-                    <i className="fa-regular fa-image fa-xl"></i>
-                  </td>
-                  <td>ferney11@gmail.com</td>
-                  <td className="text-center align-middle">
-                        <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                          <button className="btn btn-sm btn-warning text-white" onClick={openCarnetModal}>
-                            Carnet <i className="fa-solid fa-address-card ms-1 text-white"></i>
-                          </button>
-                        </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-primary text-white">
-                        Informe <i className="fa-solid fa-folder ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td className="text-center align-middle">
-                    <div className="d-flex flex-column justify-content-center" style={{ margin: '2px', lineHeight: '5px' }}>
-                      <button className="btn btn-sm btn-success text-white">
-                        Recuperar <i className="fa-solid fa-wrench ms-1 text-white"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <button className ="btn btn-sm btn-secondary btnAccion"><i className="fa-solid fa-pencil"></i></button>
-                    <button className="btn btn-sm btn-danger btnAccion" onClick={handleEliminarClick}>
-                    <i className="fa-solid fa-trash-can"></i>
-                    </button>
-                    {mostrarAlerta && (
-                    <EliminarAlerta
-                    onConfirmar={handleEliminarConfirmar}
-                    onCancelar={handleEliminarCancelar}
-                    />
-                    )}
-                    </td>
+                    </td>    
                 </tr>
               </tbody>
             </table>
@@ -528,17 +392,10 @@ const closeModal = () => {
           </div>
         </div>
       </div>
-      <button className="button-shadow" onClick={handleMostrarComponente}>
+      <button className="button-shadow">
             Añadir <i className="fa fa-solid fa-plus" style={{ color: '#1877f2' }}></i>
           </button>
         </div>
-      )}
-      {mostrarFormulario && (
-        <div>
-          <RegistroDocente onCancelar={handleOcultarComponente} />
-        </div>
-      )}
-      {showCarnetModal && <Carnet isOpen={showCarnetModal} closeModal={closeModal} />}
     </div>
   );
 };
