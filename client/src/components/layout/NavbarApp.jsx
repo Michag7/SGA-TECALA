@@ -44,7 +44,7 @@ export const NavbarApp = () => {
         <Button
           variant="text"
           color="blue-gray"
-          className="flex  items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 m-2 ml-auto "
+          className="flex  items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 m-2 ml-auto"
         >
           <Avatar
             variant="circular"

@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+/* .contenedor-titulo-docente {
+    position: absolute;
+    border-radius: 18px;
+    margin: 0;
+    margin-top: -5px;
+    background-color: #0c448b;
+    color: white;
+    opacity: 70%;
+    height: 45px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+  } */
+  
+  /* h1 {
+    color: #999;
+  }
+  
+  h4 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding-left: 5px;
+  } */
+  
+  /* p.bx {
+    font-size: 1.5rem;
+    padding-right: 5px;
+    margin-left: 15px;
+  } */
+
+  .data_table{
+    padding: 15px;
+    box-shadow: 1px 3px 5px;
+    border-radius: 5px;
+    margin-top: 80px;
+}
+
+@media (max-width: 767px) {
+  .table-responsive .data_table .btn{
+    position: relative;
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+  }
+
+.table-responsive .data_table .btn{
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+}
+
+.data_table .botonExcel{
+    margin: 15px 7px 10px 10px;
+    margin-top: -1px;
+    margin-left: -20px;
+    background-color: green;
+}
+
+.data_table .botonPdf{
+  margin: 15px 7px 10px 10px;
+  margin-top: -1px;
+  margin-left: -20px;
+  background-color: red;
+}
+
+.data_table .botonPrint{
+  margin: 15px 7px 10px 10px;
+  margin-top: -1px;
+  margin-left: -20px;
+  background-color: red;
+}
+
+
+.table thead th {
+    border-bottom: 1px solid #000;
+}
+
+.button-shadow {
+    position: absolute;
+    margin-top: 20px;
+    right: 5px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.button-shadow:hover {
+  background-color: #1877f2;
+  color: white;
+}
+
+.button-shadow:hover i {
+    color: #ffffff;
+}
+
+.button-shadow i {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.data_table .btnAccion{
+  margin-left: 4px;
+}
+
+
+
+

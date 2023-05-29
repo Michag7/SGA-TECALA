@@ -6,6 +6,7 @@ import AdminTemplate from "../components/layout/AdminTemplate";
 import { Inventario } from "../views/administrador/Inventario";
 import { Bitacora } from "../views/administrador/Bitacora";
 import { HomeAdmin } from "../views/administrador/Home";
+import { Docente } from "../views/administrador/Docente";
 
 export function RoutesAdministrador() {
   return (
@@ -13,7 +14,7 @@ export function RoutesAdministrador() {
       <Routes>
         <Route path="home" element={<HomeAdmin />} />
         <Route path="grados" element={<h1>Grados</h1>} />
-        <Route path="docentes" element={<h1>hee</h1>} />
+        <Route path="docentes" element={<Docente></Docente>} />
         <Route path="bitacoras" element={<Bitacora />} />
         <Route path="inventario" element={<Inventario />} />
       </Routes>
