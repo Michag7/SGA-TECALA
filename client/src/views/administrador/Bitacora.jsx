@@ -1,4 +1,3 @@
-
 import React, { Fragment, useState } from "react";
 import {
   Tabs,
@@ -11,7 +10,12 @@ import {
   Accordion,
   AccordionHeader,
   AccordionBody,
+  Select,
+  Option,
 } from "@material-tailwind/react";
+
+import { LuFileSpreadsheet } from "react-icons/lu";
+import { NavbarApp } from "../../components/layout/NavbarApp";
 
 function Icon({ id, open }) {
   return (
@@ -37,223 +41,95 @@ export const Bitacora = () => {
     setOpen(open === value ? 0 : value);
   };
 
-  // datos tabla estudiantes inasistentes
-  const TABLE_HEAD = ["N°", "Estudiante", "1", "2", "3", "4", "5", "6", ""];
-
-  const TABLE_ROWS = [
-    {
-      N: "1",
-      name: "John Michael",
-      asis1: "Si",
-      asis2: "Si",
-      asis3: "Si",
-      asis4: "Si",
-      asis5: "No",
-      asis6: "No",
-    },
-  ];
-
-  // datos paginacion - table
-  const data = [
-    {
-      label: "HTML",
-      value: "html",
-      desc: (
-        <Card className="overflow-scroll h-full w-full mt-10">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {TABLE_ROWS.map(
-                (
-                  { N, name, asis1, asis2, asis3, asis4, asis5, asis6 },
-                  index
-                ) => {
-                  const isLast = index === TABLE_ROWS.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
-
-                  return (
-                    <tr key={N}>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {N}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {name}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis1}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis2}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis3}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis4}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis5}
-                        </Typography>
-                      </td>
-
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {asis6}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          as="a"
-                          href="#"
-                          variant="small"
-                          color="blue"
-                          className="font-medium"
-                        >
-                          Edit
-                        </Typography>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-        </Card>
-      ),
-    },
-
-    // datos paginacion - meses
-    {
-      label: "React",
-      value: "react",
-      desc: (
-        <Fragment>
-          <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
-            <AccordionHeader onClick={() => handleOpen(1)}>
-              SEMANA 1
-            </AccordionHeader>
-            <AccordionBody>
-              We&apos;re not always in the position that we want to be at.
-              We&apos;re constantly growing. We&apos;re constantly making
-              mistakes. We&apos;re constantly trying to express ourselves and
-              actualize our dreams.
-            </AccordionBody>
-          </Accordion>
-          <Accordion open={open === 2} icon={<Icon id={2} open={open} />}>
-            <AccordionHeader onClick={() => handleOpen(2)}>
-              How to use Material Tailwind?
-            </AccordionHeader>
-            <AccordionBody>
-              We&apos;re not always in the position that we want to be at.
-              We&apos;re constantly growing. We&apos;re constantly making
-              mistakes. We&apos;re constantly trying to express ourselves and
-              actualize our dreams.
-            </AccordionBody>
-          </Accordion>
-          <Accordion open={open === 3} icon={<Icon id={3} open={open} />}>
-            <AccordionHeader onClick={() => handleOpen(3)}>
-              What can I do with Material Tailwind?
-            </AccordionHeader>
-            <AccordionBody>
-              We&apos;re not always in the position that we want to be at.
-              We&apos;re constantly growing. We&apos;re constantly making
-              mistakes. We&apos;re constantly trying to express ourselves and
-              actualize our dreams.
-            </AccordionBody>
-          </Accordion>
-        </Fragment>
-      ),
-    },
-  ];
   return (
-    <Tabs value="html" className="">
-      <TabsHeader
-        className="bg-slate-400 mt-3 border-2 border-solid border-gray-300 max-w-[20rem]  "
-        indicatorProps={{
-          className: "bg-blue-500",
-        }}
-      >
-        {data.map(({ label, value }) => (
-          <Tab className="focus:text-white" key={value} value={value}>
-            {label}
-          </Tab>
-        ))}
-      </TabsHeader>
-      <TabsBody>
-        {data.map(({ value, desc }) => (
-          <TabPanel key={value} value={value}>
-            {desc}
-          </TabPanel>
-        ))}
-      </TabsBody>
-    </Tabs>
+    <>
+    <NavbarApp></NavbarApp>
+      <div className="flex flex-wrap ">
+        <div className="w-60 ml-4 my-2">
+          <Select label="Grado">
+            <Option>Enero</Option>
+            <Option>Febrero</Option>
+            <Option>Marzo</Option>
+            <Option>Abril</Option>
+            <Option>Mayo</Option>
+          </Select>
+        </div>
+
+        <div className="w-60 ml-4 my-2">
+          <Select label="Mes">
+            <Option>Enero</Option>
+            <Option>Febrero</Option>
+            <Option>Marzo</Option>
+            <Option>Abril</Option>
+            <Option>Mayo</Option>
+          </Select>
+        </div>
+      </div>
+
+      <section className="p-4 m-4  rounded-2xl">
+        <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(1)}>
+            SEMANA 1 - JUNIO
+          </AccordionHeader>
+          <AccordionBody>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1  hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1 hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+          </AccordionBody>
+        </Accordion>
+        <Accordion open={open === 2} icon={<Icon id={2} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(2)}>
+            SEMANA 2 - JUNIO
+          </AccordionHeader>
+          <AccordionBody>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1  hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1 hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+          </AccordionBody>
+        </Accordion>
+
+        <Accordion open={open === 3} icon={<Icon id={3} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(3)}>
+            SEMANA 3 - JUNIO
+          </AccordionHeader>
+          <AccordionBody>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1  hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1 hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+          </AccordionBody>
+        </Accordion>
+
+        <Accordion open={open === 4} icon={<Icon id={4} open={open} />}>
+          <AccordionHeader onClick={() => handleOpen(4)}>
+            SEMANA 4 - JUNIO
+          </AccordionHeader>
+          <AccordionBody>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1  hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+            <div className="flex items-center border-2 border-solid rounded-md bg-white py-3 my-1 hover:bg-blue-500 hover:text-white ">
+              <LuFileSpreadsheet size={25} className="mx-3" />
+              Bitacora #1
+            </div>
+          </AccordionBody>
+        </Accordion>
+      </section>
+    </>
   );
 };
