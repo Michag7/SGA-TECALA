@@ -1,11 +1,11 @@
 import React from "react";
 
 import { Route, Routes } from "react-router-dom";
-import { HomeAdmin } from "./views/Home";
-import { Inventario } from "./views/Inventario";
-import AdminTemplate from "../../components/admin/AdminTemplate";
-import { Docente } from "./views/Docente";
-import { Bitacora } from "./views/Bitacora";
+
+import AdminTemplate from "../components/layout/AdminTemplate";
+import { Inventario } from "../views/administrador/Inventario";
+import { Bitacora } from "../views/administrador/Bitacora";
+import { HomeAdmin } from "../views/administrador/Home";
 
 export function RoutesAdministrador() {
   return (
@@ -14,7 +14,7 @@ export function RoutesAdministrador() {
         <Route path="home" element={<HomeAdmin />} />
         <Route path="grados" element={<h1>Grados</h1>} />
         <Route path="docentes" element={<h1>hee</h1>} />
-        <Route path="bitacoras" element={<Bitacora/>} />
+        <Route path="bitacoras" element={<Bitacora />} />
         <Route path="inventario" element={<Inventario />} />
       </Routes>
     </AdminTemplate>

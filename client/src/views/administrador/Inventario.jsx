@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, useNavigate } from "react-router";
-import salaS from "../../../assets/salaS.jpg";
+import salaS from "../../assets/salaS.jpg";
 import { Link } from "react-router-dom";
 
 export const Inventario = () => {
@@ -26,16 +26,18 @@ export const Inventario = () => {
                   src={salaS}
                   alt="blog"
                 />
-                <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in">
-                  <h2 className="text-base font-medium text-blue-300 mb-1">
-                    October 29, 2021
-                  </h2>
-                  <h1 className="text-2xl font-semibold mb-3">
-                    Sala de sistemas
-                  </h1>
+                <Link to={"sistemas"}>
+                  <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in cursor-pointer select-none">
+                    <h2 className="text-base font-medium text-blue-300 mb-1">
+                      October 29, 2021
+                    </h2>
+                    <h1 className="text-2xl font-semibold mb-3">
+                      Sala de sistemas
+                    </h1>
 
-                  <p className="leading-relaxed mb-3">Descripción</p>
-                </div>
+                    <p className="leading-relaxed mb-3">Descripción</p>
+                  </div>
+                </Link>
               </div>
             </div>
 
@@ -48,13 +50,13 @@ export const Inventario = () => {
                   src={salaS}
                   alt="blog"
                 />
-                <Link to={"robotica"}>
+                <Link to={"sistemas2"}>
                   <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in cursor-pointer select-none">
                     <h2 className="text-base font-medium text-blue-300 mb-1">
                       October 29, 2021
                     </h2>
                     <h1 className="text-2xl font-semibold mb-3">
-                      Sala de sistemas
+                      Sala de sistemas #2
                     </h1>
 
                     <p className="leading-relaxed mb-3">Descripción</p>
@@ -71,16 +73,18 @@ export const Inventario = () => {
                   src={salaS}
                   alt="blog"
                 />
-                <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in">
-                  <h2 className="text-base font-medium text-blue-300 mb-1">
-                    October 29, 2021
-                  </h2>
-                  <h1 className="text-2xl font-semibold mb-3">
-                    Sala de sistemas
-                  </h1>
+                <Link to={"robotica"}>
+                  <div className="p-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in cursor-pointer select-none">
+                    <h2 className="text-base font-medium text-blue-300 mb-1">
+                      October 29, 2021
+                    </h2>
+                    <h1 className="text-2xl font-semibold mb-3">
+                      Sala de robotica
+                    </h1>
 
-                  <p className="leading-relaxed mb-3">Descripción</p>
-                </div>
+                    <p className="leading-relaxed mb-3">Descripción</p>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

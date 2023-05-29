@@ -2,20 +2,15 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./auth/Login";
-import { RoutesAdministrador } from "./sections/administrador/RoutesAdministrador";
 import { Home } from "./pages/Home";
+import { RoutesAdministrador } from "./routes/RoutesAdministrador";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Home></Home>
-            }
-          />
+          <Route path="/" element={<Home></Home>} />
 
           <Route path="/login" element={<Login />} />
 
