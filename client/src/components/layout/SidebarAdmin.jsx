@@ -82,7 +82,7 @@ const SidebarAdmin = () => {
             overflow-hidden lg:relative fixed
          h-screen "
       >
-        <div className="flex items-center gap-2.5 font-medium border-b py-3 border-Flate-300  mx-3">
+        <div className="flex items-center gap-2.5 font-medium border-b py-3 border-Flate-300  mx-">
           <img src={logo} width={50} alt="logo" />
           <span className="text-xl font-bold whitespace-pre"> SGA TECALA</span>
         </div>

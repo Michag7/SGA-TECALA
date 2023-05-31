@@ -31,11 +31,9 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 
 const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
   const [value, setValue] = useState(keyWord);
-  // console.log(value);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log("Filterd");
       onChange(value);
     }, 500);
 
@@ -55,52 +53,51 @@ const DataTable = ({ columns, Data }) => {
   const [data, setData] = useState(Data);
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
-  console.log(globalFilter);
 
-  // const columns = [
-  //   {
-  //     accessorKey: 'name',
-  //     header: () => <span>Nombre</span>,
-  //     cell: info => <span className='font-bold'>{info.getValue()}</span>
-  //   },
-  //   {
-  //     accessorKey: 'lastName',
-  //     header: () => <span>Apellidos</span>
-  //   },
-  //   {
-  //     accessorKey: 'age',
-  //     header: () => <span>Edad</span>
-  //   },
-  //   {
-  //     accessorKey: 'status',
-  //     header: () => <span>Estado</span>,
-  //     cell: info => {
-  //       return (
-  //         <span className={classNames({
-  //           'text-white px-2 rounded-full font-semibold': true,
-  //           'bg-red-500': 'Inactivo' === info.getValue(),
-  //           'bg-green-500': 'Activo' === info.getValue()
-  //         })}>
-  //           {info.getValue()}
-  //         </span>
-  //       )
-  //     },
-  //     enableSorting: true
-  //   },
-  //   {
-  //     accessorKey: 'actions',
-  //     header: 'Acciones',
-  //     cell: info => {
-  //       return (
-  //         <div className='space-x-2'>
-  //           <button className='text-red-600'>Eliminar</button>
-  //           <button className='text-blue-600'>Editar</button>
-  //         </div>
-  //       )
-  //     },
-  //     enableSorting: false
-  //   }
-  // ]
+  // // const columns = [
+  // //   {
+  // //     accessorKey: 'name',
+  // //     header: () => <span>Nombre</span>,
+  // //     cell: info => <span className='font-bold'>{info.getValue()}</span>
+  // //   },
+  // //   {
+  // //     accessorKey: 'lastName',
+  // //     header: () => <span>Apellidos</span>
+  // //   },
+  // //   {
+  // //     accessorKey: 'age',
+  // //     header: () => <span>Edad</span>
+  // //   },
+  // //   {
+  // //     accessorKey: 'status',
+  // //     header: () => <span>Estado</span>,
+  // //     cell: info => {
+  // //       return (
+  // //         <span className={classNames({
+  // //           'text-white px-2 rounded-full font-semibold': true,
+  // //           'bg-red-500': 'Inactivo' === info.getValue(),
+  // //           'bg-green-500': 'Activo' === info.getValue()
+  // //         })}>
+  // //           {info.getValue()}
+  // //         </span>
+  // //       )
+  // //     },
+  // //     enableSorting: true
+  // //   },
+  // //   {
+  // //     accessorKey: 'actions',
+  // //     header: 'Acciones',
+  // //     cell: info => {
+  // //       return (
+  // //         <div className='space-x-2'>
+  // //           <button className='text-red-600'>Eliminar</button>
+  // //           <button className='text-blue-600'>Editar</button>
+  // //         </div>
+  // //       )
+  // //     },
+  // //     enableSorting: false
+  // //   }
+  // // ]
 
   const getStateTable = () => {
     const totalRows = table.getFilteredRowModel().rows.length;
@@ -139,7 +136,7 @@ const DataTable = ({ columns, Data }) => {
   });
 
   return (
-    <div className="px-6 py-4">
+    <div className="px-4 py-4">
       <div className="my-2 flex justify-end">
         <BotonExcel datos={data}></BotonExcel>
         <div className="relative">
@@ -153,13 +150,13 @@ const DataTable = ({ columns, Data }) => {
           <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-1" />
         </div>
       </div>
-      <div className="overflow-auto">
-        <table className="table-auto w-full min-w-[560px]">
+      <div id="contenedorTabla" className="overflow-auto">
+        <table id="tablaD" className="table-auto w-full min-w-[560px]">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b border-gray-300 text-gray-600 bg-gray-100"
+                className="border-b border-gray-300 text-white bg-blue-500"
               >
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="py-2 px-4 text-left uppercase">

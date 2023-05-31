@@ -16,7 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           <Route path="/admin/*" element={<RoutesAdministrador />} />
-          <Route path="/data" element={<DataTable />} />
+          
         </Routes>
       </BrowserRouter>
     </>

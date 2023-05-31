@@ -47,7 +47,7 @@ export const Bitacora = () => {
       <div className="flex flex-wrap ">
         <div className="w-60 ml-4 my-2">
           <Select label="Grado">
-            <Option>Enero</Option>
+            <Option>11°1</Option>
             <Option>Febrero</Option>
             <Option>Marzo</Option>
             <Option>Abril</Option>
@@ -61,12 +61,12 @@ export const Bitacora = () => {
             <Option>Febrero</Option>
             <Option>Marzo</Option>
             <Option>Abril</Option>
-            <Option>Mayo</Option>
+            <Option>Junio</Option>
           </Select>
         </div>
       </div>
 
-      <section className="p-4 m-4  rounded-2xl">
+      <section className="p-4 lg:m-4 rounded-2xl">
         <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
           <AccordionHeader onClick={() => handleOpen(1)}>
             SEMANA 1 - JUNIO
