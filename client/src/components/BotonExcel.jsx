@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { RiFileExcel2Line } from "react-icons/ri";
+import { RiFileExcel2Line, RiFileExcel2Fill} from "react-icons/ri";
 
 const BotonExcel = ({ datos }) => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const BotonExcel = ({ datos }) => {
   return (
     <>
       
-      <button className="flex items-center border-1 bg-green-900 text-white rounded-md p-1 mr-4" onClick={handleDownload}><RiFileExcel2Line size={20}></RiFileExcel2Line>Excel</button>
+      <button className="flex items-center border-1 bg-green-900 text-white rounded-md p-2 mr-4" onClick={handleDownload}><RiFileExcel2Fill className="mr-1" size={20}></RiFileExcel2Fill >Excel</button>
       {/* {!loading ? (
         <Button color="success" onClick={handleDownload}>
           Excel Default

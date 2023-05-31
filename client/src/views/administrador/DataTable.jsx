@@ -144,7 +144,7 @@ const DataTable = ({ columns, Data }) => {
             type="text"
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
-            className="px-6 py-2 text-gray-600 border border-gray-300 rounded outline-indigo-700"
+            className="px-6 py-2 text-gray-600 border border-gray-300 rounded outline-blue-500"
             placeholder="Buscar..."
           />
           <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-1" />
@@ -152,11 +152,11 @@ const DataTable = ({ columns, Data }) => {
       </div>
       <div id="contenedorTabla" className="overflow-auto">
         <table id="tablaD" className="table-auto w-full min-w-[560px]">
-          <thead>
+          <thead >
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b border-gray-300 text-white bg-blue-500"
+                className="border-b rounded-md border-gray-300 bg-gray-300"
               >
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="py-2 px-4 text-left uppercase">
@@ -222,8 +222,8 @@ const DataTable = ({ columns, Data }) => {
             <button
               key={key}
               className={classNames({
-                "text-gray-600 bg-gray-200 py-0.5 px-2 font-bold rounded border border-gray-300 disabled:hover:bg-white disabled:hover:text-gray-300": true,
-                "bg-indigo-200 text-indigo-700":
+                "text-blue-500 bg-gray-200 py-0.5 px-2 font-bold rounded border border-gray-300 disabled:hover:bg-blue-400 disabled:hover:text-white": true,
+                "bg-blue-400 text-white":
                   value === table.getState().pagination.pageIndex,
               })}
               onClick={() => table.setPageIndex(value)}

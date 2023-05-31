@@ -54,7 +54,7 @@ const column = [
 export const Docente = () => {
   return (
     <div className="h-full w-full bg-gray-100">
-      <NavbarApp></NavbarApp>
+      <NavbarApp titulo={"Gestion de Docentes"}></NavbarApp>
         <DataTable columns={column} Data={defaultData}></DataTable>
       
     </div>
