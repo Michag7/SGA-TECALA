@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "./DataTable";
 import { defaultData } from "./defaultData";
 import classNames from "classnames";
 import { NavbarApp } from "../../components/layout/NavbarApp";
+import { Titulo } from "../../components/layout/Titulo";
+import { useLocation } from "react-router-dom";
 
 const column = [
   {
@@ -52,9 +54,30 @@ const column = [
 ];
 
 export const Inventario = () => {
+  const [title, setTitle] = useState("");
+
+  var location = useLocation();
+  var pathnam = location.pathname;
+  var parts = pathnam.substr(1).split("admin/inventario/");
+  var salaS = "salasistemas";
+
+  const cargarAux =  () => {
+    if  (parts == salaS) { 
+      setTitle("Sala sistemas #1");
+    }
+    if (parts == "salasistemas2") {
+      setTitle("Sala sistemas #2");
+    }
+  };
+
+  useEffect(() => {
+    cargarAux();
+  });
+
   return (
     <>
-    <NavbarApp titulo={"Inventario"} ></NavbarApp>
+      <NavbarApp></NavbarApp>
+      <Titulo titulo={parts}></Titulo>
       <DataTable columns={column} Data={defaultData}></DataTable>
     </>
   );

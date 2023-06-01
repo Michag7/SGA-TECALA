@@ -5,20 +5,22 @@ import salaS2 from "../../assets/salaS2.jpg";
 import salaR from "../../assets/salaR.jpg";
 import { Link } from "react-router-dom";
 import { NavbarApp } from "../../components/layout/NavbarApp";
-
+import { Titulo } from "../../components/layout/Titulo";
 
 export const InventarioInicio = () => {
   const navigate = useNavigate();
   return (
-    <div className="h-screen bg-gray-100">
-      <section className="md:h-full md:w-full lg:w-full flex items-center text-gray-600 border-2">
+    <div>
+      <NavbarApp></NavbarApp>
+      <Titulo titulo={"Inventarios"}></Titulo>
+      <section className="md:h-full md:w-full lg:w-full flex items-center lg:mt-14 text-gray-600 ">
         <div className="container px-5 mx-auto">
-          <div className="text-center mb-12">
+          {/* <div className="text-center mb-12">
             <h5 className="text-base md:text-lg text-blue-500 mt-2">Secciones</h5>
             <h1 className="text-4xl md:text-6xl text-gray-700 font-semibold">
               Inventario
             </h1>
-          </div>
+          </div> */}
           <div className="flex flex-wrap ">
             {/* Sala 1*/}
             <div className="p-4 sm:w-1/2 lg:w-1/3 ">

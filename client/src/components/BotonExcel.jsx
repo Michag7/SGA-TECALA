@@ -23,7 +23,7 @@ const BotonExcel = ({ datos }) => {
   return (
     <>
       
-      <button className="flex items-center border-1 bg-green-900 text-white rounded-md p-2 mr-4" onClick={handleDownload}><RiFileExcel2Fill className="mr-1" size={20}></RiFileExcel2Fill >Excel</button>
+      <button className="flex items-center border-1 bg-green-900 text-white rounded-md p-2 mr-2 mb-2 lg:mb-0 lg:mr-3" onClick={handleDownload}><RiFileExcel2Fill className="mr-1" size={20}></RiFileExcel2Fill >Excel</button>
       {/* {!loading ? (
         <Button color="success" onClick={handleDownload}>
           Excel Default

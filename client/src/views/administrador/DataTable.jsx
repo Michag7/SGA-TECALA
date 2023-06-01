@@ -20,6 +20,8 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/solid";
 import BotonExcel from "../../components/BotonExcel";
+import { BotonPdf } from "../../components/BotonPdf";
+
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), value);
@@ -49,7 +51,7 @@ const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
   );
 };
 
-const DataTable = ({ columns, Data }) => {
+const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => {
   const [data, setData] = useState(Data);
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
@@ -99,6 +101,8 @@ const DataTable = ({ columns, Data }) => {
   // //   }
   // // ]
 
+
+
   const getStateTable = () => {
     const totalRows = table.getFilteredRowModel().rows.length;
     const pageSize = table.getState().pagination.pageSize;
@@ -136,23 +140,25 @@ const DataTable = ({ columns, Data }) => {
   });
 
   return (
-    <div className="px-4 py-4">
-      <div className="my-2 flex justify-end">
+    <div className="p-4">
+      <div className="my-4 flex flex-wrap justify-end ">
         <BotonExcel datos={data}></BotonExcel>
+        <BotonPdf columsName={columnsPdf} datos={data} titleDocument={tituloPdf} archivoName={nombreArchivo}></BotonPdf>
+        
         <div className="relative">
           <DebouncedInput
             type="text"
             value={globalFilter ?? ""}
             onChange={(value) => setGlobalFilter(String(value))}
-            className="px-6 py-2 text-gray-600 border border-gray-300 rounded outline-blue-500"
+            className="py-2 px-1 text-gray-600 border border-gray-300 rounded outline-blue-500"
             placeholder="Buscar..."
           />
-          <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-1" />
+          <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-40" />
         </div>
       </div>
       <div id="contenedorTabla" className="overflow-auto">
         <table id="tablaD" className="table-auto w-full  min-w-[560px] ">
-          <thead >
+          <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
@@ -188,9 +194,12 @@ const DataTable = ({ columns, Data }) => {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-gray-600 hover:bg-slate-100">
+              <tr
+                key={row.id}
+                className="text-gray-600 hover:bg-blue-500 hover:text-white"
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="py-2 px-4">
+                  <td key={cell.id} className="py-2 px-4 ">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -200,9 +209,9 @@ const DataTable = ({ columns, Data }) => {
         </table>
       </div>
       <div className="mt-4 md:flex items-center justify-between space-y-4 text-center">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <button
-            className="text-gray-600 bg-gray-200 py-0.5 px-1 rounded border border-gray-300
+            className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300 
             disabled:hover:bg-white disabled:hover:text-gray-300"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
@@ -210,7 +219,7 @@ const DataTable = ({ columns, Data }) => {
             <ChevronDoubleLeftIcon className="w-5 h-5" />
           </button>
           <button
-            className="text-gray-600 bg-gray-200 py-0.5 px-1 rounded border border-gray-300
+            className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300
             disabled:hover:bg-white disabled:hover:text-gray-300"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -222,8 +231,8 @@ const DataTable = ({ columns, Data }) => {
             <button
               key={key}
               className={classNames({
-                "text-blue-500 bg-gray-200 py-0.5 px-2 font-bold rounded border border-gray-300   disabled:hover:text-white": true,
-                "text-white bg-blue-300":
+                "text-gray-600 bg-gray-50 py-0.5 px-2 font-bold rounded border border-gray-300 hover:bg-blue-400 hover:text-white disabled:hover:text-white": true,
+                "bg-blue-400 text-white":
                   value === table.getState().pagination.pageIndex,
               })}
               onClick={() => table.setPageIndex(value)}
@@ -233,7 +242,7 @@ const DataTable = ({ columns, Data }) => {
           ))}
 
           <button
-            className="text-gray-600 bg-gray-200 py-0.5 px-1 rounded border border-gray-300
+            className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300
             disabled:hover:bg-white disabled:hover:text-gray-300"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
@@ -241,7 +250,7 @@ const DataTable = ({ columns, Data }) => {
             <ChevronRightIcon className="w-5 h-5" />
           </button>
           <button
-            className="text-gray-600 bg-gray-200 py-0.5 px-1 rounded border border-gray-300
+            className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300
             disabled:hover:bg-white disabled:hover:text-gray-300"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
