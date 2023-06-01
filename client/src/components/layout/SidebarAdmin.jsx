@@ -78,7 +78,7 @@ const SidebarAdmin = () => {
         variants={Nav_animation}
         initial={{ x: isTabletMid ? -250 : 0 }}
         animate={open ? "open" : "closed"}
-        className=" bg-white text-gray shadow-xl z-[999] max-w-[16rem]  w-[16rem] 
+        className="bg-gray-200 text-gray shadow-xl z-[999] max-w-[16rem]  w-[16rem] 
             overflow-hidden lg:relative fixed
          h-screen "
       >
@@ -146,7 +146,7 @@ const SidebarAdmin = () => {
           <IoIosArrowBack size={25} />
         </motion.div>
       </motion.div>
-      <div className="m-3 lg:hidden sticky" onClick={() => setOpen(true)}>
+      <div className="mt-4 pt-0.5 ml-4 lg:hidden fixed" onClick={() => setOpen(true)}>
         <MdMenu size={25} />
       </div>
     </div>

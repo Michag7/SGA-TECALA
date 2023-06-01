@@ -151,12 +151,12 @@ const DataTable = ({ columns, Data }) => {
         </div>
       </div>
       <div id="contenedorTabla" className="overflow-auto">
-        <table id="tablaD" className="table-auto w-full min-w-[560px]">
+        <table id="tablaD" className="table-auto w-full  min-w-[560px] ">
           <thead >
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b rounded-md border-gray-300 bg-gray-300"
+                className="border-b rounded-md border-gray-300 bg-gray-200"
               >
                 {headerGroup.headers.map((header) => (
                   <th key={header.id} className="py-2 px-4 text-left uppercase">
@@ -222,8 +222,8 @@ const DataTable = ({ columns, Data }) => {
             <button
               key={key}
               className={classNames({
-                "text-blue-500 bg-gray-200 py-0.5 px-2 font-bold rounded border border-gray-300 disabled:hover:bg-blue-400 disabled:hover:text-white": true,
-                "bg-blue-400 text-white":
+                "text-blue-500 bg-gray-200 py-0.5 px-2 font-bold rounded border border-gray-300   disabled:hover:text-white": true,
+                "text-white bg-blue-300":
                   value === table.getState().pagination.pageIndex,
               })}
               onClick={() => table.setPageIndex(value)}

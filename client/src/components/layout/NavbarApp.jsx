@@ -34,14 +34,14 @@ const profileMenuItems = [
   },
 ];
 
-export const NavbarApp = ({titulo}) => {
+export const NavbarApp = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <div className="flex p-2 text-white bg-blue-900">
-        <h1 className="font-bold text-2xl">{titulo}</h1>
+      <div className="flex items-center pl-14 lg:pl-4 p-1">
+        {/* <h1 className="font-bold text-2xl">ff</h1> */}
 
         <MenuHandler>
           <Button
@@ -53,7 +53,7 @@ export const NavbarApp = ({titulo}) => {
               variant="circular"
               size="md"
               alt="candice wu"
-              className="border border-blue-500 p-0.5 "
+              className="border border-blue-900 p-0.5 "
               src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
             />
             <ChevronDownIcon

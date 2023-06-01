@@ -3,6 +3,7 @@ import DataTable from "./DataTable";
 import { defaultData } from "./defaultData";
 import classNames from "classnames";
 import { NavbarApp } from "../../components/layout/NavbarApp";
+import { Titulo } from "../../components/layout/Titulo";
 
 const column = [
   {
@@ -53,10 +54,11 @@ const column = [
 
 export const Docente = () => {
   return (
-    <div className="h-full w-full bg-gray-100">
-      <NavbarApp titulo={"Gestion de Docentes"}></NavbarApp>
-        <DataTable columns={column} Data={defaultData}></DataTable>
-      
+    <div className="h-screen w-full ">
+      <NavbarApp ></NavbarApp>
+
+      <Titulo titulo={"Docentes"}></Titulo>
+      <DataTable columns={column} Data={defaultData}></DataTable>
     </div>
   );
 };

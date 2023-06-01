@@ -4,7 +4,7 @@ function AdminTemplate({ children }) {
   return (
     <div className="flex">
       <SidebarAdmin></SidebarAdmin>
-      <main className="max-w flex-1 overflow-auto">{children}</main>
+      <main className="h-full w-full flex-1 overflow-auto bg-white">{children}</main>
     </div>
   );
 }
