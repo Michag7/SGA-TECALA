@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-table";
 import classNames from "classnames";
 import { rankItem } from "@tanstack/match-sorter-utils";
+import BotonExcel from "../../components/BotonExcel";
+import { BotonPdf } from "../../components/BotonPdf";
 import {
   MagnifyingGlassIcon,
   BarsArrowDownIcon,
@@ -19,8 +21,6 @@ import {
   ChevronDoubleRightIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/solid";
-import BotonExcel from "../../components/BotonExcel";
-import { BotonPdf } from "../../components/BotonPdf";
 
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -51,8 +51,22 @@ const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
   );
 };
 
-const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => {
+const DataTable = ({
+  columns,
+  Data,
+  columnsPdf,
+  nombreArchivo,
+  tituloPdf,
+  nombreBR,
+  onclickBR,
+  iconoBR,
+}) => {
   const [data, setData] = useState(Data);
+
+  useEffect(() => {
+    setData(Data);
+  }, [Data]);
+
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState([]);
 
@@ -101,8 +115,6 @@ const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => 
   // //   }
   // // ]
 
-
-
   const getStateTable = () => {
     const totalRows = table.getFilteredRowModel().rows.length;
     const pageSize = table.getState().pagination.pageSize;
@@ -141,23 +153,42 @@ const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => 
 
   return (
     <div className="p-4">
-      <div className="my-4 flex flex-wrap justify-end ">
-        <BotonExcel datos={data}></BotonExcel>
-        <BotonPdf columsName={columnsPdf} datos={data} titleDocument={tituloPdf} archivoName={nombreArchivo}></BotonPdf>
-        
-        <div className="relative">
-          <DebouncedInput
-            type="text"
-            value={globalFilter ?? ""}
-            onChange={(value) => setGlobalFilter(String(value))}
-            className="py-2 px-1 text-gray-600 border border-gray-300 rounded outline-blue-500"
-            placeholder="Buscar..."
-          />
-          <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-40" />
+      <div className="my-4 flex flex-wrap-reverse justify-between ">
+        <div className="flex flex-wrap">
+          <BotonExcel datos={Data}></BotonExcel>
+          <BotonPdf
+            columsName={columnsPdf}
+            datos={Data}
+            titleDocument={tituloPdf}
+            archivoName={nombreArchivo}
+          ></BotonPdf>
+
+          <div className="relative">
+            <DebouncedInput
+              type="text"
+              value={globalFilter ?? ""}
+              onChange={(value) => setGlobalFilter(String(value))}
+              className="py-2 px-1 text-gray-600 border border-gray-300 rounded outline-blue-500"
+              placeholder="Buscar..."
+            />
+            <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-40" />
+          </div>
+        </div>
+
+        <div className="mb-2 lg:mb-0 flex justify-center w-full lg:w-fit md:w-fit">
+          <button
+            className="flex items-center shadow-xl rounded-md  p-2 hover:bg-blue-500 hover:text-white border border-gray-300"
+            onClick={onclickBR}
+          >
+            {""}
+            {nombreBR}
+            {iconoBR}
+            {""}
+          </button>
         </div>
       </div>
-      <div id="contenedorTabla" className="overflow-auto">
-        <table id="tablaD" className="table-auto w-full  min-w-[560px] ">
+      <div id="contenedorTabla" className="overflow-x-auto overflow-y-auto">
+        <table id="tablaD" className="table-auto w-full min-w-[560px] ">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
@@ -194,10 +225,7 @@ const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => 
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="text-gray-600 hover:bg-blue-500 hover:text-white"
-              >
+              <tr key={row.id} className="text-gray-600 hover:bg-gray-100 ">
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="py-2 px-4 ">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -209,7 +237,7 @@ const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => 
         </table>
       </div>
       <div className="mt-4 md:flex items-center justify-between space-y-4 text-center">
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex mt-4 items-center justify-center gap-2">
           <button
             className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300 
             disabled:hover:bg-white disabled:hover:text-gray-300"
@@ -231,8 +259,8 @@ const DataTable = ({ columns, Data, columnsPdf, nombreArchivo, tituloPdf, }) => 
             <button
               key={key}
               className={classNames({
-                "text-gray-600 bg-gray-50 py-0.5 px-2 font-bold rounded border border-gray-300 hover:bg-blue-400 hover:text-white disabled:hover:text-white": true,
-                "bg-blue-400 text-white":
+                "text-gray-600 bg-gray-50 py-0.5 px-2 font-bold rounded border border-gray-300 hover:bg-blue-500 hover:text-white disabled:hover:text-white": true,
+                "text-blue-200":
                   value === table.getState().pagination.pageIndex,
               })}
               onClick={() => table.setPageIndex(value)}

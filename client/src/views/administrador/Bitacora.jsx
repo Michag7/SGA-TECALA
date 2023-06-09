@@ -13,9 +13,10 @@ import {
   Select,
   Option,
 } from "@material-tailwind/react";
-
-import { LuFileSpreadsheet } from "react-icons/lu";
 import { NavbarApp } from "../../components/layout/NavbarApp";
+import { Titulo } from "../../components/layout/Titulo";
+import { LuFileSpreadsheet } from "react-icons/lu";
+
 
 function Icon({ id, open }) {
   return (
@@ -44,8 +45,9 @@ export const Bitacora = () => {
   return (
     <>
     <NavbarApp></NavbarApp>
-      <div className="flex flex-wrap ">
-        <div className="w-60 ml-4 my-2">
+    <Titulo titulo={"Bitacoras"} ></Titulo>
+      <div className="flex ">
+        <div className="w-60 ml-2 mr-1 my-2 sm:w-auto">
           <Select label="Grado">
             <Option>11°1</Option>
             <Option>Febrero</Option>
@@ -55,7 +57,7 @@ export const Bitacora = () => {
           </Select>
         </div>
 
-        <div className="w-60 ml-4 my-2">
+        <div className="w-60 ml-1 my-2 mr-2 sm:w-auto">
           <Select label="Mes">
             <Option>Enero</Option>
             <Option>Febrero</Option>

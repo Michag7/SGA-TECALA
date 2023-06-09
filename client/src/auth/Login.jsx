@@ -40,12 +40,12 @@ export const Login = () => {
           if (user === "aid") {
             navigate("/admin");
           }
-          // if (user === "eid") {
-          //   navigate("/user/administrador");
-          // }
-          // if (user === "pid") {
-          //   useNavigate("/user/administrador");
-          // }
+          if (user === "eid") {
+            navigate("/user/administrador");
+          }
+          if (user === "pid") {
+            useNavigate("/user/administrador");
+          }
           setUserFound(true);
         }
       });
