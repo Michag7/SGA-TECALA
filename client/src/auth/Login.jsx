@@ -26,29 +26,43 @@ export const Login = () => {
     setmostrarPassword(!mostrarPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       setLoading(true);
 
-      axios.post("http://localhost:4000/login", login).then((response) => {
-        if (response.data.message) {
-          setErrors(response.data.message);
-          setUserFound(false);
-        } else {
-          let user = response.data.fields[0].name;
-          if (user === "aid") {
-            navigate("/admin");
-          }
-          if (user === "eid") {
-            navigate("/user/administrador");
-          }
-          if (user === "pid") {
-            useNavigate("/user/administrador");
-          }
-          setUserFound(true);
-        }
-      });
+      const response = await axios.post("http://localhost:4000/login", login);
+
+      if (response.status === 200) {
+        // Almacenar el token en el estado del componente padre
+        const token = response.data.token;
+
+        // Guardar el token en el localStorage
+        localStorage.setItem("token", token);
+        navigate("/admin");
+      } else {
+        console.error("Error al iniciar sesión");
+      }
+
+      // .then((response) => {
+      //   if (response.data.message) {
+      //     setErrors(response.data.message);
+      //     setUserFound(false);
+      //   } else {
+      //     let user = response.data.fields[0].name;
+      //     if (user === "aid") {
+      //       navigate("/admin");
+      //     }
+      //     if (user === "eid") {
+      //       navigate("/user/administrador");
+      //     }
+      //     if (user === "pid") {
+      //       useNavigate("/user/administrador");
+      //     }
+      //     setUserFound(true);
+      //   }
+      // }
+      // );
 
       setLoading(false);
     } catch (error) {

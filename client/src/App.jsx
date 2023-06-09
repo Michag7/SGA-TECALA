@@ -1,25 +1,62 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
 import { Login } from "./auth/Login";
 import { Home } from "./pages/Home";
 import { RoutesAdministrador } from "./routes/RoutesAdministrador";
 import DataTable from "./views/administrador/DataTable";
 import { RegistroDocente } from "./views/administrador/RegistroDocente";
+import { isAuthenticated } from "../src/auth/auth";
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Navigate to="/login" replace={true} />
+      )
+    }
+  />
+);
+
+const AdminWrapper = () => {
+  // Se verifica si el usuario ha iniciado sesión
+
+  // Se comprueba el estado de autenticación antes de renderizar la ruta privada
+  return isAuthenticated ? (
+    // Si el usuario está autenticado, muestra el contenido de las rutas de administrador
+    <>
+      <RoutesAdministrador></RoutesAdministrador>
+    </>
+  ) : (
+    // Si el usuario no está autenticado, redirige al inicio de sesión
+    <Navigate to="/login" replace state={{ from: window.location.pathname }} />
+  );
+};
+
+const Inventarios = () => <RegistroDocente />;
 
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Home></Home>} />
 
           <Route path="/login" element={<Login />} />
 
-          <Route path="/admin/*" element={<RoutesAdministrador />} />
-          <Route path="/modal" element={<RegistroDocente />} />
+          <Route path="/admin/*" element={<AdminWrapper />} />
+          <Route path="/modal" element={<RegistroDocente></RegistroDocente>} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }

@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
+
 const cors = require("cors");
 
 const estudianteRoutes = require("./routes/estudiantes.routes");

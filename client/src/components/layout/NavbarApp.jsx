@@ -17,6 +17,7 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
+import { logout } from "../../auth/auth";
 
 // profile menu component
 const profileMenuItems = [
@@ -31,6 +32,7 @@ const profileMenuItems = [
   {
     label: "Sign Out",
     icon: PowerIcon,
+    onclick: () => logout,
   },
 ];
 
@@ -71,7 +73,7 @@ export const NavbarApp = () => {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={isLastItem ? logout : closeMenu}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

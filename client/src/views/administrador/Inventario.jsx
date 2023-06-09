@@ -24,6 +24,8 @@ import {
 } from "react-icons/ai";
 import { LuPackagePlus } from "react-icons/lu";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { Login } from "../../auth/Login";
+import { getToken, isAuthenticated } from "../../auth/auth";
 
 //Columnas las cual el archivo PDF contendra
 const columnsPdf = [
@@ -131,8 +133,6 @@ export const Inventario = ({ seccion, title }) => {
     }),
 
     onSubmit: (formData) => {
-      console.log(formData);
-
       if (openME) {
         HandleEdit(formData);
       } else {
@@ -162,11 +162,23 @@ export const Inventario = ({ seccion, title }) => {
     });
   }
 
+  //Obtener el token
+  const token = getToken();
+
   //Mostrar el inventario en la tabla
   //Estado el cual contiene todos los articulos
   const [inventario, setInventario] = useState([]);
   const cargarInventario = async () => {
-    const response = await fetch(`http://localhost:4000/inventario/${seccion}`);
+    const response = await fetch(
+      `http://localhost:4000/inventario/${seccion}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log(isAuthenticated());
     const data = await response.json();
     setInventario(data);
   };
@@ -202,7 +214,10 @@ export const Inventario = ({ seccion, title }) => {
       const response = await fetch("http://localhost:4000/inventario", {
         method: "POST",
         body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.status == 200) {
@@ -214,7 +229,6 @@ export const Inventario = ({ seccion, title }) => {
 
         cargarInventario();
         HandleMC();
-
         formik.handleReset();
       }
 
@@ -248,6 +262,7 @@ export const Inventario = ({ seccion, title }) => {
         if (result.isConfirmed) {
           fetch(`http://localhost:4000/inventario/${ArticuloS}`, {
             method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
           }).then((response) => {
             if (response.status == 200) {
               Swal.fire(
@@ -292,7 +307,9 @@ export const Inventario = ({ seccion, title }) => {
         {
           method: "PUT",
           body: JSON.stringify(data),
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${token}, "Content-Type": "application/json"`,
+          },
         }
       );
 
