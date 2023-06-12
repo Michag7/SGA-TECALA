@@ -24,8 +24,7 @@ import {
 } from "react-icons/ai";
 import { LuPackagePlus } from "react-icons/lu";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { Login } from "../../auth/Login";
-import { getToken, isAuthenticated } from "../../auth/auth";
+import { getToken } from "../../auth/auth";
 
 //Columnas las cual el archivo PDF contendra
 const columnsPdf = [
@@ -170,7 +169,7 @@ export const Inventario = ({ seccion, title }) => {
   const [inventario, setInventario] = useState([]);
   const cargarInventario = async () => {
     const response = await fetch(
-      `http://localhost:4000/inventario/${seccion}`,
+      `http://localhost:4000/inventarios/${seccion}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -178,7 +177,6 @@ export const Inventario = ({ seccion, title }) => {
       }
     );
 
-    console.log(isAuthenticated());
     const data = await response.json();
     setInventario(data);
   };
@@ -193,20 +191,13 @@ export const Inventario = ({ seccion, title }) => {
     setArticulo({ ...articulo, [e.target.name]: e.target.value });
   };
 
-  //Obtener id articulo - RUD
-  function ArticuloSeleccionado(info) {
-    const valor = info.row.getValue("iid");
-
-    return valor;
-  }
-
   //Añadir articulo
   //Estado y funcion el cual abre y cierra la ventana modal de Añadir articulo
   const [openMC, setOpenMC] = useState(false);
   const handleOpenMC = () => setOpenMC(!openMC);
   const HandleMC = () => {
     setOpenMC(!openMC);
-    // LimpiarCampos();
+    LimpiarCampos();
   };
   const HandleSubmit = async (data) => {
     try {
@@ -220,7 +211,7 @@ export const Inventario = ({ seccion, title }) => {
         },
       });
 
-      if (response.status == 200) {
+      if (response.status === 201) {
         Swal.fire(
           "Articulo actualizado",
           "El articulo, ha sido actualizado correctamente",
@@ -230,9 +221,7 @@ export const Inventario = ({ seccion, title }) => {
         cargarInventario();
         HandleMC();
         formik.handleReset();
-      }
-
-      if (response.status != 200) {
+      } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -248,7 +237,7 @@ export const Inventario = ({ seccion, title }) => {
   //Eliminar un articulo
   const HandleDelete = (info) => {
     try {
-      const ArticuloS = ArticuloSeleccionado(info);
+      const ArticuloS = info.row.getValue("iid");
 
       Swal.fire({
         title: "Esta Seguro?",
@@ -308,7 +297,8 @@ export const Inventario = ({ seccion, title }) => {
           method: "PUT",
           body: JSON.stringify(data),
           headers: {
-            Authorization: `Bearer ${token}, "Content-Type": "application/json"`,
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -322,9 +312,7 @@ export const Inventario = ({ seccion, title }) => {
 
         cargarInventario();
         HandleME();
-      }
-
-      if (response.status != 200) {
+      } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -379,7 +367,7 @@ export const Inventario = ({ seccion, title }) => {
         Data={inventario}
         nombreArchivo={"Inventario"}
         columnsPdf={columnsPdf}
-        tituloPdf={"Hola"}
+        tituloPdf={"Inventario"}
         iconoBR={<LuPackagePlus size={20} className="ml-1.5" />}
         nombreBR={"Añadir"}
         onclickBR={handleOpenMC}
@@ -395,7 +383,7 @@ export const Inventario = ({ seccion, title }) => {
         >
           <div className="flex items-center justify-between">
             <DialogHeader>Añadir Articulo</DialogHeader>
-            <XMarkIcon className="mr-3 h-5 w-5" onClick={HandleMC} />
+            <XMarkIcon className="w-5 h-5 mr-3" onClick={HandleMC} />
           </div>
           <DialogBody divider>
             <div className="grid gap-6">
@@ -419,25 +407,21 @@ export const Inventario = ({ seccion, title }) => {
                 }
               />
 
-              <div className="relative inline-flex">
-                <select
-                  onChange={formik.handleChange}
-                  name="estado"
-                  error={
-                    formik.errors.estado ? formik.errors.estado.toString() : ""
-                  }
-                  className="block appearance-none w-full bg-white border border-gray-400 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-blue-500 focus:bg-white focus:border-blue-500"
-                >
-                  <option disabled>Seleccione una opción</option>
-                  <option value="Nuevo">Nuevo</option>
-                  <option value="Dañado">Dañado</option>
-                  <option value="Regular">Regular</option>
-                </select>
-
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 focus:text-blue-500">
-                  <AiOutlineDown size={12} />
-                </div>
-              </div>
+              <select
+                onChange={formik.handleChange}
+                name="estado"
+                error={
+                  formik.errors.estado ? formik.errors.estado.toString() : ""
+                }
+                className="w-full px-0 font-normal border-b-2 text-blue-gray-700 border-blue-gray-200 m select-border select-md"
+              >
+                <option disabled selected>
+                  Seleccione una opción
+                </option>
+                <option value="Nuevo">Nuevo</option>
+                <option value="Dañado">Dañado</option>
+                <option value="Regular">Regular</option>
+              </select>
 
               <Textarea
                 label="Descripcion"
@@ -477,32 +461,32 @@ export const Inventario = ({ seccion, title }) => {
           <Titulo titulo={"Información Articulo"}> </Titulo>
 
           <DialogBody className="p-0 mx-6 mt-6 ">
-            <Card className="p-2 space-y-2">
+            <div className="px-2 space-y-2 ">
               <div className="flex w-full">
-                <h2 className="font-semibold w-full">ID:</h2>{" "}
+                <h2 className="w-full font-semibold">ID:</h2>{" "}
                 <h3 className="w-full">{formik.values.id} </h3>
               </div>
               <div className="flex w-full">
-                <h2 className="font-semibold w-full">Nombre articulo:</h2>{" "}
+                <h2 className="w-full font-semibold">Nombre articulo:</h2>{" "}
                 <h3 className="w-full">{formik.values.nombre}</h3>
               </div>
               <div className="flex w-full">
-                <h2 className="font-semibold w-full">Marca</h2>{" "}
+                <h2 className="w-full font-semibold">Marca</h2>{" "}
                 <h3 className="w-full">{formik.values.marca}</h3>
               </div>
               <div className="flex w-full">
-                <h2 className="font-semibold w-full">Estado:</h2>{" "}
+                <h2 className="w-full font-semibold">Estado:</h2>{" "}
                 <h3 className="w-full">{formik.values.estado}</h3>
               </div>
               <div className="flex w-full">
-                <h2 className="font-semibold w-full">Descripción:</h2>{" "}
+                <h2 className="w-full font-semibold">Descripción:</h2>{" "}
                 <h3 className="w-full ">{formik.values.descripcion}</h3>
               </div>
-            </Card>
+            </div>
           </DialogBody>
           <DialogFooter className="mr-1">
             <button
-              className=" bg-gray-300 text-black border-2 rounded-lg  py-1 px-4"
+              className="px-4 py-1 text-black bg-gray-300 border-2 rounded-lg "
               onClick={HandleMV}
             >
               <span>Cerrar</span>
@@ -521,7 +505,7 @@ export const Inventario = ({ seccion, title }) => {
         >
           <div className="flex items-center justify-between">
             <DialogHeader>EDITAR ARTICULO</DialogHeader>
-            <XMarkIcon className="mr-3 h-5 w-5" onClick={HandleME} />
+            <XMarkIcon className="w-5 h-5 mr-3" onClick={HandleME} />
           </div>
           <DialogBody divider>
             <div className="grid gap-6">
@@ -546,7 +530,7 @@ export const Inventario = ({ seccion, title }) => {
                   onChange={formik.handleChange}
                   value={formik.values.estado}
                   name="estado"
-                  className="block appearance-none w-full bg-white border border-gray-400 rounded-md py-2 px-4 pr-8 leading-tight focus:outline-blue-500 focus:bg-white focus:border-blue-500"
+                  className="block w-full px-4 py-2 pr-8 leading-tight bg-white border border-gray-400 rounded-md appearance-none focus:outline-blue-500 focus:bg-white focus:border-blue-500"
                 >
                   <option disabled>Seleccione una opción</option>
                   <option value="Nuevo">Nuevo</option>
@@ -554,7 +538,7 @@ export const Inventario = ({ seccion, title }) => {
                   <option value="Regular">Regular</option>
                 </select>
 
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 focus:text-blue-500">
+                <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none focus:text-blue-500">
                   <AiOutlineDown size={12} />
                 </div>
               </div>

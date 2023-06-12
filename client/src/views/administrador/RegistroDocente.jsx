@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Stepper, Step, Typography, Input } from "@material-tailwind/react";
-import { UserIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/outline";
 import { MdPassword } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { getToken } from "../../auth/auth";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export const RegistroDocente = () => {
+export const RegistroDocente = ({ cargarDocentes, setOpen }) => {
+  //Obtener el token
+  const token = getToken();
+
   //Strepper
   const formArray = [1, 2];
   const [activeStep, setActiveStep] = useState(0);
@@ -16,6 +22,8 @@ export const RegistroDocente = () => {
 
   //Mostrar password
   const [mostrarPassword, setmostrarPassword] = useState(false);
+
+  const [selectedOption, setSelectedOption] = useState("");
 
   //Docente
   const [docente, setDocente] = useState({
@@ -34,7 +42,20 @@ export const RegistroDocente = () => {
     Rpassword: "",
   });
 
-  //Mostrar Docente
+  //Select genero
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+
+    setDocente({
+      ...docente,
+      genero: event.target.value,
+    });
+  };
+
+  //Image
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  //Mostrar contraseña
   const switchShown = (e) => {
     e.preventDefault();
     setmostrarPassword(!mostrarPassword);
@@ -48,6 +69,10 @@ export const RegistroDocente = () => {
   const HandleChange = (e) => {
     e.preventDefault();
     setDocente({ ...docente, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
   //Siguiente
@@ -79,9 +104,9 @@ export const RegistroDocente = () => {
   };
 
   //Enviar
-  const finalSubmit = () => {
-    
-    
+  const finalSubmit = async (e) => {
+    e.preventDefault();
+
     if (formNo === 2 && docente.password != docente.Rpassword) {
       toast.error("Las contraseñas no coinciden, intente de nuevo");
     } else if (
@@ -90,20 +115,57 @@ export const RegistroDocente = () => {
       docente.password &&
       docente.Rpassword
     ) {
-      toast.success("Registrado");
-    } else {
-      toast.error("Porfavor, llene todos los campos");
+      if (selectedFile) {
+        const newFormData = new FormData();
+        newFormData.append("image", selectedFile);
+        newFormData.append("docente", JSON.stringify(docente));
+
+        const response = await axios.post(
+          "http://localhost:4000/docente",
+          newFormData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        if (response.status == 201) {
+          Swal.fire(
+            "Articulo actualizado",
+            "El articulo, ha sido actualizado correctamente",
+            "success"
+          );
+
+          cargarDocentes();
+
+          setOpen(false);
+          // cargarInventario();
+          // HandleMC();
+          // formik.handleReset();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Ha ocurrido un error!",
+          });
+          // HandleMC();
+        }
+      } else {
+        toast.error("Porfavor, llene todos los campos");
+      }
     }
   };
 
   return (
-    <div className="flex justify-center items-center w-full ">
+    <div className="flex items-center justify-center w-full ">
       <ToastContainer />
-      <div className="w-full rounded-md shadow-md bg-white p-8">
+      <div className="w-full p-8 bg-white rounded-md shadow-md">
         <div>
           <Stepper activeStep={activeStep}>
             <Step>
-              <UserIcon className="h-5 w-5" />
+              <UserIcon className="w-5 h-5" />
               <div className="absolute -top-[1.8rem] w-max text-center">
                 <Typography
                   variant="h6"
@@ -114,7 +176,7 @@ export const RegistroDocente = () => {
               </div>
             </Step>
             <Step>
-              <MdPassword className="h-5 w-5" />
+              <MdPassword className="w-5 h-5" />
               <div className="absolute -top-[1.8rem] w-max text-center">
                 <Typography
                   variant="h6"
@@ -155,12 +217,18 @@ export const RegistroDocente = () => {
                 type="number"
                 onChange={HandleChange}
               />
-              <Input
-                value={docente.genero}
-                label="Genero"
+              <select
+                value={selectedOption}
+                onChange={handleSelectChange}
                 name="genero"
-                onChange={HandleChange}
-              />
+                className="w-full py-3 font-normal border-b-2 text-blue-gray-700 border-blue-gray-200"
+              >
+                <option value={""} disabled>
+                  Seleccione una opción
+                </option>
+                <option value="MASCULINO">MASCULINO</option>
+                <option value="FEMENINO">FEMENINO</option>
+              </select>
               <Input
                 value={docente.telefono}
                 label="Telefono"
@@ -195,10 +263,10 @@ export const RegistroDocente = () => {
               />
             </div>
 
-            <div className="mt-4 flex justify-center items-center">
+            <div className="flex items-center justify-center mt-4">
               <button
                 onClick={next}
-                className="px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500"
+                className="w-full px-3 py-2 text-lg text-white bg-blue-500 rounded-md"
               >
                 Siguiente
               </button>
@@ -225,7 +293,7 @@ export const RegistroDocente = () => {
                 icon={
                   mostrarPassword ? (
                     <AiFillEye
-                      className="cursor-pointer text-blue-500"
+                      className="text-blue-500 cursor-pointer"
                       size={20}
                       onClick={switchShown}
                     />
@@ -248,7 +316,7 @@ export const RegistroDocente = () => {
                 icon={
                   mostrarPassword ? (
                     <AiFillEye
-                      className="cursor-pointer text-blue-500"
+                      className="text-blue-500 cursor-pointer"
                       size={20}
                       onClick={switchShown}
                     />
@@ -261,17 +329,30 @@ export const RegistroDocente = () => {
                   )
                 }
               />
+
+              <div className="flex justify-end w-full max-w-xs form-control ">
+                <label className="label ">
+                  <span className="label-text">
+                    Selecciona una foto de perfil
+                  </span>
+                </label>
+                <input
+                  onChange={handleFileChange}
+                  type="file"
+                  className="w-full max-w-xs file-input file-input-bordered file-input-sm "
+                />
+              </div>
             </div>
-            <div className="mt-4 gap-3 flex justify-center items-center">
+            <div className="flex items-center justify-center gap-3 mt-4">
               <button
                 onClick={pre}
-                className="px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500"
+                className="w-full px-3 py-2 text-lg text-white bg-blue-500 rounded-md"
               >
                 Atras
               </button>
               <button
                 onClick={finalSubmit}
-                className="px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500"
+                className="w-full px-3 py-2 text-lg text-white bg-blue-500 rounded-md"
               >
                 Registrar
               </button>

@@ -1,18 +1,19 @@
 const { Router } = require("express");
 const {
-  getInventario,
-  postInventario,
-  deleteInventario,
-  updateInventario,
-} = require("../controllers/inventario.controller");
+  postDocente,
+  getDocentes,
+  deleteDocente,
+  updateDocente,
+} = require("../controllers/docente.controller");
 const jwt = require("jsonwebtoken");
-
+const multer = require("multer");
 const router = Router();
+const upload = multer().single("image");
 
-router.post("/inventario", authenticateToken, postInventario);
-router.get("/inventarios/:id", authenticateToken, getInventario);
-router.put("/inventario/:id", authenticateToken, updateInventario);
-router.delete("/inventario/:id", authenticateToken, deleteInventario);
+router.post("/docente", authenticateToken, upload, postDocente);
+router.get("/docentes", authenticateToken, getDocentes);
+router.delete("/docente/:id", authenticateToken, deleteDocente);
+router.put("/docente/:id", authenticateToken, updateDocente);
 
 // Middleware para verificar y decodificar el token JWT
 function authenticateToken(req, res, next) {
@@ -26,7 +27,7 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.log(err);
-      return res.status(403).json({message : err.message});
+      return res.sendStatus(403);
     }
 
     req.user = user;

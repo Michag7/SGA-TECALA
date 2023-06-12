@@ -1,12 +1,12 @@
 const express = require("express");
 const morgan = require("morgan");
 
-
 const cors = require("cors");
 
 const estudianteRoutes = require("./routes/estudiantes.routes");
 const loginRoutes = require("./routes/login.routes");
 const inventarioRoutes = require("./routes/inventario.routes");
+const docenteRoutes = require("./routes/docente.routes");
 
 const app = express();
 
@@ -16,6 +16,13 @@ app.use(express.json());
 app.use(estudianteRoutes);
 app.use(loginRoutes);
 app.use(inventarioRoutes);
+app.use(docenteRoutes);
+
+app.use((err, req, res, next) => {
+  return res.json({
+    message: err.message,
+  });
+});
 
 app.listen(4000);
 console.log("Server on port 4000");

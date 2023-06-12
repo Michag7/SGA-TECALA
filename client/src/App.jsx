@@ -10,9 +10,10 @@ import {
 import { Login } from "./auth/Login";
 import { Home } from "./pages/Home";
 import { RoutesAdministrador } from "./routes/RoutesAdministrador";
-import DataTable from "./views/administrador/DataTable";
 import { RegistroDocente } from "./views/administrador/RegistroDocente";
 import { isAuthenticated } from "../src/auth/auth";
+import { RoutesEstudiante } from "./routes/RoutesEstudiante";
+import { RoutesDocente } from "./routes/RoutesDocente";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -54,7 +55,7 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           <Route path="/admin/*" element={<AdminWrapper />} />
-          <Route path="/modal" element={<RegistroDocente></RegistroDocente>} />
+          <Route path="/docente/*" element={<RoutesDocente />} />
         </Routes>
       </Router>
     </>
