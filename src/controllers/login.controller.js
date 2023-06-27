@@ -10,10 +10,9 @@ const postLogin = async (req, res) => {
     );
 
     const login = result.rows[0];
-    console.log(login);
 
     if (result.rowCount == 0) {
-      return res.status(404).json({message: "Usuario no encontrado"});
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
     if (result.rowCount > 0) {

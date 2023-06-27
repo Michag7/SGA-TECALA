@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import bg from "../assets/bg.jpg";
 import logo from "../assets/logo.png";
-import Swal from "sweetalert2";
 import { Footer } from "../components/layout/Footer";
 import { Nav } from "../components/layout/Nav";
 import { ToastContainer, toast } from "react-toastify";
-import { AiFillEye } from "react-icons/ai";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -41,12 +41,11 @@ export const Login = () => {
     setmostrarPassword(!mostrarPassword);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (Data) => {
     try {
-      e.preventDefault();
       setLoading(true);
 
-      const response = await axios.post("http://localhost:4000/login", login);
+      const response = await axios.post("http://localhost:4000/login", Data);
 
       if (response.status === 200) {
         // Almacenar el token en el estado del componente padre
@@ -63,12 +62,14 @@ export const Login = () => {
         localStorage.setItem("user", user);
         localStorage.setItem("imagenP", imagen);
 
+      
+
         if (userJ.rol == "administrador") {
-          navigate("/admin/home");
+          navigate("/admin/home", { replace: true });
         }
 
         if (userJ.rol == "docente") {
-          navigate("/docente");
+          navigate("/docente/home", { replace: true });
         }
       } else {
         console.log("hola");
@@ -81,14 +82,11 @@ export const Login = () => {
       //   title: "Usuario no encontrado",
       //   text: "Las credenciales proporcionadas, no corresponden a ningun usuario resgistrado en el sistema.",
       // });
+      console.log(error.message);
       toast.error("Credenciales incorrectas");
     }
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setLogin({ ...login, [e.target.name]: e.target.value });
-  };
   return (
     <>
       <Nav></Nav>
@@ -108,51 +106,87 @@ export const Login = () => {
                 ¡Bienvenidos!
               </h1>
             </div>
-            <div className="mt-20">
-              <div className="flex flex-col">
-                <input
-                  name="username"
-                  onChange={handleChange}
-                  className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
-                  placeholder="Ingrese su Usuario"
-                />
-              </div>
-              <div className="relative mt-4 ">
-                <input
-                  name="password"
-                  onChange={handleChange}
-                  className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
-                  placeholder="Ingrese su contraseña"
-                  type={"password"}
-                />
-              </div>
-              <div className="flex items-center justify-end mt-3">
-                <input type="checkbox" id="remember" />
-                <label
-                  className="ml-2 text-base font-medium"
-                  htmlFor="remember"
-                >
-                  Recordar contraseña
-                </label>
-              </div>
-              <div className="flex flex-col mt-10 gap-y-4">
-                <button
-                  onClick={handleSubmit}
-                  className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
-                >
-                  Iniciar Sesion
-                </button>
-              </div>
 
-              <div className="flex items-center justify-center mt-5">
-                <a
-                  href="#"
-                  className="text-lg font-semibold text-blue-500 hover:text-blue-700 focus:text-blue-700"
-                >
-                  Olvido su Contraseña?
-                </a>
-              </div>
-            </div>
+            <Formik
+              initialValues={{
+                username: "",
+                password: "",
+              }}
+              validationSchema={Yup.object().shape({
+                username: Yup.string().required(
+                  "El campo Username es requerido"
+                ),
+                password: Yup.string().required(
+                  "El campo Password es requerido"
+                ),
+              })}
+              onSubmit={(data) => {
+                handleSubmit(data);
+              }}
+            >
+              {({ errors }) => (
+                <Form className="mt-10">
+                  <div>
+                    <Field
+                      name="username"
+                      className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
+                      placeholder="Ingrese su Usuario"
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component={() => (
+                        <div className="text-sm text-red-800">
+                          {errors.username}
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="password"
+                      className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
+                      placeholder="Ingrese su contraseña"
+                      type={"password"}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component={() => (
+                        <div className="text-sm text-red-800">
+                          {errors.password}
+                        </div>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-end mt-3">
+                    <input type="checkbox" id="remember" />
+                    <label
+                      className="ml-2 text-base font-medium"
+                      htmlFor="remember"
+                    >
+                      Recordar contraseña
+                    </label>
+                  </div>
+                  <div className="flex flex-col mt-10 gap-y-4">
+                    <button
+                      type="submit"
+                      className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
+                    >
+                      Iniciar Sesion
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-center mt-5">
+                    <a
+                      href="#"
+                      className="text-lg font-semibold text-blue-500 hover:text-blue-700 focus:text-blue-700"
+                    >
+                      Olvido su Contraseña?
+                    </a>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>

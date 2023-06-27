@@ -1,14 +1,16 @@
 const { Router } = require("express");
 const {
-  getEstudiante,
-  getListaEstudiantes,
-} = require("../controllers/estudiantes.controller");
+  postObservacion,
+  getControlObservaciones,
+} = require("../controllers/observacion.controller");
 const jwt = require("jsonwebtoken");
 
 const router = Router();
 
-router.get("/estudiante", getEstudiante);
-router.get("/listaestudiantes/:id", authenticateToken, getListaEstudiantes);
+router.post("/observacion", authenticateToken, postObservacion);
+router.get("/observaciones/:id", authenticateToken, getControlObservaciones);
+// router.put("/inventario/:id", authenticateToken, updateInventario);
+// router.delete("/inventario/:id", authenticateToken, deleteInventario);
 
 // Middleware para verificar y decodificar el token JWT
 function authenticateToken(req, res, next) {

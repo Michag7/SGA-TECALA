@@ -153,7 +153,7 @@ const DataTable = ({
 
   return (
     <div className="p-4">
-      <div className="my-4 flex flex-wrap-reverse justify-between ">
+      <div className="flex flex-wrap-reverse justify-between my-4 ">
         <div className="flex flex-wrap">
           <BotonExcel datos={Data}></BotonExcel>
           <BotonPdf
@@ -168,16 +168,16 @@ const DataTable = ({
               type="text"
               value={globalFilter ?? ""}
               onChange={(value) => setGlobalFilter(String(value))}
-              className="py-2 px-1 text-gray-600 border border-gray-300 rounded outline-blue-500"
+              className="px-1 py-2 text-gray-600 border border-gray-300 rounded outline-blue-500"
               placeholder="Buscar..."
             />
-            <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-40" />
+            <MagnifyingGlassIcon className="absolute w-5 h-5 top-3 left-40" />
           </div>
         </div>
 
-        <div className="mb-2 lg:mb-0 flex justify-center w-full lg:w-fit md:w-fit">
+        <div className="flex justify-center w-full mb-2 lg:mb-0 lg:w-fit md:w-fit">
           <button
-            className="flex items-center shadow-xl rounded-md  p-2 hover:bg-blue-500 hover:text-white border border-gray-300"
+            className="flex items-center p-2 border border-gray-300 rounded-md shadow-xl hover:bg-blue-500 hover:text-white"
             onClick={onclickBR}
           >
             {""}
@@ -193,10 +193,10 @@ const DataTable = ({
             {table.getHeaderGroups().map((headerGroup) => (
               <tr
                 key={headerGroup.id}
-                className="border-b rounded-md border-gray-300 bg-gray-200"
+                className="bg-gray-200 border-b border-gray-300 rounded-md"
               >
                 {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="py-2 px-4 text-left uppercase">
+                  <th key={header.id} className="px-4 py-2 text-left uppercase">
                     {header.isPlaceholder ? null : (
                       <div
                         className={classNames({
@@ -227,7 +227,7 @@ const DataTable = ({
             {table.getRowModel().rows.map((row) => (
               <tr key={row.id} className="text-gray-600 hover:bg-gray-100 ">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="py-2 px-4 ">
+                  <td key={cell.id} className="px-4 py-2 ">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -236,8 +236,8 @@ const DataTable = ({
           </tbody>
         </table>
       </div>
-      <div className="mt-4 md:flex items-center justify-between space-y-4 text-center">
-        <div className="flex mt-4 items-center justify-center gap-2">
+      <div className="items-center justify-between mt-4 space-y-4 text-center md:flex">
+        <div className="flex items-center justify-center gap-2 mt-4">
           <button
             className="text-gray-600 bg-gray-50 py-0.5 px-1 rounded border border-gray-300 
             disabled:hover:bg-white disabled:hover:text-gray-300"
@@ -286,13 +286,13 @@ const DataTable = ({
             <ChevronDoubleRightIcon className="w-5 h-5" />
           </button>
         </div>
-        <div className="text-gray-600 font-semibold">
+        <div className="font-semibold text-gray-600">
           Mostrando de {getStateTable().firstIndex}&nbsp; a{" "}
           {getStateTable().lastIndex}&nbsp; del total de{" "}
           {getStateTable().totalRows} registros
         </div>
         <select
-          className="text-gray-600 border border-gray-300 rounded outline-indigo-700 py-2"
+          className="py-2 text-gray-600 border border-gray-300 rounded outline-indigo-700"
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
