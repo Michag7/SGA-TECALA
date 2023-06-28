@@ -4,12 +4,27 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import bg from "../assets/bg.jpg";
 import logo from "../assets/logo.png";
-
 import { Footer } from "../components/layout/Footer";
 import { Nav } from "../components/layout/Nav";
+import { ToastContainer, toast } from "react-toastify";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export const Login = () => {
   const navigate = useNavigate();
+
+  function isValidBase64(base64String) {
+    try {
+      // Decodificar la cadena base64
+      const decodedString = atob(base64String);
+
+      // Verificar si la cadena decodificada tiene contenido
+      return decodedString.length > 0;
+    } catch (error) {
+      // Si ocurre un error al decodificar, la cadena no es válida
+      return false;
+    }
+  }
 
   const [login, setLogin] = useState({
     username: "",
@@ -26,100 +41,152 @@ export const Login = () => {
     setmostrarPassword(!mostrarPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (Data) => {
     try {
-      e.preventDefault();
       setLoading(true);
 
-      axios.post("http://localhost:4000/login", login).then((response) => {
-        if (response.data.message) {
-          setErrors(response.data.message);
-          setUserFound(false);
-        } else {
-          let user = response.data.fields[0].name;
-          if (user === "aid") {
-            navigate("/admin");
-          }
-          if (user === "eid") {
-            navigate("/user/administrador");
-          }
-          if (user === "pid") {
-            useNavigate("/user/administrador");
-          }
-          setUserFound(true);
+      const response = await axios.post("http://localhost:4000/login", Data);
+
+      if (response.status === 200) {
+        // Almacenar el token en el estado del componente padre
+        const token = response.data.tokenj.token;
+        const userJ = response.data.user;
+        const imagen = response.data.imagen;
+
+        const isValid = isValidBase64(imagen);
+
+        const user = JSON.stringify(userJ);
+
+        // Guardar el token en el localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", user);
+        localStorage.setItem("imagenP", imagen);
+
+      
+
+        if (userJ.rol == "administrador") {
+          navigate("/admin/home", { replace: true });
         }
-      });
+
+        if (userJ.rol == "docente") {
+          navigate("/docente/home", { replace: true });
+        }
+      } else {
+        console.log("hola");
+      }
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Usuario no encontrado",
+      //   text: "Las credenciales proporcionadas, no corresponden a ningun usuario resgistrado en el sistema.",
+      // });
+      console.log(error.message);
+      toast.error("Credenciales incorrectas");
     }
   };
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setLogin({ ...login, [e.target.name]: e.target.value });
-  };
   return (
     <>
       <Nav></Nav>
 
-      <div className="flex bg-white  lg:h-screen md:h-screen h-screen">
-        <div className="hidden relative w-1/2 h-full lg:flex items-center justify-center bg-white">
-          <img src={bg} alt="bg" className="w-full h-full object-cover" />
+      <ToastContainer />
+
+      <div className="flex h-screen bg-white ">
+        <div className="relative items-center justify-center hidden w-1/2 h-full bg-white lg:flex">
+          <img src={bg} alt="bg" className="object-cover w-full h-full" />
         </div>
 
-        <div className="w-full flex items-center justify-center lg:w-1/2">
-          <div className=" w-11/12 max-w-[700px] px-10 py-20 mt-0 rounded-3xl bg-white border-2  border-gray-100">
-            <div className="flex flex-col items-center ">
+        <div className="flex items-center justify-center w-full lg:w-1/2">
+          <div className=" w-11/12 max-w-[700px] px-10 py-14  rounded-3xl bg-white border-2  border-gray-100">
+            <div className="flex flex-col items-center">
               <img src={logo} alt="logo" width="180" height="180" />
-              <h1 className="text-4xl font-bold mx-0">¡Bienvenidos!</h1>
+              <h1 className="mx-0 text-4xl font-bold text-black">
+                ¡Bienvenidos!
+              </h1>
             </div>
-            <div className="mt-8">
-              <div className="flex flex-col">
-                <input
-                  name="username"
-                  onChange={handleChange}
-                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
-                  placeholder="Ingrese su Usuario"
-                />
-              </div>
-              <div className="flex flex-col mt-4">
-                <input
-                  name="password"
-                  onChange={handleChange}
-                  className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
-                  placeholder="Ingrese su contraseña"
-                  type={"password"}
-                />
-              </div>
-              <div className="mt-3 flex justify-end items-center">
-                <input type="checkbox" id="remember" />
-                <label
-                  className="ml-2 font-medium text-base"
-                  htmlFor="remember"
-                >
-                  Recordar contraseña
-                </label>
-              </div>
-              <div className="mt-10 flex flex-col gap-y-4">
-                <button
-                  onClick={handleSubmit}
-                  className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
-                >
-                  Iniciar Sesion
-                </button>
-              </div>
 
-              <div className="mt-5 flex justify-center items-center">
-                <a
-                  href="#"
-                  className="text-lg font-semibold text-blue-500 hover:text-blue-700 focus:text-blue-700"
-                >
-                  Olvido su Contraseña?
-                </a>
-              </div>
-            </div>
+            <Formik
+              initialValues={{
+                username: "",
+                password: "",
+              }}
+              validationSchema={Yup.object().shape({
+                username: Yup.string().required(
+                  "El campo Username es requerido"
+                ),
+                password: Yup.string().required(
+                  "El campo Password es requerido"
+                ),
+              })}
+              onSubmit={(data) => {
+                handleSubmit(data);
+              }}
+            >
+              {({ errors }) => (
+                <Form className="mt-10">
+                  <div>
+                    <Field
+                      name="username"
+                      className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
+                      placeholder="Ingrese su Usuario"
+                    />
+                    <ErrorMessage
+                      name="username"
+                      component={() => (
+                        <div className="text-sm text-red-800">
+                          {errors.username}
+                        </div>
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="password"
+                      className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
+                      placeholder="Ingrese su contraseña"
+                      type={"password"}
+                    />
+                    <ErrorMessage
+                      name="password"
+                      component={() => (
+                        <div className="text-sm text-red-800">
+                          {errors.password}
+                        </div>
+                      )}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-end mt-3">
+                    <input type="checkbox" id="remember" />
+                    <label
+                      className="ml-2 text-base font-medium"
+                      htmlFor="remember"
+                    >
+                      Recordar contraseña
+                    </label>
+                  </div>
+                  <div className="flex flex-col mt-10 gap-y-4">
+                    <button
+                      type="submit"
+                      className="active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 bg-blue-500 rounded-xl text-white font-bold text-lg"
+                    >
+                      Iniciar Sesion
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-center mt-5">
+                    <a
+                      href="#"
+                      className="text-lg font-semibold text-blue-500 hover:text-blue-700 focus:text-blue-700"
+                    >
+                      Olvido su Contraseña?
+                    </a>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>

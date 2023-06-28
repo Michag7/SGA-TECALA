@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+.wrapper-carnetT {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  margin-top: 40px;
+  position: fixed;
+  margin-left: 50%; /* Ajusta el margen izquierdo para desplazar el contenido hacia la derecha */
+  transform: translateX(-50%); /* Centra el contenido horizontalmente */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.print-button {
+  /* Estilos del botón de impresión */
+  
+
+  display: block;
+  margin: 20px auto; /* Ajusta el margen superior e inferior y centra horizontalmente */
+  text-align: center; /* Centra el texto del botón */
+}
+
+.container-carnetT {
+  display: flex;
+  width: 620px;
+  top: 50%;
+  left: 50%;
+}
+
+.left {
+  flex-shrink: 0;
+  width: 13%; /* Modifica el tamaño del primer contenedor */
+  height: 450px;
+  background-color: #1877f2;
+  border-left: 1px solid black;
+  border: 1px solid darkgray; /* Aplica un borde de 2px sólido de color negro a todo el contenedor */
+  border-right: none; /* Elimina el borde derecho */
+  border-radius: 20px 0 0 20px; /* Aplica bordes redondeados solo al borde izquierdo (superior e inferior) */
+  display: flex; /* Activa el contenedor flex */
+  justify-content: center; /* Alinea el contenido a la derecha */
+  align-items: center; /* Alinea el contenido verticalmente al centro */
+}
+
+.left h1 {
+  transform: rotate(-90deg); /* Rota el texto en 90 grados */
+  color: white;
+  font-size: 40px; /* Aumenta el tamaño del texto a 24 píxeles */
+  font-weight: bold; /* Aplica negrita al texto */
+  font-family: "Poppins", sans-serif;
+}
+
+.right {
+  flex-shrink: 0;
+  width: 45%; /* Modifica el tamaño del segundo contenedor */
+  background-color: white;
+  border: 1px solid darkgray; /* Aplica un borde de 2px sólido de color negro a todo el contenedor */
+  border-left: none; /* Elimina el borde derecho */
+  border-radius: 0 20px 20px 0px; /* Aplica bordes redondeados solo al borde izquierdo (superior e inferior) */
+  display: flex; /* Activa el contenedor flex */
+  justify-content: flex-start; /* Alinea el contenido a la derecha */
+  align-items: flex-end; /* Alinea el contenido verticalmente al centro */
+  position: relative;
+  flex-direction: column;
+}
+
+.right .logo-colegio {
+  width: 80px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin: 0;
+}
+
+.right .titulo {
+  margin: 40px 45px 0;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  line-height: 0; /* Ajusta el espacio entre líneas al mínimo */
+  font-size: 15px; /* Aumenta el tamaño del texto a 24 píxeles */
+  font-weight: bold; /* Aplica negrita al texto */
+}
+
+.right .rol {
+  margin: 25px 20px 0;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  line-height: 0; /* Ajusta el espacio entre líneas al mínimo */
+  font-size: 40px; /* Aumenta el tamaño del texto a 24 píxeles */
+  font-weight: bold; /* Aplica negrita al texto */
+  color: #1877f2;
+}
+
+.right .subtitulo {
+  margin: 23px 0px 0;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  line-height: 0; /* Ajusta el espacio entre líneas al mínimo */
+  font-size: 40px; /* Aumenta el tamaño del texto a 24 píxeles */
+  font-weight: bold; /* Aplica negrita al texto */
+  color: #1877f2;
+}
+
+.right .foto {
+  width: 100px; /* Ajusta el tamaño de la imagen */
+  height: 90px;
+  margin-top: 42px; /* Ajusta el espaciado superior */
+  margin-bottom: 20px; /* Ajusta el espaciado inferior */
+  align-self: center; /* Centra la imagen horizontalmente */
+  border-radius: 100%;
+}
+
+.nombre-estudiante {
+  background-color: #1877f2;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  left: 0; /* Ajusta la posición horizontal */
+  right: 0;
+  margin-top: 2px; /* Ajusta el margen superior */
+  bottom: 3px; /* Ajusta la posición vertical */
+  width: 250px; /* Ajusta el ancho del contenedor */
+  height: 35px; /* Ajusta la altura del contenedor */
+}
+
+.nombre-estudiante .nombre {
+  font-size: 18px; /* Ajusta el tamaño de la letra */
+  font-weight: normal;
+  color: white; /* Color del texto */
+  margin: 0; /* Elimina el margen predeterminado */
+  font-family: "Poppins", sans-serif; /* Establece la fuente */
+  position: absolute;
+}
+
+.identificacion {
+  margin: 0 125px 0;
+  bottom: 178px; /* Alinea el texto en la parte inferior */
+  font-family: "Poppins", sans-serif; /* Establece la fuente */
+}
+
+.right .codeQR {
+  width: 100px; /* Ajusta el tamaño de la imagen */
+  height: 90px;
+  margin-top: 42px; /* Ajusta el espaciado superior */
+  margin-bottom: 20px; /* Ajusta el espaciado inferior */
+  align-self: center; /* Centra la imagen horizontalmente */
+}
+
+.fecha {
+  position: absolute; /* Establece el posicionamiento absoluto */
+  bottom: 40px; /* Alinea el texto en la parte inferior */
+  left: 40px; /* Alinea el texto en la esquina inferior izquierda */
+  margin: 0; /* Elimina el margen predeterminado */
+  font-family: "Poppins", sans-serif; /* Establece la fuente */
+  color: #1877f2;
+}
+
+/* Estilos adicionales para el botón de cierre */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none; /* Elimina el contorno por defecto del botón */
+  padding: 0; /* Elimina el padding del botón */
+  font-size: 24px;
+  color: black;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  color: white; /* Cambia el color de la "x" a blanco al pasar el cursor */
+  background-color: red; /* Rellena el fondo del botón de color rojo al pasar el cursor */
+  border: 2px solid red; /* Establece el contorno rojo del botón */
+  border-radius: 4px; /* Aplica un borde redondeado al contorno del botón */
+}
+
+@media print {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .wrapper-carnetT {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none !important;
+  }
+}

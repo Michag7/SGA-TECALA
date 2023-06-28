@@ -17,6 +17,9 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
+import { getImagenP, getUser, logout } from "../../auth/auth";
+
+import { useNavigate } from "react-router";
 
 // profile menu component
 const profileMenuItems = [
@@ -38,10 +41,19 @@ export const NavbarApp = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
+  const navigate = useNavigate();
+
+  const imagenPerfil = getImagenP();
+
+  const Logout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-      <div className="flex items-center pl-14 lg:pl-4 p-1">
-        {/* <h1 className="font-bold text-2xl">ff</h1> */}
+      <div className="flex items-center p-1 pl-14 lg:pl-4">
+        {/* <h1 className="text-2xl font-bold">ff</h1> */}
 
         <MenuHandler>
           <Button
@@ -52,9 +64,9 @@ export const NavbarApp = () => {
             <Avatar
               variant="circular"
               size="md"
-              alt="candice wu"
+              alt="Imagen de perfil"
               className="border border-blue-900 p-0.5 "
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+              src={`data:image/png;base64,${imagenPerfil}`}
             />
             <ChevronDownIcon
               strokeWidth={2.5}
@@ -71,7 +83,7 @@ export const NavbarApp = () => {
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={isLastItem ? Logout : closeMenu}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

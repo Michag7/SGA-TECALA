@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import SubMenu from "../SubMenu";
 import { motion } from "framer-motion";
 
 // * React icons
 import { IoIosArrowBack } from "react-icons/io";
 import { AiOutlineHome, AiOutlineBook } from "react-icons/ai";
-import { BsPerson } from "react-icons/bs";
+import { BsPersonVcard } from "react-icons/bs";
 import { RiBillLine } from "react-icons/ri";
-import { FiFolder } from "react-icons/fi";
 import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
 import { NavLink, useLocation, useRoutes } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
-const SidebarAdmin = () => {
+const SidebarDocente = () => {
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
   const [open, setOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
@@ -96,29 +94,21 @@ const SidebarAdmin = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"grados"} className="link">
-                <AiOutlineBook size={25} className="min-w-max" />
-                Grados
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to={"docentes"} className="link">
-                <BsPerson size={25} className="min-w-max" />
-                Docentes
-              </NavLink>
-            </li>
-
-            <li>
               <NavLink to={"bitacoras"} className="link">
                 <RiBillLine size={25} className="min-w-max" />
                 Bitacoras
               </NavLink>
             </li>
-
             <li>
-              <NavLink to={"inventario"} className="link">
-                <FiFolder size={25} className="min-w-max" />
-                Inventarios
+              <NavLink to={"asistencias"} className="link">
+                <AiOutlineBook size={25} className="min-w-max" />
+                Asistencias
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to={"carnet"} className="link">
+                <BsPersonVcard size={25} className="min-w-max" />
+                Carnet
               </NavLink>
             </li>
           </ul>
@@ -156,4 +146,4 @@ const SidebarAdmin = () => {
   );
 };
 
-export default SidebarAdmin;
+export default SidebarDocente;
