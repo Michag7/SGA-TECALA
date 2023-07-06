@@ -9,6 +9,7 @@ import logo8 from "../assets/GradosCards/grado8.svg";
 import logo9 from "../assets/GradosCards/grado9.svg";
 import logo10 from "../assets/GradosCards/grado10.svg";
 import logo11 from "../assets/GradosCards/grado11.svg";
+import { format } from "date-fns";
 
 export const logos = [
   logo4,
@@ -65,4 +66,12 @@ export const useWindowSize = () => {
   }, []);
 
   return windowSize;
+};
+
+
+export const convertTimeTo12HourFormat = (time) => {
+  const [hour, minute] = time.split(":");
+  const date = new Date().setHours(hour, minute);
+  const formattedTime = format(date, "h:mm a");
+  return formattedTime;
 };

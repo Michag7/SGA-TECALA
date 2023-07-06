@@ -1,23 +1,23 @@
 const pool = require("../bd");
 
-// const postAsignatura = async (req, res) => {
-//   try {
-//     const asignatura = req.body;
+const postCuentaPermiso = async (req, res) => {
+  try {
+    const permiso = req.body;
 
-//     const result = await pool.query(
-//       "INSERT INTO asignatura(aid, a_nombre, gid, did)VALUES ($1, $2, $3, $4)  RETURNING *",
-//       [asignatura.aid, asignatura.a_nombre, asignatura.gid, asignatura.did]
-//     );
+    const result = await pool.query(
+      "INSERT INTO cuentapermiso (permiso_id, cuenta_id) VALUES ($1, $2)  RETURNING *",
+      [permiso.permiso_id, permiso.cuenta_id]
+    );
 
-//     if (result.rowCount === 0) {
-//       return res.json({ message: "Datos no insertados" });
-//     }
+    if (result.rowCount === 0) {
+      return res.json({ message: "Permiso no asignado" });
+    }
 
-//     res.status(201).json(result.rows[0]);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getPermisos = async (req, res) => {
   try {
@@ -38,7 +38,7 @@ const getPermisosEstudiante = async (req, res) => {
     const cuenta_id = req.params.cuenta_id;
 
     const result = await pool.query(
-      "SELECT * FROM cuentapermiso WHERE cuenta_id = $1",
+      "SELECT id, fecha_creacion, cuentapermiso.permiso_id, permiso_nombre, cuenta_id FROM cuentapermiso JOIN permiso ON cuentapermiso.permiso_id = permiso.permiso_id WHERE cuenta_id = $1",
       [cuenta_id]
     );
 
@@ -52,7 +52,27 @@ const getPermisosEstudiante = async (req, res) => {
   }
 };
 
+const deleteCuentaPermiso = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await pool.query("DELETE FROM cuentapermiso WHERE id = $1", [
+      id,
+    ]);
+
+    if (result.rowCount === 0) {
+      return res.json({ message: "Permiso no encontrado" });
+    }
+
+    res.json({ message: "Permiso eliminado" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getPermisos,
   getPermisosEstudiante,
+  deleteCuentaPermiso,
+  postCuentaPermiso,
 };

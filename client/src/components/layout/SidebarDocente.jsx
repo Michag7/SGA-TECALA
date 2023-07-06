@@ -11,12 +11,30 @@ import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
 import { NavLink, useLocation, useRoutes } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { getCuenta, getToken } from "../../auth/auth";
+import {
+  PermisoDocentes,
+  PermisoGrados,
+  PermisoHistorialCA,
+  PermisoInventario,
+} from "./PermisosComponents";
 
 const SidebarDocente = () => {
+  const cuenta = getCuenta();
+  const token = getToken();
+
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
   const [open, setOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
   const { pathname } = useLocation();
+
+  const [permisos, setPermisos] = useState([]);
+  const [existsPermisosEstudiante, setExistsPermisosEstudiante] =
+    useState(false);
+
+  useEffect(() => {
+    cargarPermisos();
+  }, []);
 
   useEffect(() => {
     if (isTabletMid) {
@@ -63,6 +81,26 @@ const SidebarDocente = () => {
         },
       };
 
+  const cargarPermisos = async () => {
+    const response = await fetch(
+      `http://localhost:4000/permisos/${cuenta.cuenta_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.message) {
+      return setExistsPermisosEstudiante(false), setPermisos([]);
+    }
+
+    setExistsPermisosEstudiante(true);
+    setPermisos(data);
+  };
+
   return (
     <div>
       <div
@@ -94,7 +132,7 @@ const SidebarDocente = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"control"} className="link">
+              <NavLink to={"controla"} className="link">
                 <RiBillLine size={25} className="min-w-max" />
                 Control
               </NavLink>
@@ -111,6 +149,29 @@ const SidebarDocente = () => {
                 Carnet
               </NavLink>
             </li>
+            {existsPermisosEstudiante
+              ? permisos.map(({ permiso_id }, index) => {
+                  if (permiso_id === "PGRD") {
+                    return <PermisoGrados key={index} />;
+                  }
+                  if (permiso_id === "PDCT") {
+                    return <PermisoDocentes key={index} />;
+                  }
+                  if (permiso_id === "PINV") {
+                    return <PermisoInventario key={index} />;
+                  }
+                  if (permiso_id === "PHCA") {
+                    return (
+                      <li>
+                        <NavLink to={"controlh"} className="link">
+                          <RiBillLine size={25} className="min-w-max" />
+                          Historial de control
+                        </NavLink>
+                      </li>
+                    );
+                  }
+                })
+              : null}
           </ul>
         </div>
         <motion.div

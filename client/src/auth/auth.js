@@ -12,6 +12,11 @@ export const getImagenP = () => {
   return localStorage.getItem("imagenP");
 };
 
+export const getCuenta = () => {
+  const cuenta = localStorage.getItem("cuenta");
+  return JSON.parse(cuenta);
+};
+
 // Función para verificar si el usuario está autenticado
 export const isAuthenticated = () => {
   const token = getToken();
@@ -23,4 +28,6 @@ export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   localStorage.removeItem("imagenP");
+  localStorage.removeItem("cuenta");
+
 };

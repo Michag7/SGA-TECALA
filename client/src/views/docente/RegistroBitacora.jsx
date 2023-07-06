@@ -590,7 +590,7 @@ export const RegistroBitacora = ({ cid, grado }) => {
             </div>
           </DialogBody>
           <DialogFooter className="space-x-2">
-            <Button onClick={handleCloseME} variant="outlined" color="red">
+            <Button onClick={handleCloseME} variant="" color="red">
               Cancelar
             </Button>
             <Button onClick={HandleAsistencias} variant="gradient" color="blue">
@@ -626,7 +626,7 @@ export const RegistroBitacora = ({ cid, grado }) => {
             </div>
           </DialogBody>
           <DialogFooter className="space-x-2">
-            <Button onClick={handleCloseMO} variant="outlined" color="red">
+            <Button onClick={handleCloseMO} variant="" color="red">
               Cancelar
             </Button>
             <Button

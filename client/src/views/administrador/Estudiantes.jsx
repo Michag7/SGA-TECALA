@@ -12,39 +12,19 @@ import {
   DialogFooter,
   Input,
   Button,
-  Checkbox,
 } from "@material-tailwind/react";
-import {
-  BsFillFileTextFill,
-  BsFillPersonFill,
-  BsFillPersonVcardFill,
-  BsFillPersonPlusFill,
-} from "react-icons/bs";
+import { BsFillPersonPlusFill, BsPersonFillGear } from "react-icons/bs";
 import {
   AiFillDelete,
   AiFillEdit,
   AiFillEye,
-  AiFillTool,
 } from "react-icons/ai";
-import { ImBooks } from "react-icons/im";
-import { HiUserGroup } from "react-icons/hi";
+import { TbPassword } from "react-icons/tb";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-  Card,
-} from "@material-tailwind/react";
-import {
-  InboxArrowDownIcon,
-  TrashIcon,
-  Cog6ToothIcon,
-} from "@heroicons/react/24/outline";
-import { Permisos } from "../../components/layout/Permisos";
+
+import { Permisos } from "../../components/Permisos";
 
 const columnsPdf = [
   { header: "Identificación", dataKey: "id" },
@@ -74,27 +54,6 @@ export const Estudiantes = ({ gid }) => {
     },
 
     {
-      accessorKey: "permisos",
-      header: "Permisos",
-      cell: (info) => {
-        return (
-          <div className="flex items-center">
-            <button
-              className="flex px-3 py-1 text-white bg-yellow-600 border-1"
-              onClick={() => handleOpenMP(info)}
-            >
-              Permisos
-            </button>
-            <div className="max-h-full bg-yellow-700 ">
-              <BsFillFileTextFill className=" text-white m-1.5" size={20} />
-            </div>
-          </div>
-        );
-      },
-      enableSorting: false,
-    },
-
-    {
       accessorKey: "recuperar",
       header: "Contraseña",
       cell: (info) => {
@@ -104,10 +63,30 @@ export const Estudiantes = ({ gid }) => {
             onClick={() => handleOpenMCC(info)}
           >
             <button className="flex px-3 py-1 text-white bg-green-600 border-1">
-              Recuperar
+              Contraseña
             </button>
             <div className="max-h-full bg-green-700 ">
-              <AiFillTool className=" text-white m-1.5" size={20} />
+              <TbPassword className=" text-white m-1.5" size={20} />
+            </div>
+          </div>
+        );
+      },
+      enableSorting: false,
+    },
+    {
+      accessorKey: "permisos",
+      header: "Permisos",
+      cell: (info) => {
+        return (
+          <div className="flex items-center">
+            <button
+              className="flex px-3 py-1 text-white bg-purple-600 border-1"
+              onClick={() => handleOpenMP(info)}
+            >
+              Permisos
+            </button>
+            <div className="max-h-full bg-purple-700 ">
+              <BsPersonFillGear className=" text-white m-1.5" size={20} />
             </div>
           </div>
         );
@@ -396,7 +375,7 @@ export const Estudiantes = ({ gid }) => {
 
   const handleCloseMP = (info) => {
     cuenta.resetForm();
-    setOpenMCC(false);
+    setOpenMP(false);
   };
 
   //Manejo del modal - Crear estudiante
@@ -453,8 +432,17 @@ export const Estudiantes = ({ gid }) => {
 
       {/* Modal - permisos */}
       <Fragment>
-        <Dialog size="sm" className="min-w-fit" open={openMP}>
+        <Dialog size="sm" className="" open={openMP}>
           <Permisos cuenta_id={cuenta.values.id} setModal={setOpenMP} />
+
+          <DialogFooter className="mr-1">
+            <button
+              className="px-4 py-1 text-black bg-gray-300 border-2 rounded-lg "
+              onClick={handleCloseMP}
+            >
+              <span>Cerrar</span>
+            </button>
+          </DialogFooter>
         </Dialog>
       </Fragment>
 

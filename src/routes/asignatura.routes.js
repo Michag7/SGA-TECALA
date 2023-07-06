@@ -4,6 +4,8 @@ const {
   getAsignaturasDocente,
   getAsignaturasDocenteGrado,
   getAsignaturasGrado,
+  updateAsignatura,
+  deleteAsignatura,
 } = require("../controllers/asignatura.controller");
 const jwt = require("jsonwebtoken");
 
@@ -12,8 +14,13 @@ const router = Router();
 router.post("/asignatura", authenticateToken, postAsignatura);
 router.get("/asignaturas/:did", authenticateToken, getAsignaturasDocente);
 router.get("/asignaturasG/:gid", authenticateToken, getAsignaturasGrado);
-router.get("/asignaturas/:did/:gid", authenticateToken, getAsignaturasDocenteGrado);
-
+router.get(
+  "/asignaturas/:did/:gid",
+  authenticateToken,
+  getAsignaturasDocenteGrado
+);
+router.put("/asignatura/", authenticateToken, updateAsignatura);
+router.delete("/asignatura/:aid", authenticateToken, deleteAsignatura);
 
 // Middleware para verificar y decodificar el token JWT
 function authenticateToken(req, res, next) {

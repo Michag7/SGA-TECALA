@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { getToken } from "../../auth/auth";
 import DataTable from "./DataTable";
 import { NavbarApp } from "../../components/layout/NavbarApp";
@@ -18,6 +18,7 @@ import {
   BsFillPersonFill,
   BsFillPersonVcardFill,
   BsFillPersonPlusFill,
+  BsPersonFillGear,
 } from "react-icons/bs";
 import {
   AiFillDelete,
@@ -25,9 +26,13 @@ import {
   AiFillEye,
   AiFillTool,
 } from "react-icons/ai";
+
 import { ImBooks } from "react-icons/im";
 import { HiUserGroup } from "react-icons/hi";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Permisos } from "../../components/Permisos";
 
 const columnsPdf = [
   { header: "Identificación", dataKey: "id" },
@@ -67,7 +72,7 @@ export const Docente = () => {
           <div className="flex items-center">
             <button
               className="flex px-3 py-1 text-white bg-yellow-600 border-1"
-              onClick={handleOpenMI}
+              onClick={() => handleOpenMI(info)}
             >
               Informe
             </button>
@@ -85,7 +90,10 @@ export const Docente = () => {
       header: "Contraseña",
       cell: (info) => {
         return (
-          <div className="flex items-center">
+          <div
+            className="flex items-center"
+            onClick={() => handleOpenMCC(info)}
+          >
             <button className="flex px-3 py-1 text-white bg-green-600 border-1">
               Recuperar
             </button>
@@ -98,16 +106,19 @@ export const Docente = () => {
       enableSorting: false,
     },
     {
-      accessorKey: "carnet",
-      header: "Carnet",
+      accessorKey: "permisos",
+      header: "Permisos",
       cell: (info) => {
         return (
           <div className="flex items-center">
-            <button className="flex px-3 py-1 text-white bg-blue-600 border-1">
-              Carnet
+            <button
+              className="flex px-3 py-1 text-white bg-purple-600 border-1"
+              onClick={() => handleOpenMP(info)}
+            >
+              Permisos
             </button>
-            <div className="max-h-full bg-blue-700 ">
-              <BsFillPersonVcardFill className=" text-white m-1.5" size={20} />
+            <div className="max-h-full bg-purple-700 ">
+              <BsPersonFillGear className=" text-white m-1.5" size={20} />
             </div>
           </div>
         );
@@ -143,22 +154,18 @@ export const Docente = () => {
     },
   ];
 
-  //Mostrar los docentes en la tabla
-  //Estado el cual contiene todos los docentes
   const [docentes, setDocentes] = useState([]);
-  const cargarDocentes = async () => {
-    const response = await fetch(`http://localhost:4000/docentes`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const [asignaturasDocente, setAsignaturasDocente] = useState([]);
+  const [existAsignaturas, setExistAsignaturas] = useState(false);
 
-    const data = await response.json();
-    setDocentes(data);
-  };
-  useEffect(() => {
-    cargarDocentes();
-  }, []);
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
+
+  const [openMP, setOpenMP] = useState(false);
+  const [openMI, setOpenMI] = useState(false);
+  const [openMC, setOpenMC] = useState(false);
+  const [openMV, setOpenMV] = useState(false);
+  const [openME, setOpenME] = useState(false);
+  const [openMCC, setOpenMCC] = useState(false);
 
   //Docente
   const [docente, setDocente] = useState({
@@ -176,6 +183,99 @@ export const Docente = () => {
     password: "",
     Rpassword: "",
   });
+
+  const cuenta = useFormik({
+    initialValues: {
+      id: "",
+      usuario: "",
+      contraseña: "",
+      Rcontraseña: "",
+    },
+
+    validationSchema: Yup.object().shape({
+      id: Yup.string("La identificación debe ser un numero").required(
+        "Identificación es obligatorio"
+      ),
+      usuario: Yup.string().required("Usuario es obligatorio"),
+      contraseña: Yup.string()
+        .min(6, "La contraseña debe tener al menos 6 caracteres")
+        .required("La contraseña es obligatoria"),
+      Rcontraseña: Yup.string()
+        .oneOf([Yup.ref("contraseña"), null], "Las contraseñas no coinciden")
+        .required("Debes confirmar la contraseña"),
+    }),
+
+    onSubmit: (data) => {
+      HandleEditContraseña(data);
+    },
+  });
+
+  useEffect(() => {
+    cargarDocentes();
+  }, []);
+
+  const cargarDocentes = async () => {
+    const response = await fetch(`http://localhost:4000/docentes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    setDocentes(data);
+  };
+
+  const cargarAsignaturasDocente = async (did) => {
+    const response = await fetch(`http://localhost:4000/asignaturas/${did}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+
+    if (data.message) {
+      setExistAsignaturas(false);
+      return;
+    }
+
+    setExistAsignaturas(true);
+    setAsignaturasDocente(data);
+  };
+
+  //Cambiar contraseña
+  const HandleEditContraseña = async (data) => {
+    try {
+      const response = await fetch("http://localhost:4000/cuenta/", {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const dataR = response.json();
+
+      if (dataR.message) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${dataR.message}`,
+        });
+      }
+
+      handleCloseMCC();
+
+      Swal.fire(
+        "Contraseña actualizada",
+        "La contraseña, ha sido actualizada correctamente",
+        "success"
+      );
+      cargarDocentes();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //Manejo de los cambios en los inputs
   const HandleChange = (e) => {
@@ -247,16 +347,45 @@ export const Docente = () => {
     // });
   }
 
+  function cargarCuenta(info) {
+    const cuentaSelect = info.row.original;
+    cuenta.setValues({
+      id: cuentaSelect.cuenta_id,
+      usuario: cuentaSelect.usuario,
+      contraseña: "",
+      Rcontraseña: "",
+    });
+  }
+
   //Manejo del modal - Designacion de asignaturas
-  const [openMI, setOpenMI] = useState(false);
-  const handleOpenMI = () => setOpenMI(!openMI);
+
+  const handleOpenMP = (info) => {
+    cargarCuenta(info);
+    setOpenMP(true);
+  };
+
+  const handleCloseMP = (info) => {
+    cuenta.resetForm();
+    setOpenMP(false);
+  };
+
+  //Manejo del modal - Designacion de asignaturas
+
+  const handleOpenMI = (info) => {
+    cargarAsignaturasDocente(info.row.original.id);
+    setOpenMI(true);
+  };
+  const handleCloseMI = () => {
+    setAsignaturasDocente([]);
+    setExistAsignaturas(false);
+    setOpenMI(false);
+  };
 
   //Manejo del modal - Crear docente
-  const [openMC, setOpenMC] = useState(false);
   const handleOpenMC = () => setOpenMC(!openMC);
 
   //Manejo del modal - Ver docente
-  const [openMV, setOpenMV] = useState(false);
+
   const handlerMV = () => setOpenMV(!openMV);
 
   const handleOpenMV = (info) => {
@@ -269,7 +398,7 @@ export const Docente = () => {
   };
 
   //Manejo del modal - Editar docente
-  const [openME, setOpenME] = useState(false);
+
   const handlerME = () => setOpenME(!openME);
 
   const handleOpenME = (info) => {
@@ -360,6 +489,16 @@ export const Docente = () => {
     }
   };
 
+  //Manejo del modal - Cambiar contraseña
+  const handleOpenMCC = (info) => {
+    cargarCuenta(info);
+    setOpenMCC(true);
+  };
+  const handleCloseMCC = () => {
+    cuenta.resetForm();
+    setOpenMCC(false);
+    setMostrarContraseña(false);
+  };
   return (
     <div className="w-full h-screen ">
       <NavbarApp></NavbarApp>
@@ -376,37 +515,150 @@ export const Docente = () => {
         iconoBR={<BsFillPersonPlusFill className="ml-1.5" size={20} />}
       ></DataTable>
 
+      {/* Modal - permisos */}
+      <Fragment>
+        <Dialog size="sm" className="" open={openMP}>
+          <Permisos cuenta_id={cuenta.values.id} setModal={setOpenMP} />
+
+          <DialogFooter className="mr-1">
+            <button
+              className="px-4 py-1 text-black bg-gray-300 border-2 rounded-lg "
+              onClick={handleCloseMP}
+            >
+              <span>Cerrar</span>
+            </button>
+          </DialogFooter>
+        </Dialog>
+      </Fragment>
+
+      {/* Modal - cambiar contraseña */}
+      <Fragment>
+        <Dialog size="xs" className="min-w-fit min-h-fit" open={openMCC}>
+          <DialogBody className="p-0 pt-1">
+            <Titulo titulo={"Cambiar contraseña"}></Titulo>
+            <div className="mt-6">
+              <div className="mx-4 mt-4 space-y-2.5 ">
+                <h2 className="">
+                  <strong className="font-bold">Usuario:</strong>{" "}
+                  {cuenta.values.usuario}
+                </h2>
+
+                <div>
+                  <Input
+                    size="lg"
+                    type={mostrarContraseña ? "text" : "password"}
+                    label="Contraseña"
+                    value={cuenta.values.contraseña}
+                    name="contraseña"
+                    onChange={cuenta.handleChange}
+                    onBlur={cuenta.handleBlur}
+                    error={
+                      cuenta.errors.contraseña && cuenta.touched.contraseña
+                    }
+                  ></Input>
+                  {cuenta.errors.contraseña && cuenta.touched.contraseña ? (
+                    <div className="-mt.0.5 text-sm text-red-500">
+                      {cuenta.errors.contraseña}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div>
+                  <Input
+                    className=""
+                    size="lg"
+                    type={mostrarContraseña ? "text" : "password"}
+                    label="Confirmación"
+                    value={cuenta.values.Rcontraseña}
+                    name="Rcontraseña"
+                    onChange={cuenta.handleChange}
+                    onBlur={cuenta.handleBlur}
+                    error={
+                      cuenta.errors.Rcontraseña && cuenta.touched.Rcontraseña
+                    }
+                  ></Input>
+                  {cuenta.errors.Rcontraseña && cuenta.touched.Rcontraseña ? (
+                    <div className="-mt.0.5 text-sm text-red-500">
+                      {cuenta.errors.Rcontraseña}
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div className="flex items-center mt-2 ml-5">
+                <input
+                  type="checkbox"
+                  className=""
+                  onChange={() => setMostrarContraseña(!mostrarContraseña)}
+                  checked={mostrarContraseña ? true : false}
+                />
+                <label className="ml-2 text-sm">Mostrar contraseña</label>
+              </div>
+            </div>
+          </DialogBody>
+          <DialogFooter className="mt-4">
+            <Button
+              size="sm"
+              variant="gradient"
+              className="mr-2"
+              color="red"
+              onClick={handleCloseMCC}
+            >
+              Cancelar
+            </Button>
+            <Button
+              size="sm"
+              type="submit"
+              variant="gradient"
+              color="blue"
+              onClick={cuenta.handleSubmit}
+            >
+              Guardar Cambios
+            </Button>
+          </DialogFooter>
+        </Dialog>
+      </Fragment>
+
       {/* Modal - designacion de asignaturas */}
       <Fragment>
-        <Dialog
-          size="md"
-          className="min-w-fit"
-          open={openMI}
-          handler={handleOpenMI}
-        >
+        <Dialog size="md" className="min-w-fit" open={openMI}>
           <DialogBody className="p-0 pt-4">
             <Titulo titulo={"Designacion de asignaturas"}></Titulo>
             <div className="mt-6">
-              <h2 className="px-6 text-sm text-justify">
-                Se han designado las siguientes asignaturas con su respectivo
-                grado al docente.
-              </h2>
+              {existAsignaturas ? (
+                <>
+                  <h2 className="px-6 text-sm text-center">
+                    Se han designado las siguientes asignaturas con su
+                    respectivo grado al docente.
+                  </h2>
 
-              <div className="flex justify-center pb-1 mx-10 mt-6 border-b-2 lg:mx-20">
-                <div className="flex items-center mr-10 ">
-                  <ImBooks size={30} className="mr-2" />
-                  Matematicas
-                </div>
-                <div className="flex items-center ml-10">
-                  <HiUserGroup size={30} className="mr-2" /> Grado
-                </div>
-              </div>
+                  {asignaturasDocente.map(({ a_nombre, gid }, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-center pb-1 mx-10 mt-6 border-b-2 lg:mx-20"
+                      >
+                        <div className="flex items-center mr-10 ">
+                          <ImBooks size={30} className="mr-2" />
+                          {a_nombre}
+                        </div>
+                        <div className="flex items-center ml-10">
+                          <HiUserGroup size={30} className="mr-2" /> Grado {gid}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <h2 className="px-6 text-sm text-center">
+                  El docente no tiene asignaturas designadas.
+                </h2>
+              )}
             </div>
           </DialogBody>
           <DialogFooter>
             <button
               className="px-4 py-1 mt-4 text-black bg-gray-300 border-2 rounded-lg "
-              onClick={handleOpenMI}
+              onClick={handleCloseMI}
             >
               <span>Cerrar</span>
             </button>
@@ -584,11 +836,7 @@ export const Docente = () => {
                 </div>
 
                 <DialogFooter className="p-0 mt-4 space-x-2">
-                  <Button
-                    variant="outlined"
-                    color="red"
-                    onClick={handleClosenME}
-                  >
+                  <Button color="red" onClick={handleClosenME}>
                     Cancelar
                   </Button>
                   <Button variant="gradient" color="blue" onClick={HandleEdit}>

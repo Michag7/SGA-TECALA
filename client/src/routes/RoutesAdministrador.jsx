@@ -20,7 +20,7 @@ export function RoutesAdministrador() {
         <Route path="home" element={<HomeAdmin />} />
         <Route path="grados" element={<GradosInicio />} />
         <Route path="grados/:gid" element={<Grado />} />
-        <Route path="docentes" element={<Docente></Docente>} />
+        <Route path="docentes" element={<Docente/>} />
         <Route path="control" element={<Bitacora />} />
         <Route path="control/:cid" element={<Control />} />
         <Route path="inventario" element={<InventarioInicio />} />

@@ -52,7 +52,7 @@ const postDocente = async (req, res) => {
 
 const getDocentes = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM docente");
+    const result = await pool.query("SELECT * FROM docente JOIN cuenta ON docente.cuentaid = cuenta.cuenta_id");
 
     res.send(result.rows);
   } catch (error) {

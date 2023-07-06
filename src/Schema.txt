@@ -1,0 +1,222 @@
+CREATE TABLE  administrador
+(
+    id integer NOT NULL,
+    foto bytea,
+    nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    apellido character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    genero character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    telefono character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    ciudad character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    barrio character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    direccion character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    cuentaid integer NOT NULL,
+    CONSTRAINT adminstrador_pkey PRIMARY KEY (id),
+    CONSTRAINT adminstrador_a_cuentaid_fkey FOREIGN KEY (cuentaid)
+        REFERENCES cuenta (cuenta_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  asignatura
+(
+    aid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    a_nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    gid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    did integer NOT NULL,
+    CONSTRAINT materia_pkey PRIMARY KEY (aid),
+    CONSTRAINT materia_did_fkey FOREIGN KEY (did)
+        REFERENCES docente (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT materia_gid_fkey FOREIGN KEY (gid)
+        REFERENCES grado (gid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  asistencia
+(
+    asistencia_id integer NOT NULL DEFAULT nextval('asistencia_asistencia_id_seq'::regclass),
+    cid integer NOT NULL,
+    eid integer NOT NULL,
+    aid character varying COLLATE pg_catalog."default" NOT NULL,
+    asistencia_tipo character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    pid integer NOT NULL,
+    CONSTRAINT asistencia_pkey PRIMARY KEY (asistencia_id),
+    CONSTRAINT asistencia_aid_fkey FOREIGN KEY (aid)
+        REFERENCES asignatura (aid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT asistencia_cid_fkey FOREIGN KEY (cid)
+        REFERENCES control (cid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT asistencia_eid_fkey FOREIGN KEY (eid)
+        REFERENCES estudiante (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT asistencia_pid_fkey FOREIGN KEY (pid)
+        REFERENCES periodo (pid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+CREATE TABLE  control
+(
+    cid integer NOT NULL DEFAULT nextval('control_cid_seq'::regclass),
+    c_fecha date NOT NULL,
+    gid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT control_pkey PRIMARY KEY (cid),
+    CONSTRAINT control_gid_fkey FOREIGN KEY (gid)
+        REFERENCES grado (gid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  cuenta
+(
+    cuenta_id integer NOT NULL DEFAULT nextval('cuenta_cuenta_id_seq'::regclass),
+    usuario character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    "contraseña" character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT cuenta_pkey PRIMARY KEY (cuenta_id)
+)
+
+CREATE TABLE  cuentapermiso
+(
+    id integer NOT NULL DEFAULT nextval('cuentapermiso_id_seq'::regclass),
+    fecha_creacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    permiso_id character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    cuenta_id integer NOT NULL,
+    CONSTRAINT cuentapermiso_pkey PRIMARY KEY (id),
+    CONSTRAINT cuentapermiso_cuenta_id_fkey FOREIGN KEY (cuenta_id)
+        REFERENCES cuenta (cuenta_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT cuentapermiso_permiso_id_fkey FOREIGN KEY (permiso_id)
+        REFERENCES permiso (permiso_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  docente
+(
+    id integer NOT NULL,
+    foto bytea,
+    nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    apellido character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    genero character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    telefono character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    ciudad character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    barrio character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    direccion character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    cuentaid integer NOT NULL,
+    CONSTRAINT docente_pkey PRIMARY KEY (id),
+    CONSTRAINT docente_cuentaid_fkey FOREIGN KEY (cuentaid)
+        REFERENCES cuenta (cuenta_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+)
+
+CREATE TABLE  estudiante
+(
+    id integer NOT NULL,
+    foto bytea,
+    nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    apellido character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    genero character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    telefono character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    barrio character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    direccion character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    cuentaid integer NOT NULL,
+    gid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT estudiante_pkey PRIMARY KEY (id),
+    CONSTRAINT estudiante_cuentaid_fkey FOREIGN KEY (cuentaid)
+        REFERENCES cuenta (cuenta_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT estudiante_gid_fkey FOREIGN KEY (gid)
+        REFERENCES grado (gid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  grado
+(
+    gid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    did integer NOT NULL,
+    CONSTRAINT grado_pkey PRIMARY KEY (gid),
+    CONSTRAINT grado_did_fkey FOREIGN KEY (did)
+        REFERENCES docente (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  horario
+(
+    hid integer NOT NULL DEFAULT nextval('horario_hid_seq'::regclass),
+    dia character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    hora_inicio time without time zone NOT NULL,
+    hora_finalizacion time without time zone NOT NULL,
+    aid character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT horario_pkey PRIMARY KEY (hid),
+    CONSTRAINT horario_aid_fkey FOREIGN KEY (aid)
+        REFERENCES asignatura (aid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  inventario
+(
+    iid integer NOT NULL DEFAULT nextval('inventario_iid_seq'::regclass),
+    articulo_nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    articulo_marca character varying(50) COLLATE pg_catalog."default",
+    articulo_estado character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    articulo_descripcion character varying(200) COLLATE pg_catalog."default",
+    sid integer NOT NULL,
+    CONSTRAINT inventario_pkey PRIMARY KEY (iid),
+    CONSTRAINT inventario_sid_fkey FOREIGN KEY (sid)
+        REFERENCES seccion (sid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  observacion
+(
+    oid integer NOT NULL DEFAULT nextval('observacion_oid_seq'::regclass),
+    o_hora integer NOT NULL,
+    o_tema character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    cid integer NOT NULL,
+    docente character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT observacion_pkey PRIMARY KEY (oid),
+    CONSTRAINT observacion_cid_fkey FOREIGN KEY (cid)
+        REFERENCES control (cid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+CREATE TABLE  periodo
+(
+    pid integer NOT NULL,
+    fecha_inicio character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    fecha_fin character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT periodo_pkey PRIMARY KEY (pid)
+)
+
+CREATE TABLE  permiso
+(
+    permiso_id character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    permiso_nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT permiso_pkey PRIMARY KEY (permiso_id)
+)
+
+CREATE TABLE  seccion
+(
+    sid integer NOT NULL,
+    s_nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    s_descripcion character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT seccion_pkey PRIMARY KEY (sid)
+)

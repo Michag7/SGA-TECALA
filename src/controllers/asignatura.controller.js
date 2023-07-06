@@ -75,9 +75,48 @@ const getAsignaturasDocenteGrado = async (req, res) => {
   }
 };
 
+const updateAsignatura = async (req, res) => {
+  try {
+    const asignatura = req.body;
+
+    const result = await pool.query(
+      "UPDATE asignatura set a_nombre = $1, did = $2 WHERE aid = $3 RETURNING *",
+      [asignatura.a_nombre, asignatura.did, asignatura.aid]
+    );
+
+    if (result.rowCount === 0) {
+      return res.json({ message: "Datos no insertados" });
+    }
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteAsignatura = async (req, res) => {
+  try {
+    const aid = req.params.aid;
+
+    const result = await pool.query("DELETE FROM asignatura WHERE aid = $1", [
+      aid,
+    ]);
+
+    if (result.rowCount === 0) {
+      return res.json({ message: "Asignatura no eliminada" });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   postAsignatura,
   getAsignaturasDocente,
   getAsignaturasDocenteGrado,
   getAsignaturasGrado,
+  updateAsignatura,
+  deleteAsignatura,
 };

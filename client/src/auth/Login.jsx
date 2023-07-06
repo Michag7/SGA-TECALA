@@ -52,15 +52,18 @@ export const Login = () => {
         const token = response.data.tokenj.token;
         const userJ = response.data.user;
         const imagen = response.data.imagen;
+        const cuentaJ = response.data.cuenta;
 
         const isValid = isValidBase64(imagen);
 
         const user = JSON.stringify(userJ);
+        const cuenta = JSON.stringify(cuentaJ);
 
         // Guardar el token en el localStorage
         localStorage.setItem("token", token);
         localStorage.setItem("user", user);
         localStorage.setItem("imagenP", imagen);
+        localStorage.setItem("cuenta", cuenta);
 
         if (userJ.rol == "administrador") {
           navigate("/admin/home", { replace: true });

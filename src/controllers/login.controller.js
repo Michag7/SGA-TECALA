@@ -32,6 +32,7 @@ const postLogin = async (req, res) => {
       );
 
       const user = result2.rows[0];
+      const cuenta = result.rows[0];
 
       if (result2.rowCount > 0) {
         const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
@@ -40,7 +41,7 @@ const postLogin = async (req, res) => {
 
         const tokenj = { token };
         const imagen = user.foto.toString("base64");
-        const response = { tokenj, user, imagen };
+        const response = { tokenj, user, imagen, cuenta };
 
         res.json(response);
       } else {

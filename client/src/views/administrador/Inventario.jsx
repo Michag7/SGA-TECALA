@@ -412,7 +412,7 @@ export const Inventario = ({ seccion, title }) => {
             </form>
           </DialogBody>
           <DialogFooter className="space-x-2">
-            <Button variant="outlined" color="red" onClick={handleCloseMC}>
+            <Button variant="" color="red" onClick={handleCloseMC}>
               Cancelar
             </Button>
             <Button
@@ -545,7 +545,7 @@ export const Inventario = ({ seccion, title }) => {
             </div>
           </DialogBody>
           <DialogFooter className="space-x-2">
-            <Button variant="outlined" color="red" onClick={handleCloseME}>
+            <Button variant="" color="red" onClick={handleCloseME}>
               Cancelar
             </Button>
             <Button

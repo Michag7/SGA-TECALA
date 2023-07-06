@@ -1,15 +1,18 @@
 const { Router } = require("express");
-const { getPermisos, getPermisosEstudiante } = require("../controllers/permisos.controller");
+const {
+  getPermisos,
+  getPermisosEstudiante,
+  postCuentaPermiso,
+  deleteCuentaPermiso,
+} = require("../controllers/permisos.controller");
 
 const jwt = require("jsonwebtoken");
 const router = Router();
 
-
+router.post("/cuentapermiso", authenticateToken, postCuentaPermiso);
 router.get("/permisos", authenticateToken, getPermisos);
 router.get("/permisos/:cuenta_id", authenticateToken, getPermisosEstudiante);
-
-
-
+router.delete("/cuentapermiso/:id", authenticateToken, deleteCuentaPermiso);
 
 // Middleware para verificar y decodificar el token JWT
 function authenticateToken(req, res, next) {
