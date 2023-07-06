@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import { saveAs } from "file-saver";
 import Colegio from "../../assets/colegio.png";
 import CodigoQR from "../../assets/qr_ejemplo.png";
-import "./Carnet.css";
+import "../../css/Carnet.css";
 import { getImagenP, getUser } from "../../auth/auth";
 import { NavbarApp } from "../../components/layout/NavbarApp";
 
@@ -30,10 +30,13 @@ export const Carnet = () => {
   });
 
   return (
-    <>
+    <div className="w-full h-screen">
       <NavbarApp></NavbarApp>
 
-      <div className=" wrapper-carnetT" ref={componentRef}>
+      <div
+        className="flex items-center justify-center mt-20 ml-52"
+        ref={componentRef}
+      >
         <div className="container-carnetT">
           <div className="left">
             <h1 className="rol">{user.rol.toUpperCase()}</h1>
@@ -59,14 +62,13 @@ export const Carnet = () => {
       </div>
 
       <div>
-      <button
-        className="flex justify-center p-2 text-white bg-red-500 rounded-lg print-button"
-        onClick={handlePrint}
-      >
-        Descargar PDF
-      </button>
+        <button
+          className="flex justify-center p-2 text-white bg-red-500 rounded-lg print-button"
+          onClick={handlePrint}
+        >
+          Descargar PDF
+        </button>
       </div>
-      
-    </>
+    </div>
   );
 };

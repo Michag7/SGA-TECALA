@@ -32,7 +32,7 @@ const getControlObservaciones = async (req, res) => {
 
     res.send(result.rows);
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 };
 
@@ -54,32 +54,25 @@ const getControlObservaciones = async (req, res) => {
 //   }
 // };
 
-// const updateInventario = async (req, res) => {
-//   try {
-//     const id = req.params.id;
+const updateObservacion = async (req, res) => {
+  try {
+    const result = await pool.query(
+      "UPDATE observacion SET o_tema = $1 WHERE oid = $2 RETURNING *",
+      [req.body.tema, req.body.id]
+    );
 
-//     const result = await pool.query(
-//       "UPDATE inventario SET articulo_nombre = $1, articulo_marca = $2, articulo_estado = $3, articulo_descripcion  = $4 WHERE iid = $5 RETURNING *",
-//       [
-//         req.body.nombre,
-//         req.body.marca,
-//         req.body.estado,
-//         req.body.descripcion,
-//         id,
-//       ]
-//     );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: "Articulo no encontrado" });
+    }
 
-//     if (result.rowCount === 0) {
-//       return res.status(404).json({ message: "Articulo no encontrado" });
-//     }
-
-//     res.json(result.rows[0]);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   postObservacion,
   getControlObservaciones,
+  updateObservacion
 };

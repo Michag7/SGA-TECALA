@@ -109,9 +109,9 @@ const SidebarAdmin = () => {
             </li>
 
             <li>
-              <NavLink to={"bitacoras"} className="link">
+              <NavLink to={"control"} className="link">
                 <RiBillLine size={25} className="min-w-max" />
-                Bitacoras
+                Historial de control
               </NavLink>
             </li>
 

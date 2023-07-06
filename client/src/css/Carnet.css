@@ -1,14 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 .wrapper-carnetT {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 500px;
-  margin-top: 40px;
-  position: fixed;
-  margin-left: 50%; /* Ajusta el margen izquierdo para desplazar el contenido hacia la derecha */
-  transform: translateX(-50%); /* Centra el contenido horizontalmente */
+  
 }
 
 .container {

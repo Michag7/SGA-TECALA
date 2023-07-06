@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   postObservacion,
   getControlObservaciones,
+  updateObservacion,
 } = require("../controllers/observacion.controller");
 const jwt = require("jsonwebtoken");
 
@@ -9,7 +10,7 @@ const router = Router();
 
 router.post("/observacion", authenticateToken, postObservacion);
 router.get("/observaciones/:id", authenticateToken, getControlObservaciones);
-// router.put("/inventario/:id", authenticateToken, updateInventario);
+router.put("/observacion", authenticateToken, updateObservacion);
 // router.delete("/inventario/:id", authenticateToken, deleteInventario);
 
 // Middleware para verificar y decodificar el token JWT

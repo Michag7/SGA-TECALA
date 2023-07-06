@@ -62,14 +62,16 @@ export const Login = () => {
         localStorage.setItem("user", user);
         localStorage.setItem("imagenP", imagen);
 
-      
-
         if (userJ.rol == "administrador") {
           navigate("/admin/home", { replace: true });
         }
 
         if (userJ.rol == "docente") {
           navigate("/docente/home", { replace: true });
+        }
+
+        if (userJ.rol == "estudiante") {
+          navigate("/estudiante/home", { replace: true });
         }
       } else {
         console.log("hola");

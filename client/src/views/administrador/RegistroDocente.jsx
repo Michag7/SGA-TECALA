@@ -131,29 +131,28 @@ export const RegistroDocente = ({ cargarDocentes, setOpen }) => {
           }
         );
 
-        if (response.status == 201) {
-          Swal.fire(
-            "Articulo actualizado",
-            "El articulo, ha sido actualizado correctamente",
-            "success"
-          );
+        console.log(response);
 
-          cargarDocentes();
+        const Rdata = await response.data;
+        
+        setOpen(false);
 
-          setOpen(false);
-          // cargarInventario();
-          // HandleMC();
-          // formik.handleReset();
-        } else {
-          Swal.fire({
+        if (Rdata.message === "Docente no creado") {
+          return Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Ha ocurrido un error!",
+            text: `${Rdata.message}`,
           });
-          // HandleMC();
         }
+
+        Swal.fire(
+          "Docente creado",
+          "El docente, ha sido actualizado correctamente",
+          "success"
+        );
+        cargarDocentes();
       } else {
-        toast.error("Porfavor, llene todos los campos");
+        toast.error("Porfavor, suba una foto");
       }
     }
   };

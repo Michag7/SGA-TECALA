@@ -52,3 +52,23 @@ create table docente(
 	FOREIGN KEY (d_cuentaid) REFERENCES cuenta(cuenta_id)
 	
 );
+
+
+create table permiso (
+	
+	permiso_id varchar(20) primary key not null,
+	permiso_nombre varchar(50) not null
+	
+);
+
+create table cuentapermiso (
+
+	id serial primary key not null,
+	fecha_creacion TIMESTAMP DEFAULT current_timestamp,
+	permiso_id varchar(20) not null,
+	cuenta_id integer not null, 
+	
+	FOREIGN KEY (permiso_id) REFERENCES permiso(permiso_id),
+	FOREIGN KEY (cuenta_id) REFERENCES cuenta(cuenta_id)
+);
+

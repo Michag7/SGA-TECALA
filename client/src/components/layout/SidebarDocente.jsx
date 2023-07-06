@@ -94,13 +94,13 @@ const SidebarDocente = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to={"bitacoras"} className="link">
+              <NavLink to={"control"} className="link">
                 <RiBillLine size={25} className="min-w-max" />
-                Bitacoras
+                Control
               </NavLink>
             </li>
             <li>
-              <NavLink to={"asistencias"} className="link">
+              <NavLink to={"asistencia"} className="link">
                 <AiOutlineBook size={25} className="min-w-max" />
                 Asistencias
               </NavLink>

@@ -17,89 +17,139 @@ import { AiFillPlusCircle, AiOutlinePlus } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { BsCheckLg, BsX } from "react-icons/bs";
 
-export const RegistroBitacora = ({ grado }) => {
+export const RegistroBitacora = ({ cid, grado }) => {
   const token = getToken();
   const user = getUser();
 
-  const [datosAsistencia, setDatosAsistencia] = useState([]);
+  const [fechaActual, setFechaActual] = useState(new Date());
+  const [asignaturaActual, setAsignaturaActual] = useState({
+    aid: "",
+    a_nombre: "",
+  });
 
-  const iniciarAsistencias = () => {
-    const estudiatesId = listaEstudiantes.map((estudiante) => estudiante.id);
+  const [asistencias, setAsistencias] = useState([]);
+  const [asistenciasAsignaturaActual, setAsistenciasAsignaturaActual] =
+    useState([]);
+  const [estudiantesInasistentes, setEstudiantesInasistentes] = useState([]);
+  const [existsAssists, setExistsAssists] = useState(false);
 
-    // Crear un nuevo objeto con los nombres obtenidos
-    const asistencias = estudiatesId.map((id) => ({
-      estudiante: id,
-      tipo: "Asistencia",
-      control: 1,
-      materia: 1,
-    }));
-    console.log(asistencias);
+  const [openME, setOpenME] = useState(false);
+  const [openMO, setOpenMO] = useState(false);
 
-    // Agregar los nuevos objetos al estado nuevosDatos
-    setDatosAsistencia([...datosAsistencia, ...asistencias]);
-  };
+  const [horarios, setHorarios] = useState([]);
 
-  const handleAsistenciaChange = (index, value) => {
-    const nuevosDatosAsistencia = [...datosAsistencia];
+  const [listaEstudiantes, setListaEstudiantes] = useState([]);
 
-    const asistencia = nuevosDatosAsistencia[index];
-    asistencia.tipo = value;
-    nuevosDatosAsistencia[index] = asistencia;
+  const [observaciones, setObservaciones] = useState([]);
+  const [numeroObservaciones, setNumeroObservaciones] = useState();
+  const [isEditingObs, setIsEditingObs] = useState(false);
 
-    setDatosAsistencia(nuevosDatosAsistencia);
-
-    console.log(value);
-    console.log(nuevosDatosAsistencia);
-
-    console.log(asistencia);
-    console.log(datosAsistencia);
-  };
-
-  //Validador de inputs - formik
-  const formikAsis = useFormik({
+  //Validador de observacion
+  const formikObs = useFormik({
     initialValues: {
       id: 0,
-      hora: "",
-      materia: "",
-      estado: "",
-      descripcion: "",
+      hora: 0,
+      tema: "",
+      control: cid,
+      docente: user.nombre + " " + user.apellido,
     },
 
     validationSchema: Yup.object().shape({
-      estado: Yup.string().required("El selector Estado es requerido"),
-      descripcion: Yup.string().required("El campo Descripción es requerido"),
+      tema: Yup.string().required("Debes ingresar un tema"),
     }),
 
-    onSubmit: (data) => {},
+    onSubmit: (data) => {
+      HandleObservaciones(data);
+    },
   });
 
-  const [openME, setOpenME] = useState(false);
-  const handleOpenME = (info) => {
-    setOpenME(true);
-    iniciarAsistencias();
-  };
-  const handleCloseME = () => {
-    setOpenME(false);
-    setDatosAsistencia([]);
+  //Obtiene la fecha actual
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFechaActual(new Date());
+    }, 1000);
+
+    // Cleanup del efecto
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    cargarListaEstudiantes();
+    cargarObservaciones();
+    cargarHorarios();
+    cargarAsistencias();
+  }, []);
+
+  useEffect(() => {
+    AsignaturaActual();
+  }, [horarios]);
+
+  useEffect(() => {
+    cargarEstudianteInasistentes();
+  }, [asistenciasAsignaturaActual]);
+
+  const cargarHorarios = async () => {
+    const response = await fetch(`http://localhost:4000/horarioG/${grado}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    setHorarios(data);
   };
 
-  const [openMO, setOpenMO] = useState(false);
-  const handleOpenMO = (info) => {
-    setOpenMO(true);
-  };
-  const handleCloseMO = () => {
-    setOpenMO(false);
-    formikObs.setFieldValue("tema", "");
-    formikObs.setErrors({});
-    formikObs.setTouched({});
+  const cargarAsistencias = async () => {
+    const response = await fetch(`http://localhost:4000/asistencias/${cid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    setAsistencias(data);
   };
 
-  const [listaEstudiantes, setListaEstudiantes] = useState([]);
-  const [observaciones, setObservaciones] = useState([]);
+  const cargarAsistenciasAsignatura = async () => {
+    const response = await fetch(
+      `http://localhost:4000/asistenciasAsignatura/${cid}/${asignaturaActual.aid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.length === 0) {
+      setExistsAssists(false);
+      iniciarAsistencias();
+    } else {
+      setAsistenciasAsignaturaActual(data);
+      setExistsAssists(true);
+    }
+  };
+
+  const cargarEstudianteInasistentes = async () => {
+    const response = await fetch(`http://localhost:4000/asistenciasE/${cid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    setEstudiantesInasistentes(data);
+  };
 
   const cargarListaEstudiantes = async () => {
     const response = await fetch(
-      `http://localhost:4000/listaestudiantes/${"11-1"}`,
+      `http://localhost:4000/listaestudiantes/${grado}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -113,7 +163,7 @@ export const RegistroBitacora = ({ grado }) => {
   };
 
   const cargarObservaciones = async () => {
-    const response = await fetch(`http://localhost:4000/observaciones/${"1"}`, {
+    const response = await fetch(`http://localhost:4000/observaciones/${cid}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -126,32 +176,53 @@ export const RegistroBitacora = ({ grado }) => {
     formikObs.setFieldValue("hora", data.length + 1);
   };
 
-  useEffect(() => {
-    cargarListaEstudiantes();
-    cargarObservaciones();
-  }, []);
+  const HandleAsistencias = async (e) => {
+    try {
+      e.preventDefault();
+      if (!existsAssists) {
+        const response = await fetch("http://localhost:4000/asistencias", {
+          method: "POST",
+          body: JSON.stringify(asistenciasAsignaturaActual),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
-  const [numeroObservaciones, setNumeroObservaciones] = useState();
-  const [isEditingObs, setIsEditingObs] = useState(false);
+        const data = await response.json();
 
-  //Validador de inputs - formik
-  const formikObs = useFormik({
-    initialValues: {
-      id: 0,
-      hora: 0,
-      tema: "",
-      control: 1,
-      docente: user.nombre + " " + user.apellido,
-    },
+        console.log(data);
 
-    validationSchema: Yup.object().shape({
-      tema: Yup.string().required("Debes ingresar un tema"),
-    }),
+        if (data.message) {
+          return console.log("No creado");
+        }
 
-    onSubmit: (data) => {
-      HandleObservaciones(data);
-    },
-  });
+        setExistsAssists(true);
+        handleCloseME();
+      } else {
+        const response = await fetch("http://localhost:4000/asistencias", {
+          method: "PUT",
+          body: JSON.stringify(asistenciasAsignaturaActual),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.message) {
+          console.log("No creado");
+        } else {
+          handleCloseME();
+        }
+
+        setExistsAssists(true);
+      }
+
+      cargarEstudianteInasistentes();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const HandleObservaciones = async (data) => {
     try {
@@ -171,18 +242,137 @@ export const RegistroBitacora = ({ grado }) => {
           handleCloseMO();
         }
       } else {
-        console.log("editing");
+        const response = await fetch("http://localhost:4000/observacion", {
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.status === 201) {
+          cargarObservaciones();
+          handleCloseMO();
+        }
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  const handleAsistenciaChange = (index, value) => {
+    const nuevosDatosAsistencia = [...asistenciasAsignaturaActual];
+
+    const asistencia = nuevosDatosAsistencia[index];
+    asistencia.asistencia_tipo = value;
+    nuevosDatosAsistencia[index] = asistencia;
+
+    setAsistenciasAsignaturaActual(nuevosDatosAsistencia);
+  };
+
+  const handleAsignaturaActualChange = (e) => {
+    const asignaturaID = buscarAsignaturaID(e.target.value);
+
+    setAsignaturaActual({ aid: asignaturaID, a_nombre: e.target.value });
+  };
+
+  const handleOpenME = () => {
+    setOpenME(true);
+    cargarAsistenciasAsignatura();
+  };
+  const handleCloseME = () => {
+    setOpenME(false);
+  };
+
+  const handleOpenMO = () => {
+    setOpenMO(true);
+  };
+
+  const handleOpenMOE = (tema, id) => {
+    setOpenMO(true);
+    setIsEditingObs(true);
+    formikObs.setFieldValue("tema", tema);
+    formikObs.setFieldValue("id", id);
+  };
+  const handleCloseMO = () => {
+    setOpenMO(false);
+    setIsEditingObs(false);
+    formikObs.setFieldValue("tema", "");
+    formikObs.setFieldValue("id", 0);
+    formikObs.setErrors({});
+    formikObs.setTouched({});
+  };
+
+  const buscarAsignaturaID = (a_nombre) => {
+    let aid = "";
+    horarios.forEach((horario) => {
+      const asignaturaNombre = horario.a_nombre;
+
+      if (a_nombre === asignaturaNombre) {
+        aid = horario.aid;
+      }
+    });
+
+    return aid;
+  };
+
+  const iniciarAsistencias = () => {
+    const asistencias = listaEstudiantes.map(({ id, nombre, apellido }) => ({
+      eid: id,
+      nombre: nombre,
+      apellido: apellido,
+      asistencia_tipo: "Asistencia",
+      cid: cid,
+      aid: asignaturaActual.aid,
+      pid: 2,
+    }));
+
+    // Agregar los nuevos objetos al estado nuevosDatos
+    setAsistenciasAsignaturaActual(asistencias);
+  };
+
+  const AsignaturaActual = () => {
+    const horaActual = parseInt(
+      fechaActual.toLocaleTimeString().replace(/:/g, ""),
+      10
+    );
+
+    horarios.forEach((horario) => {
+      const horaInicio = parseInt(horario.hora_inicio.replace(/:/g, ""), 10);
+      const horaFinalizacion = parseInt(
+        horario.hora_finalizacion.replace(/:/g, ""),
+        10
+      );
+
+      if (horaInicio <= 83000 && 83000 < horaFinalizacion) {
+        setAsignaturaActual({ aid: horario.aid, a_nombre: horario.a_nombre });
+      }
+    });
+  };
+
   return (
-    <>
-      <Titulo titulo={"Control de asistencia"}></Titulo>
+    <div className="h-full">
+      <Titulo titulo={`Control - GRADO ${grado}`}></Titulo>
+
+      <div className="flex ml-5 space-x-4 overflow-auto w-80">
+        <select
+          value={asignaturaActual.a_nombre}
+          onChange={handleAsignaturaActualChange}
+          name="a_nombre"
+          className={`w-full px-0 font-normal border-b-2 text-blue-gray-700 border-blue-gray-200 m select-border select-md  `}
+        >
+          {horarios.map(({ a_nombre }, index) => {
+            return (
+              <option value={a_nombre} key={index}>
+                {a_nombre}
+              </option>
+            );
+          })}
+        </select>
+      </div>
       <div>
-        <div className="flex items-center justify-end mr-14 ">
+        <div className="flex items-center justify-end mt-3 mr-6 lg:mr-14 md:mr-14">
           <button
             onClick={handleOpenME}
             className="flex items-center px-4 py-2 font-bold border-2 rounded-full shadow-lg hover:text-blue-500"
@@ -191,29 +381,105 @@ export const RegistroBitacora = ({ grado }) => {
             <AiFillPlusCircle size={20} className="ml-1.5 text-blue-500 " />
           </button>
         </div>
-        <div className="mt-2 overflow-x-auto mx-14 ">
+        <div className="mx-6 mt-2 overflow-x-auto lg:mx-14 md:mx-14">
           <table className="table border-separate border-spacing-1">
             <thead>
               <tr className="text-base text-center text-white bg-blue-500 ">
                 <th></th>
                 <th>Estudiante</th>
-                <th>Hora 1</th>
-                <th>Hora 2</th>
-                <th>Hora 3</th>
-                <th>Hora 4</th>
-                <th>Hora 5</th>
-                <th>Hora 6</th>
+                {horarios.map(({ a_nombre }, index) => {
+                  return <th key={index}>{a_nombre}</th>;
+                })}
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-base-200"></tr>
+              {estudiantesInasistentes.map(
+                ({ eid, hora1, hora2, hora3, hora4, hora5, hora6 }, index) => {
+                  return (
+                    <tr key={index} className="border-b border-black">
+                      <th>{index + 1}</th>
+                      <td>{eid}</td>
+                      {hora1 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora1 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+                      {hora2 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora2 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+
+                      {hora3 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora3 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+
+                      {hora4 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora4 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+
+                      {hora5 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora5 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+
+                      {hora6 === "Inasistencia" ? (
+                        <td>
+                          <BsX className="text-red-500" size={25} />
+                        </td>
+                      ) : hora6 === "Asistencia" ? (
+                        <td>
+                          <BsCheckLg className="text-green-500" size={25} />
+                        </td>
+                      ) : (
+                        ""
+                      )}
+                    </tr>
+                  );
+                }
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
       <div className="mt-10">
-        <div className="flex items-center justify-end mr-14 ">
+        <div className="flex items-center justify-end mr-6 lg:mr-14 md:mr-14">
           <button
             onClick={handleOpenMO}
             className={`flex items-center px-4 py-2 font-bold border-2 rounded-full shadow-lg hover:text-blue-500 ${
@@ -225,7 +491,7 @@ export const RegistroBitacora = ({ grado }) => {
             <AiFillPlusCircle size={20} className="ml-1.5 text-blue-500 " />
           </button>
         </div>
-        <div className="mt-2 overflow-x-auto mx-14">
+        <div className="mx-6 mt-2 overflow-x-auto lg:mx-14 md:mx-14">
           <table className="table ">
             {/* head */}
             <thead>
@@ -237,15 +503,16 @@ export const RegistroBitacora = ({ grado }) => {
               </tr>
             </thead>
             <tbody>
-              {observaciones.map(({ o_hora, o_tema, docente }, index) => {
+              {observaciones.map(({ o_hora, o_tema, docente, oid }, index) => {
                 return (
-                  <tr key={o_hora} className="border-b border-black">
+                  <tr key={index} className="border-b border-black">
                     <th>{o_hora}</th>
                     <td>{o_tema}</td>
                     <td>{docente}</td>
                     <td>
                       <FaEdit
                         className="cursor-pointer hover:text-blue-500"
+                        onClick={() => handleOpenMOE(o_tema, oid)}
                         size={25}
                       />
                     </td>
@@ -257,57 +524,15 @@ export const RegistroBitacora = ({ grado }) => {
         </div>
       </div>
 
+      {/* //Modal lista estudiantes */}
       <Fragment>
         <Dialog open={openME} size="md" o className="min-w-fit">
           <div className="flex items-center justify-between">
-            <DialogHeader>Lista de estudiante 11°1</DialogHeader>
+            <DialogHeader>Lista de estudiante {grado}</DialogHeader>
             {/* <XMarkIcon className="w-5 h-5 mr-3 cursor-pointer hover:text-red-500" /> */}
           </div>
           <DialogBody divider>
-            <div className="flex space-x-4">
-              <select
-                onChange={""}
-                value={""}
-                // onBlur={formik.handleBlur}
-                name="estado"
-                className={`w-full px-0 font-normal border-b-2 text-blue-gray-700 border-blue-gray-200 m select-border select-md  `}
-              >
-                {/* ${
-                formik.errors.estado && formik.touched.estado
-                  ? "border-red-500 text-red-500"
-                  : ""
-              } */}
-
-                <option value={""} disabled defaultValue>
-                  Seleccione la hora
-                </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-              </select>
-              {/* {formik.touched.estado && formik.errors.estado && (
-              <p className="ml-1 -mt-5 text-xs text-red-500 ">
-                {formik.errors.estado}
-              </p>
-            )} */}
-              <select
-                value={""}
-                name="estado"
-                className={`w-full px-0 font-normal border-b-2 text-blue-gray-700 border-blue-gray-200 m select-border select-md  `}
-              >
-                <option value={""} disabled defaultValue={true}>
-                  Seleccione la materia
-                </option>
-                <option value="Nuevo">Matematicas</option>
-                <option value="Dañado">Castellano</option>
-                <option value="Regular">Ingles</option>
-              </select>
-            </div>
-
-            <div className="mt-10 overflow-x-auto h-96">
+            <div className="mt-2 overflow-x-auto h-96">
               <table className="table border-separate table-pin-rows border-spacing">
                 <thead>
                   <tr className="text-base text-center text-white bg-blue-500">
@@ -316,40 +541,50 @@ export const RegistroBitacora = ({ grado }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {listaEstudiantes.map(({ nombre, apellido, id }, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>
-                          {nombre} {apellido}
-                        </td>
-                        <td>
-                          <div className="flex gap-10">
-                            <Radio
-                              id={id}
-                              name={id}
-                              label="Asistio"
-                              onChange={() =>
-                                handleAsistenciaChange(index, "Asistencia")
-                              }
-                              onClick={() => console.log(datosAsistencia)}
-                              icon={<BsCheckLg />}
-                              defaultChecked
-                            />
-                            <Radio
-                              id={id}
-                              name={id}
-                              label="No asistio"
-                              icon={<BsX />}
-                              color="red"
-                              onChange={() =>
-                                handleAsistenciaChange(index, "Inasistencia")
-                              }
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {asistenciasAsignaturaActual.map(
+                    ({ nombre, apellido, eid, asistencia_tipo }, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>
+                            {nombre} {apellido}
+                          </td>
+                          <td>
+                            <div className="flex gap-10">
+                              <Radio
+                                id={eid}
+                                name={eid}
+                                label="Asistio"
+                                onChange={() =>
+                                  handleAsistenciaChange(index, "Asistencia")
+                                }
+                                icon={<BsCheckLg />}
+                                checked={
+                                  asistencia_tipo === "Asistencia"
+                                    ? true
+                                    : false
+                                }
+                              />
+                              <Radio
+                                id={eid}
+                                name={eid}
+                                label="No asistio"
+                                icon={<BsX />}
+                                color="red"
+                                onChange={() =>
+                                  handleAsistenciaChange(index, "Inasistencia")
+                                }
+                                checked={
+                                  asistencia_tipo === "Inasistencia"
+                                    ? true
+                                    : false
+                                }
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  )}
                 </tbody>
               </table>
             </div>
@@ -358,7 +593,7 @@ export const RegistroBitacora = ({ grado }) => {
             <Button onClick={handleCloseME} variant="outlined" color="red">
               Cancelar
             </Button>
-            <Button variant="gradient" color="blue">
+            <Button onClick={HandleAsistencias} variant="gradient" color="blue">
               Añadir
             </Button>
           </DialogFooter>
@@ -375,6 +610,7 @@ export const RegistroBitacora = ({ grado }) => {
           <DialogBody divider>
             <div>
               <Textarea
+                value={formikObs.values.tema}
                 label="Tema"
                 name="tema"
                 type="text"
@@ -403,6 +639,6 @@ export const RegistroBitacora = ({ grado }) => {
           </DialogFooter>
         </Dialog>
       </Fragment>
-    </>
+    </div>
   );
 };

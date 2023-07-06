@@ -1,27 +1,18 @@
 import React from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AdminDocente from "../components/layout/DocenteTemplate";
-import { Carnet } from "../views/docente/Carnet";
-import { Home } from "../views/docente/Home";
+import { Route, Routes } from "react-router-dom";
+import EstudianteTemplate from "../components/layout/EstudianteTemplate";
+import { Asistencia } from "../views/estudiante/Asistencia";
+import { Carnet } from "../views/estudiante/Carnet";
 
 export function RoutesEstudiante() {
   return (
-    <AdminDocente>
+    <EstudianteTemplate>
       <Routes>
-        <Route
-          path="home"
-          element={
-            <>
-              <div>home</div>
-            </>
-          }
-        />
+        <Route path="asistencia" element={<Asistencia />} />
 
-        <Route path="carnet" element={<Carnet />} />
-
-        <Route path="home" element={<Home />} />
+        <Route path="carnet" element={<Carnet/>} />
       </Routes>
-    </AdminDocente>
+    </EstudianteTemplate>
   );
 }

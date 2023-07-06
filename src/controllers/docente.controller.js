@@ -5,7 +5,6 @@ const postDocente = async (req, res) => {
   try {
     const image = req.file.buffer;
     const docente = JSON.parse(req.body.docente);
-    console.log(docente);
 
     await client.query("BEGIN");
     await client.query("SAVEPOINT sp");
@@ -39,10 +38,10 @@ const postDocente = async (req, res) => {
     await client.query("COMMIT");
 
     if (resultC.rowCount && resultD.rowCount === 0) {
-      return res.status(400).json({ message: "Docente no creado" });
+      return res.json({ message: "Docente no creado" });
     }
 
-    res.status(201).json({ message: "Docente creado" });
+    res.status(201).json({message: "Docente creado"});
   } catch (error) {
     await client.query("ROLLBACK TO SAVEPOINT sp");
     throw error;
@@ -111,24 +110,6 @@ const updateDocente = async (req, res) => {
 const getDocente = async (req, res) => {
   try {
     const id = req.params.id;
-    const result = await pool.query("SELECT * FROM docente WHERE id = $1", [
-      id,
-    ]);
-
-    if (result.rowCount === 0) {
-      return res.status(404).json({ message: "Docente no encontrado" });
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const getCuenta = async (req, res) => {
-  try {
-    const id = req.params.id;
-
     const result = await pool.query("SELECT * FROM docente WHERE id = $1", [
       id,
     ]);

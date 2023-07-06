@@ -8,6 +8,7 @@ import { getUser, isAuthenticated } from "../src/auth/auth";
 import { RoutesEstudiante } from "./routes/RoutesEstudiante";
 import { RoutesDocente } from "./routes/RoutesDocente";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { VerificacionCarnet } from "./pages/VerificacionCarnet";
 
 function App() {
   const [pathHome, SetPathHome] = useState("/login");
@@ -31,7 +32,6 @@ function App() {
     Redirect();
   }, []);
 
- 
   return (
     <>
       <Router>
@@ -39,6 +39,11 @@ function App() {
           <Route path="/" element={<Home></Home>} />
 
           <Route path="/login" element={<Login />} />
+          <Route path="/verificacioncarnet" element={<VerificacionCarnet />} />
+          <Route
+            path="/verificacioncarnet/:id"
+            element={<VerificacionCarnet />}
+          />
 
           <Route
             path="/admin/*"
@@ -61,6 +66,8 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+
+          <Route path="/estudiante/*" element={<RoutesEstudiante />} />
         </Routes>
       </Router>
     </>

@@ -4,14 +4,18 @@ import Docente from "../../assets/Docente.png";
 import Estudiante from "../../assets/Estudiante.png";
 import { NavbarApp } from "../../components/layout/NavbarApp";
 import { Titulo } from "../../components/layout/Titulo";
-
+import { getUser } from "../../auth/auth";
+import logo from "../../assets/Logoapp.png";
 export const HomeAdmin = () => {
+  const user = getUser();
   return (
     <>
       <NavbarApp></NavbarApp>
-
-      <Titulo titulo={"Panel administrativo"}></Titulo>
-      <section id="home-section">
+      <Titulo titulo={"Home"}></Titulo>
+      <h2 className="ml-5 text-2xl font-bold">
+        ¡Bienvenido/a de nuevo, {user.nombre} {user.apellido}!
+      </h2>
+      <section id="home-section" className="ml-3 -mt-7">
         <div className="content">
           <div className="componentes">
             <div className="componente">
@@ -44,89 +48,14 @@ export const HomeAdmin = () => {
               </div>
             </div>
           </div>
-
-          <div className="content-2">
-            <div className="usuarios-nuevos">
-              <div className="titulo-tabla">
-                <h3>Usuarios nuevos</h3>
-                <button className="flex items-center justify-center px-3 text-white bg-blue-500 rounded-md">Ver Más</button>
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Identificación</th>
-                    <th>Nombre</th>
-                    <th>Rol</th>
-                    <th>Fecha activación</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1110282253</td>
-                    <td>Jaime Duqué</td>
-                    <td>Docente</td>
-                    <td>10/05/2023</td>
-                  </tr>
-                  <tr>
-                    <td>1006154221</td>
-                    <td>Diana Hoyos</td>
-                    <td>Estudiante</td>
-                    <td>10/05/2023</td>
-                  </tr>
-                  <tr>
-                    <td>1002651987</td>
-                    <td>Brayan Morales</td>
-                    <td>Docente</td>
-                    <td>10/05/2023</td>
-                  </tr>
-                  <tr>
-                    <td>1001548721</td>
-                    <td>Yaneth Lozada</td>
-                    <td>Estudiante</td>
-                    <td>10/05/2023</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div className="permisos">
-              <h3 style={{ textAlign: "center" }}>Permisos otorgados</h3>
-              <div className="usuarios-permisos">
-                <p
-                  className="bx bxs-user-circle"
-                  style={{ color: "#1877f2" }}
-                ></p>
-                <div className="usuarios-name">
-                  <h5>Matias Bautista</h5>
-                  <p>Inventario-Sala de róbotica</p>
-                </div>
-                <p className="permisos-fecha">Hoy</p>
-              </div>
-
-              <div className="usuarios-permisos">
-                <p
-                  className="bx bxs-user-circle"
-                  style={{ color: "#1877f2" }}
-                ></p>
-                <div className="usuarios-name">
-                  <h5>Jorge Mendéz</h5>
-                  <p>Inventario-Sala de sistemas #2</p>
-                </div>
-                <p className="permisos-fecha">Ayer</p>
-              </div>
-
-              <div className="usuarios-permisos">
-                <p
-                  className="bx bxs-user-circle"
-                  style={{ color: "#1877f2" }}
-                ></p>
-                <div className="usuarios-name">
-                  <h5>Mariam Ochoa</h5>
-                  <p>Inventario-Sala de róbotica</p>
-                </div>
-                <p className="permisos-fecha">12/09</p>
-              </div>
-            </div>
+          <div className="flex items-center justify-center w-full -mt-32">
+            <img
+              className="my-32"
+              src={logo}
+              width={800}
+              height={600}
+              alt="nature image"
+            />
           </div>
         </div>
       </section>

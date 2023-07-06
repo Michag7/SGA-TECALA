@@ -17,12 +17,16 @@ const postLogin = async (req, res) => {
 
     if (result.rowCount > 0) {
       const result2 = await pool.query(
-        `SELECT 'docente' as rol, *
-        FROM docente
+        `SELECT 'docente' as rol, id, foto, nombre, apellido, genero, telefono, email, barrio, direccion, cuentaid
+        FROM docente 
         WHERE cuentaid = $1
         UNION
-        SELECT 'administrador' as rol, *
-        FROM administrador
+        SELECT 'administrador' as rol, id, foto, nombre, apellido, genero, telefono, email, barrio, direccion, cuentaid
+        FROM administrador 
+        WHERE cuentaid = $1
+        UNION
+        SELECT 'estudiante' as rol, id, foto, nombre, apellido, genero, telefono, email, barrio, direccion, cuentaid
+        FROM estudiante 
         WHERE cuentaid = $1;`,
         [login.cuenta_id]
       );
@@ -31,7 +35,7 @@ const postLogin = async (req, res) => {
 
       if (result2.rowCount > 0) {
         const token = jwt.sign({ userId: user.id }, process.env.SECRET_KEY, {
-          expiresIn: "1h",
+          expiresIn: "2h",
         });
 
         const tokenj = { token };

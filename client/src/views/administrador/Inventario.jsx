@@ -19,7 +19,6 @@ import {
   AiFillDelete,
   AiFillEdit,
   AiFillEye,
-  AiOutlineDown,
 } from "react-icons/ai";
 import { LuPackagePlus } from "react-icons/lu";
 import { XMarkIcon } from "@heroicons/react/24/solid";
@@ -507,7 +506,7 @@ export const Inventario = ({ seccion, title }) => {
                   {formik.errors.marca}
                 </p>
               )}
-                <select
+              <select
                 onChange={formik.handleChange}
                 value={formik.values.estado}
                 onBlur={formik.handleBlur}

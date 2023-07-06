@@ -1,14 +1,23 @@
 const { Router } = require("express");
 const {
-  getEstudiante,
   getListaEstudiantes,
+  getEstudiante,
+  deleteEstudiante,
+  postEstudiante,
+  updateEstudiante,
 } = require("../controllers/estudiantes.controller");
 const jwt = require("jsonwebtoken");
 
+const multer = require("multer");
+const upload = multer().single("image");
+
 const router = Router();
 
-router.get("/estudiante", getEstudiante);
-router.get("/listaestudiantes/:id", authenticateToken, getListaEstudiantes);
+router.post("/estudiante", authenticateToken, upload, postEstudiante);
+router.get("/listaestudiantes/:gid", authenticateToken, getListaEstudiantes);
+router.get("/estudiante/:id", authenticateToken, getEstudiante);
+router.put("/estudiante/:id", authenticateToken, updateEstudiante);
+router.delete("/estudiante/:id", authenticateToken, deleteEstudiante);
 
 // Middleware para verificar y decodificar el token JWT
 function authenticateToken(req, res, next) {

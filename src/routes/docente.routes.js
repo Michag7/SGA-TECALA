@@ -6,8 +6,8 @@ const {
   updateDocente,
 } = require("../controllers/docente.controller");
 const jwt = require("jsonwebtoken");
-const multer = require("multer");
 const router = Router();
+const multer = require("multer");
 const upload = multer().single("image");
 
 router.post("/docente", authenticateToken, upload, postDocente);

@@ -13,7 +13,6 @@ const postInventario = async (req, res) => {
       ]
     );
 
-
     if (result.rowCount === 0) {
       return res.status(404).json({ message: "Articulo no encontrado" });
     }
