@@ -6,6 +6,8 @@ import CodigoQR from "../../assets/qr_ejemplo.png";
 import "../../css/Carnet.css";
 import { getImagenP, getUser } from "../../auth/auth";
 import { NavbarApp } from "../../components/layout/NavbarApp";
+import QRCodeGenerator from "../../components/QRCodeGerator";
+import { Avatar } from "@material-tailwind/react";
 
 export const Carnet = () => {
   const componentRef = React.useRef();
@@ -33,7 +35,10 @@ export const Carnet = () => {
     <div className="w-full h-screen">
       <NavbarApp></NavbarApp>
 
-      <div className="flex items-center justify-center mt-20 ml-52" ref={componentRef}>
+      <div
+        className="flex items-center justify-center mt-20 ml-52"
+        ref={componentRef}
+      >
         <div className="container-carnetT">
           <div className="left">
             <h1 className="rol">{user.rol.toUpperCase()}</h1>
@@ -42,10 +47,11 @@ export const Carnet = () => {
             <img src={Colegio} alt="icono" className="logo-colegio" />
             <h4 className="titulo">TERESA CALDERÓN</h4>
             <h1 className="subtitulo">DE LASSO</h1>
-            <img
+            <Avatar
+              className="mx-auto mt-8 mb-3"
               src={`data:image/png;base64,${avatar}`}
               alt="perfil-foto"
-              className="foto"
+              size="xxl"
             />
             <div className="nombre-estudiante">
               <h3 className="nombre">
@@ -53,20 +59,23 @@ export const Carnet = () => {
               </h3>
             </div>
             <h4 className="identificacion">C.C:{user.id}</h4>
-            <img src={CodigoQR} alt="perfil-foto" className="codeQR" />
+            <div className="mx-auto">
+              <QRCodeGenerator
+                link={`http://localhost:5173/verificacioncarnet/${user.id}`}
+              />
+            </div>
           </div>
         </div>
       </div>
 
       <div>
-      <button
-        className="flex justify-center p-2 text-white bg-red-500 rounded-lg print-button"
-        onClick={handlePrint}
-      >
-        Descargar PDF
-      </button>
+        <button
+          className="flex justify-center p-2 text-white bg-red-500 rounded-lg print-button"
+          onClick={handlePrint}
+        >
+          Descargar PDF
+        </button>
       </div>
-      
     </div>
   );
 };
