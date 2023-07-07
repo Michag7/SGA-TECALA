@@ -345,14 +345,14 @@ export const RegistroBitacora = ({ cid, grado }) => {
         10
       );
 
-      if (horaInicio <= 83000 && 83000 < horaFinalizacion) {
+      if (horaInicio <= 73000 && 73000 < horaFinalizacion) {
         setAsignaturaActual({ aid: horario.aid, a_nombre: horario.a_nombre });
       }
     });
   };
 
   return (
-    <div className="h-full">
+    <div>
       <Titulo titulo={`Control - GRADO ${grado}`}></Titulo>
 
       <div className="flex ml-5 space-x-4 overflow-auto w-80">
@@ -396,27 +396,36 @@ export const RegistroBitacora = ({ cid, grado }) => {
               {estudiantesInasistentes.map(
                 ({ eid, hora1, hora2, hora3, hora4, hora5, hora6 }, index) => {
                   return (
-                    <tr key={index} className="border-b border-black">
+                    <tr
+                      key={index}
+                      className="text-center border-b border-black "
+                    >
                       <th>{index + 1}</th>
                       <td>{eid}</td>
+
                       {hora1 === "Inasistencia" ? (
-                        <td>
-                          <BsX className="text-red-500" size={25} />
+                        <td className="">
+                          <BsX className="mx-auto text-red-500" size={25} />
                         </td>
                       ) : hora1 === "Asistencia" ? (
-                        <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                        <td className="">
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
-                      ) : (
-                        ""
-                      )}
+                      ) : null}
+
                       {hora2 === "Inasistencia" ? (
-                        <td>
-                          <BsX className="text-red-500" size={25} />
+                        <td className="">
+                          <BsX className="mx-auto text-red-500 " size={25} />
                         </td>
                       ) : hora2 === "Asistencia" ? (
-                        <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                        <td className="">
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
                       ) : (
                         ""
@@ -424,11 +433,14 @@ export const RegistroBitacora = ({ cid, grado }) => {
 
                       {hora3 === "Inasistencia" ? (
                         <td>
-                          <BsX className="text-red-500" size={25} />
+                          <BsX className="mx-auto text-red-500" size={25} />
                         </td>
                       ) : hora3 === "Asistencia" ? (
                         <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
                       ) : (
                         ""
@@ -436,11 +448,14 @@ export const RegistroBitacora = ({ cid, grado }) => {
 
                       {hora4 === "Inasistencia" ? (
                         <td>
-                          <BsX className="text-red-500" size={25} />
+                          <BsX className="mx-auto text-red-500" size={25} />
                         </td>
                       ) : hora4 === "Asistencia" ? (
                         <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
                       ) : (
                         ""
@@ -448,11 +463,14 @@ export const RegistroBitacora = ({ cid, grado }) => {
 
                       {hora5 === "Inasistencia" ? (
                         <td>
-                          <BsX className="text-red-500" size={25} />
+                          <BsX className="mx-auto text-red-500" size={25} />
                         </td>
                       ) : hora5 === "Asistencia" ? (
                         <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
                       ) : (
                         ""
@@ -460,11 +478,14 @@ export const RegistroBitacora = ({ cid, grado }) => {
 
                       {hora6 === "Inasistencia" ? (
                         <td>
-                          <BsX className="text-red-500" size={25} />
+                          <BsX className="mx-auto text-red-500" size={25} />
                         </td>
                       ) : hora6 === "Asistencia" ? (
                         <td>
-                          <BsCheckLg className="text-green-500" size={25} />
+                          <BsCheckLg
+                            className="mx-auto text-green-500"
+                            size={25}
+                          />
                         </td>
                       ) : (
                         ""

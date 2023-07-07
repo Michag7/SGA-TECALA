@@ -21,7 +21,9 @@ const pool = require("../bd");
 
 const getGrados = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM grado");
+    const result = await pool.query(
+      "SELECT * FROM grado WHERE NOT gid = 'Egresados'"
+    );
 
     if (result.rowCount == 0) {
       return res.json({ message: "Datos no encontrado" });
@@ -33,4 +35,41 @@ const getGrados = async (req, res) => {
   }
 };
 
-module.exports = { getGrados };
+const getDocenteGrado = async (req, res) => {
+  try {
+    const gid = req.params.gid;
+
+    const result = await pool.query(
+      "SELECT * FROM docente JOIN grado ON docente.id = grado.did WHERE gid = $1",
+      [gid]
+    );
+
+    if (result.rowCount == 0) {
+      return res.json({ message: "Datos no encontrado" });
+    }
+
+    res.send(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateDocenteGrado = async (req, res) => {
+  try {
+    const grado = req.body;
+    const result = await pool.query(
+      "UPDATE grado set did = $1 WHERE gid = $2 RETURNING*",
+      [grado.did, grado.gid]
+    );
+
+    if (result.rowCount == 0) {
+      return res.json({ message: "Datos no encontrado" });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getGrados, getDocenteGrado, updateDocenteGrado };

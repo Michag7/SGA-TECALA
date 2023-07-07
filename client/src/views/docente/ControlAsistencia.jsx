@@ -74,44 +74,21 @@ export const ControlAsistencia = () => {
   return (
     <div className="h-full overflow-auto">
       <NavbarApp></NavbarApp>
-      <div className="tabs">
-        <a
-          onClick={() => setTabActive(1)}
-          className={`tab tab-lifted ${
-            tabActive === 1 ? "tab-active font-bold" : ""
-          }`}
-        >
-          Control hoy
-        </a>
-        <a
-          onClick={() => setTabActive(2)}
-          className={`tab tab-lifted ${
-            tabActive === 2 ? "tab-active font-bold" : ""
-          } `}
-        >
-          Historial de controles
-        </a>
-      </div>
 
-      {/* Bitacoras */}
-
-      {tabActive === 1 &&
-        (existControl ? (
-          <RegistroBitacora grado={params.grado} cid={control.cid} />
-        ) : (
-          <div className="flex items-start justify-center w-full h-full">
-            <button
-              onClick={HandleControl}
-              className="flex items-center p-4 mt-10 text-lg text-white bg-blue-500 border rounded-lg hover:"
-            >
-              Iniciar nuevo control{" "}
-              <BsClipboardPlusFill className="ml-2 -mt-1" size={20} />
-            </button>
-          </div>
-        ))}
+      {existControl ? (
+        <RegistroBitacora grado={params.grado} cid={control.cid} />
+      ) : (
+        <div className="flex items-start justify-center w-full h-full">
+          <button
+            onClick={HandleControl}
+            className="flex items-center p-4 mt-10 text-lg text-white bg-blue-500 border rounded-lg hover:"
+          >
+            Iniciar nuevo control{" "}
+            <BsClipboardPlusFill className="ml-2 -mt-1" size={20} />
+          </button>
+        </div>
+      )}
       {/* Asistencias */}
-
-      {tabActive === 2 && <div>2</div>}
     </div>
   );
 };

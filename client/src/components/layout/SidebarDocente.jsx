@@ -162,7 +162,7 @@ const SidebarDocente = () => {
                   }
                   if (permiso_id === "PHCA") {
                     return (
-                      <li>
+                      <li key={index}>
                         <NavLink to={"controlh"} className="link">
                           <RiBillLine size={25} className="min-w-max" />
                           Historial de control

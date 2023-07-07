@@ -5,6 +5,8 @@ const {
   deleteEstudiante,
   postEstudiante,
   updateEstudiante,
+  promocionEstudiantes,
+  promocionTodosEstudiantesGrado,
 } = require("../controllers/estudiantes.controller");
 const jwt = require("jsonwebtoken");
 
@@ -17,6 +19,13 @@ router.post("/estudiante", authenticateToken, upload, postEstudiante);
 router.get("/listaestudiantes/:gid", authenticateToken, getListaEstudiantes);
 router.get("/estudiante/:id", authenticateToken, getEstudiante);
 router.put("/estudiante/:id", authenticateToken, updateEstudiante);
+router.put("/promociones/:gid/:gidp", authenticateToken, promocionEstudiantes);
+router.put(
+  "/promocionesall/",
+  authenticateToken,
+  promocionTodosEstudiantesGrado
+);
+
 router.delete("/estudiante/:id", authenticateToken, deleteEstudiante);
 
 // Middleware para verificar y decodificar el token JWT

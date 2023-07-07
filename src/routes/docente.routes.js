@@ -4,6 +4,7 @@ const {
   getDocentes,
   deleteDocente,
   updateDocente,
+  getDocentesDisponiblesDG,
 } = require("../controllers/docente.controller");
 const jwt = require("jsonwebtoken");
 const router = Router();
@@ -11,7 +12,10 @@ const multer = require("multer");
 const upload = multer().single("image");
 
 router.post("/docente", authenticateToken, upload, postDocente);
+
 router.get("/docentes", authenticateToken, getDocentes);
+router.get("/docentesdisponibles", authenticateToken, getDocentesDisponiblesDG);
+
 router.delete("/docente/:id", authenticateToken, deleteDocente);
 router.put("/docente/:id", authenticateToken, updateDocente);
 

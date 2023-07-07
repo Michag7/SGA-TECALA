@@ -118,6 +118,56 @@ const updateEstudiante = async (req, res) => {
   }
 };
 
+const promocionEstudiantes = async (req, res) => {
+  try {
+    let gidP = req.params.gidp;
+    const gid = req.params.gid;
+    const arreglo = req.body;
+
+    const ids = arreglo.map((item) => item.id); // Extraer solo los valores de id del arreglo de objetos
+
+    const result = await pool.query(
+      `
+      UPDATE estudiante
+      SET gid = $1
+      WHERE id NOT IN (${ids
+        .map((_, index) => `$${index + 2}`)
+        .join(",")}) AND gid = $${ids.length + 2} RETURNING *;
+    `,
+      [gidP, ...ids, gid] // Utilizar el arreglo de ids en los parámetros de la consulta
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ message: "Promociones no realizadas" });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const promocionTodosEstudiantesGrado = async (req, res) => {
+  try {
+    const promocion = req.body;
+
+    const result = await pool.query(
+      `
+      UPDATE estudiante SET gid = $1 WHERE gid = $2 RETURNING *;
+    `,
+      [promocion.gid, promocion.gida]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ message: "Promociones no realizadas" });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const deleteEstudiante = async (req, res) => {
   try {
     const id = req.params.id;
@@ -143,4 +193,6 @@ module.exports = {
   deleteEstudiante,
   postEstudiante,
   updateEstudiante,
+  promocionEstudiantes,
+  promocionTodosEstudiantesGrado,
 };

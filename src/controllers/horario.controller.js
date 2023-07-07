@@ -20,17 +20,21 @@ const postHorario = async (req, res) => {
     let result = [];
 
     const fecha = new Date(`2000-01-01T${horario.hora_inicio}`);
+    const fecha2 = new Date(`2000-01-01T${horario.hora_finalizacion}`);
+
     let i = 0;
     while (i < diferenciaN) {
       fecha.setHours(fecha.getHours() + i);
+      fecha2.setHours(fecha2.getHours() + i);
 
       const horaInicio = fecha.toLocaleTimeString("es-ES", { hour12: false });
+      const horaFin = fecha2.toLocaleTimeString("es-ES", { hour12: false });
 
       console.log(horaInicio);
 
       const result1 = await pool.query(
-        "SELECT hid, dia, hora_inicio, hora_finalizacion, a_nombre, gid FROM horario JOIN asignatura ON horario.aid = asignatura.aid WHERE dia = $1 AND hora_inicio = $2 AND hora_finalizacion = $3 AND gid = $4 ",
-        [horario.dia, horaInicio, horario.hora_finalizacion, horario.gid]
+        "SELECT hid, dia, hora_inicio, hora_finalizacion, a_nombre, gid FROM horario JOIN asignatura ON horario.aid = asignatura.aid WHERE dia = $1 AND hora_inicio = $2  AND gid = $4 OR dia = $1 AND hora_finalizacion = $3  AND gid = $4 ",
+        [horario.dia, horaInicio, horaFin, horario.gid]
       );
 
       console.log(result1.rows[0]);
@@ -41,8 +45,6 @@ const postHorario = async (req, res) => {
 
       i++;
     }
-
-    
 
     const result2 = await pool.query(
       "INSERT INTO horario(dia, hora_inicio, hora_finalizacion, aid)VALUES ($1, $2, $3, $4)  RETURNING *",
@@ -91,9 +93,9 @@ const getHorarioDocenteDia = async (req, res) => {
       `SELECT DISTINCT gid
       FROM asignatura
       JOIN horario ON asignatura.aid = horario.aid
-      WHERE did = $1 AND dia = 'MARTES';
+      WHERE did = $1 AND dia = $2;
       `,
-      [docente]
+      [docente, dia]
     );
 
     // if (result.rowCount == 0) {
@@ -114,7 +116,7 @@ const getHorarioGradoDia = async (req, res) => {
       `SELECT *
       FROM asignatura
       JOIN horario ON asignatura.aid = horario.aid
-      WHERE gid = $1 and dia = 'MARTES';`,
+      WHERE gid = $1 and dia = 'VIERNES';`,
       [grado]
     );
 

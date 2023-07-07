@@ -41,7 +41,7 @@ const postDocente = async (req, res) => {
       return res.json({ message: "Docente no creado" });
     }
 
-    res.status(201).json({message: "Docente creado"});
+    res.status(201).json({ message: "Docente creado" });
   } catch (error) {
     await client.query("ROLLBACK TO SAVEPOINT sp");
     throw error;
@@ -50,9 +50,27 @@ const postDocente = async (req, res) => {
   }
 };
 
+const getDocentesDisponiblesDG = async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM docente WHERE NOT EXISTS (SELECT 1 FROM grado WHERE docente.id = grado.did);"
+    );
+
+    if (result.rowCount == 0) {
+      return res.json({ message: "Datos no encontrado" });
+    }
+
+    res.send(result.rows);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getDocentes = async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM docente JOIN cuenta ON docente.cuentaid = cuenta.cuenta_id");
+    const result = await pool.query(
+      "SELECT * FROM docente JOIN cuenta ON docente.cuentaid = cuenta.cuenta_id"
+    );
 
     res.send(result.rows);
   } catch (error) {
@@ -129,4 +147,5 @@ module.exports = {
   getDocentes,
   deleteDocente,
   updateDocente,
+  getDocentesDisponiblesDG,
 };

@@ -85,7 +85,9 @@ export const Horarios = ({ setModal, aid }) => {
     const data = await response.json();
 
     if (data.message) {
-      return console.log("No encontrado HA");
+      setHorarios([]);
+      setExistsHorarios(false);
+      return;
     }
 
     setExistsHorarios(true);
@@ -144,7 +146,7 @@ export const Horarios = ({ setModal, aid }) => {
 
   return (
     <div className="">
-      <Titulo titulo={"Asignación de permisos"} />
+      <Titulo titulo={"Asignación de horarios"} />
 
       {horarioYaExiste ? (
         <div className="flex justify-center w-full">
@@ -354,7 +356,7 @@ export const Horarios = ({ setModal, aid }) => {
                 )
               ) : (
                 <h2 className="text-center">
-                  El estudiante no tiene permisos asignados
+                  La asignatura no tiene horarios asignados
                 </h2>
               )}
             </List>
