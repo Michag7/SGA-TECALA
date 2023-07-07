@@ -21,7 +21,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { getToken } from "../auth/auth";
 import { convertTimeTo12HourFormat } from "../utils/funciones";
 import { TbClockHour3 } from "react-icons/tb";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router";

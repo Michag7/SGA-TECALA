@@ -34,7 +34,7 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [userFound, setUserFound] = useState(true);
-  const [mostrarPassword, setmostrarPassword] = useState(false);
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
 
   const switchShown = (e) => {
     e.preventDefault();
@@ -151,7 +151,7 @@ export const Login = () => {
                       name="password"
                       className="w-full p-4 mt-1 bg-transparent border-2 border-gray-100 rounded-xl"
                       placeholder="Ingrese su contraseña"
-                      type={"password"}
+                      type={mostrarContraseña ? "text" : "password"}
                     />
                     <ErrorMessage
                       name="password"
@@ -163,13 +163,18 @@ export const Login = () => {
                     />
                   </div>
 
-                  <div className="flex items-center justify-end mt-3">
-                    <input type="checkbox" id="remember" />
+                  <div className="flex items-center justify-start mt-3 ml-2">
+                    <input
+                      type="checkbox"
+                      className=""
+                      onChange={() => setMostrarContraseña(!mostrarContraseña)}
+                      checked={mostrarContraseña ? true : false}
+                    />
                     <label
                       className="ml-2 text-base font-medium"
                       htmlFor="remember"
                     >
-                      Recordar contraseña
+                      Mostrar contraseña
                     </label>
                   </div>
                   <div className="flex flex-col mt-10 gap-y-4">

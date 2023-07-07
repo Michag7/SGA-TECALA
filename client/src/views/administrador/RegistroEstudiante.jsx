@@ -7,7 +7,7 @@ import { MdPassword } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { getToken } from "../../auth/auth";
 import axios from "axios";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 

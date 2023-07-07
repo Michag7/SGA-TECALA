@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { getToken } from "../../auth/auth";
 import DataTable from "./DataTable";
 import { Titulo } from "../../components/layout/Titulo";

@@ -113,7 +113,7 @@ export const GradosInicio = () => {
       <NavbarApp />
       <Titulo titulo={"Gestion de grados"} />
 
-      <select
+      {/* <select
         value={selectGrado}
         onChange={HandleChange}
         className={`ml-6 px-0 font-normal border-b border-blue-gray-200 select-md w-32`}
@@ -126,9 +126,9 @@ export const GradosInicio = () => {
             </option>
           );
         })}
-      </select>
+      </select> */}
 
-      <div className="px-5 mx-4 mt-4 border border-gray-300 rounded-lg">
+      <div className="px-5 mx-4 mt-16 border border-gray-300 rounded-lg">
         <div className="flex justify-between mt-4">
           <h2 className="text-lg font-bold">{selectGrado}</h2>
           <div className="flex">

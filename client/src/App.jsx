@@ -45,27 +45,9 @@ function App() {
             element={<VerificacionCarnet />}
           />
 
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute
-                isAllowed={!!estado && user.rol.includes("administrador")}
-              >
-                <RoutesAdministrador />
-              </ProtectedRoute>
-            }
-          ></Route>
+          <Route path="/admin/*" element={<RoutesAdministrador />}></Route>
 
-          <Route
-            path="/docente/*"
-            element={
-              <ProtectedRoute
-                isAllowed={!!estado && user.rol.includes("docente")}
-              >
-                <RoutesDocente />
-              </ProtectedRoute>
-            }
-          ></Route>
+          <Route path="/docente/*" element={<RoutesDocente />}></Route>
 
           <Route path="/estudiante/*" element={<RoutesEstudiante />} />
         </Routes>

@@ -21,7 +21,7 @@ import {
 import { BsFillFileTextFill } from "react-icons/bs";
 import { TbClockHour3 } from "react-icons/tb";
 
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Horarios } from "../../components/Horarios";

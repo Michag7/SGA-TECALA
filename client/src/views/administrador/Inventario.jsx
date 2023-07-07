@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import classNames from "classnames";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2/dist/sweetalert2.all.js";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {

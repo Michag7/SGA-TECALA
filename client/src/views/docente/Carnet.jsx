@@ -6,6 +6,8 @@ import CodigoQR from "../../assets/qr_ejemplo.png";
 import "../../css/Carnet.css";
 import { getImagenP, getUser } from "../../auth/auth";
 import { NavbarApp } from "../../components/layout/NavbarApp";
+import QRCodeGenerator from "../../components/QRCodeGerator";
+import { Avatar } from "@material-tailwind/react";
 
 export const Carnet = () => {
   const componentRef = React.useRef();
@@ -45,10 +47,11 @@ export const Carnet = () => {
             <img src={Colegio} alt="icono" className="logo-colegio" />
             <h4 className="titulo">TERESA CALDERÓN</h4>
             <h1 className="subtitulo">DE LASSO</h1>
-            <img
+            <Avatar
+              className="mx-auto mt-8 mb-3"
               src={`data:image/png;base64,${avatar}`}
               alt="perfil-foto"
-              className="foto"
+              size="xxl"
             />
             <div className="nombre-estudiante">
               <h3 className="nombre">
@@ -56,7 +59,11 @@ export const Carnet = () => {
               </h3>
             </div>
             <h4 className="identificacion">C.C:{user.id}</h4>
-            <img src={CodigoQR} alt="perfil-foto" className="codeQR" />
+            <div className="mx-auto">
+              <QRCodeGenerator
+                link={`http://localhost:5173/verificacioncarnet/${user.id}`}
+              />
+            </div>
           </div>
         </div>
       </div>
